@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//hibernate/hibernate Mapping DTD 3.0//EN"
+        "classpath://org/hibernate/hibernate-mapping-3.0.dtd"
+        [ <!ENTITY hibernate-domain SYSTEM "classpath://com/coreweb/hibernate-domain.hbm.xml"> ]
+        >
+
+<hibernate-mapping>
+
+	<class name="com.tickets.domain.Turno" table="Turno">
+
+		&hibernate-domain;
+
+		<property name="numero" />
+		<property name="descripcion" />
+		<property name="creacion" />
+		<property name="prioridad" />
+		<property name="inicioAtencion" />
+		<property name="finAtencion" />
+		<property name="remitido" />
+
+		<many-to-one name="estado" class="com.coreweb.domain.Tipo"
+			lazy="false" column="idEstado" cascade="none" not-null="false" />
+
+		<many-to-one name="sucursal" class="com.coreweb.domain.Tipo"
+			lazy="false" column="idSucursal" cascade="none" not-null="false" />
+
+		<many-to-one name="cliente" class="com.tickets.domain.Cliente"
+			lazy="false" column="idCliente" cascade="none" not-null="false" />
+
+
+		<many-to-one name="servicio" class="com.tickets.domain.Servicio"
+			lazy="false" column="idServicio" cascade="none" not-null="false" />
+
+
+		<many-to-one name="derivado" class="com.tickets.domain.Derivado"
+			lazy="false" column="idDerivado" cascade="none" not-null="false" />
+
+
+		<!-- <set name="puestos" table="Turno_Puestos" inverse="false" lazy="false" 
+			fetch="join"> <key> <column name="idTurno" not-null="false" /> </key> <many-to-many 
+			column="idPuesto" class="com.tickets.domain.Puesto" /> </set> -->
+	</class>
+
+</hibernate-mapping>
