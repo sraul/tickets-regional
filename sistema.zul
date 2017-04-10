@@ -1,0 +1,6 @@
+<?forward uri="/core/inicio/inicio_bootstrap.zul?title=Tickets&menu=/tickets/inicio/menu.zul&menuSistema=/tickets/inicio/menuSistema.zul&prefix=tickets" if="${true}"?>
+
+<window title="Sistema de Tickets" border="normal" width="200px">
+Bienvenidos!
+</window>
+
