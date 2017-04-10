@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk>
+
+	<session-config>
+		<device-type>ajax</device-type>
+		<timeout-uri>/core/timeout.zul</timeout-uri>
+		<!-- 60x15 = 900 = 15 minutos -->
+		<session-timeout>-1</session-timeout>
+		<timer-keep-alive>true</timer-keep-alive>
+	</session-config>
+
+	<library-property>
+		<name>org.zkoss.theme.preferred</name>
+		<value>silvertail</value>
+	</library-property>
+
+	<library-property>
+		<name>org.zkoss.zul.progressbox.position</name>
+		<value>center</value>
+	</library-property>
+
+	<system-config>
+		<disable-event-thread>false</disable-event-thread>
+	</system-config>
+
+	<language-config>
+		<addon-uri>/WEB-INF/lang-addon.xml</addon-uri>
+	</language-config>
+	
+	<language-config>
+		<addon-uri>/WEB-INF/lang-addon-app.xml</addon-uri>
+	</language-config>
+
+	<library-property>
+		<name>org.zkoss.zul.Button.mold</name>
+		<value>bs</value>
+	</library-property>
+	
+	<library-property>
+		<name>org.zkoss.zul.Menupopup.mold</name>
+		<value>bs</value>
+	</library-property>
+
+	<library-property>
+		<name>org.zkoss.zkmax.zul.Navbar.mold</name>
+		<value>bs</value>
+	</library-property>
+
+	<library-property>
+		<name>org.zkoss.zul.Paging.mold</name>
+		<value>bs</value>
+	</library-property>
+
+	<library-property>
+		<name>org.zkoss.zul.Panel.mold</name>
+		<value>bs</value>
+	</library-property>
+   
+</zk>
