@@ -1,0 +1,47 @@
+<window closable="true" border="normal"
+	position="center" 
+	action="show: slideDown({duration: 1000})"
+	height="400px" width="400px">
+	
+	
+	<div id="remitirTurno">
+
+		<vbox align="center" width="100%" height="340px">
+			<div height="10px" />
+			<hbox width="100%">
+				<vlayout>
+					<listbox model="@load(vm.operadores_)"
+						width="370px" height="300px" 
+						sclass="rounded" checkmark="true"
+						selectedItem="@bind(vm.selectedOperador_)">
+						<auxhead>
+							<auxheader colspan="2" label="Seleccione un Operador" style="text-align:center"/>
+						</auxhead>
+						<listhead visible="false">
+							<listheader width="50px" align="center" height="0px"/>
+							<listheader height="0px"/>
+						</listhead>
+						<template name="model">
+							<listitem>
+								<listcell/>
+								<listcell label="@load(each.text)" style="font-style:oblique"/>
+							</listitem>
+						</template>
+					</listbox>
+				</vlayout>
+			</hbox>			
+		</vbox>
+		<hbox width="100%" pack="center">
+			<div class="btn-group">
+				<button label="Aceptar" width="180px"
+					sclass="btn-success"
+					onClick="@command('aceptarRemitir')"/>
+				<button label="Cancelar" width="180px" 
+					onClick="@command('cancelarRemitir')"
+					sclass="btn-danger"/>
+			</div>
+		</hbox>
+	</div>
+	
+	
+</window>

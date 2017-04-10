@@ -1,0 +1,24 @@
+<zk>
+<?page title="${param.title}"?>
+<?link rel="shortcut icon" type="image/x-icon" href="/icono-tab.ico"?>
+<?link rel="icon" type="image/x-icon" href="/icono-tab.ico"?>
+
+	<window id="templateInicio" viewModel="@id('vm') @init('com.coreweb.login.ControlSinLogin')"
+		apply="org.zkoss.bind.BindComposer">
+
+		<label id="nombreFormulario" value=" " multiline="false"
+			maxlength="26" style="font-size:12pt;font-weight:bold" />
+			
+		<div fulfill="self.onCreate"> 
+		
+			<include aliasForm="VisorTurnos" tipo="visorTurno" usuario="admin" clave="admin"
+				src="/tickets/gestion/panel/visor_turnos.zul" />
+
+			<menubar id="menubarFoot2">
+				<menuitem id="carita" />
+			</menubar>
+
+
+		</div>
+	</window>
+</zk>

@@ -1,0 +1,30 @@
+<window apply="org.zkoss.bind.BindComposer"
+	viewModel="@id('vm') @init('com.tickets.gestion.atencion.FDSControl')">
+
+	<div id="derivarTurno">
+
+		<vbox align="center" width="100%">
+			<space height="10px" />
+			<hbox width="100%" pack="center">
+				<vbox align="center" width="100%">
+					<label value="Seleccionar Tarea"
+						sclass="celdaAutenticar" />
+
+					<listbox model="@load(vm.tipos)" width="280px"
+						selectedItem="@bind(vm.dato.selectedTareaFds)">
+						<template name="model">
+							<listitem label="@load(each)"
+								sclass="celdaAutenticar" />
+						</template>
+					</listbox>
+				</vbox>
+			</hbox>
+		</vbox>
+
+	</div>
+
+	<style>
+		.fondo { background-image:url('core/images/background.png'); }
+		.celdaAutenticar { height:30px; font-size:18px; }
+	</style>
+</window>

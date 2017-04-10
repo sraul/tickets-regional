@@ -1,0 +1,62 @@
+<zk>
+	<style src="/css/turnos.css" />
+
+	<hlayout vflex="1" apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('com.tickets.gestion.panel.TurnoViewModel')">
+
+		<window id="wnd" mode="modal" width="100%" height="100%">
+			
+			<div sclass="content-area" width="100%" height="100%"
+				context="salir">
+
+				<vbox id="vb_1" width="100%" height="100%" pack="center" >
+					
+					<hbox hflex="1" height="100%" pack="center">					
+						<vbox pack="center" align="center"
+							style="margin: 30px 20px" sclass="rounded">
+							<image src="/logo.png" height="150px"/>
+							<image
+								src="/fachada.jpg"
+								height="400px" width="450px" sclass="rounded"/>
+							<include
+								src="/tickets/gestion/panel/reloj.zul" />
+						</vbox>
+						
+						<vlayout hflex="true" height="100%"
+							children="@load(vm.listaCorriente)">
+							<template name="children">
+
+								<hlayout width="100%"
+									sclass="@load(vm.isPar(forEachStatus.index)? 'turno-fila1' : 'turno-fila2')">
+									<div hflex="true" height="100%">
+										<space />
+										<label
+											value="@load(each[0].toUpperCase())" sclass="saludo" />
+									</div>
+									<div height="100%">
+										<label value="@load(each[2])"
+											sclass="saludo" />
+										<space />
+									</div>
+								</hlayout>
+
+							</template>
+						</vlayout>
+						<div width="10px"/>
+					</hbox>
+				</vbox>
+
+				<menupopup id="salir">
+					<menuitem label="Salir.."
+						onClick="@command('cerrar', win=wnd)"
+						image="/core/images/close_16x16.png" />
+				</menupopup>
+
+				<!-- refresca la lista cada 10 segundos -->
+				<timer delay="6000" repeats="true"
+					onTimer="@command('refrescarLista')" />
+
+			</div>
+		</window>		
+	</hlayout>
+</zk>

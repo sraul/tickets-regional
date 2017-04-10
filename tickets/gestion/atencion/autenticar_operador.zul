@@ -1,0 +1,50 @@
+<window onCreate='psw.focus()' border="normal"
+	title="Autenticar Operador">
+
+	<div id="autenticarOperador">
+
+		<vlayout>
+			<hlayout>
+				<hlayout sclass="z-valign-middle">
+					<grid width="290px">
+						<columns>
+							<column width="90px"></column>
+							<column width="180px"></column>
+						</columns>
+						<rows>
+							<row>
+								Operador:
+								<textbox value="@load(vm.user)"
+									inplace="true" disabled="true" width="170px"
+									sclass="celdaAutenticar" />
+							</row>
+							<row>
+								Contraseña:
+								<textbox id="psw" value="@bind(vm.pass)"
+									type="password" width="170px" sclass="celdaAutenticar"
+									onOK="@command('validarAcceso', cmp=self)" />
+							</row>
+						</rows>
+					</grid>
+				</hlayout>
+			</hlayout>
+		</vlayout>
+		<div height="10px" />
+		<toolbar>
+			<hbox width="300px" pack="center" align="center">
+				<button label="Aceptar" image="/core/images/accept.png"
+					onClick="@command('validarAcceso', cmp=psw)" 
+					width="110px"/>
+				<button label="Cancelar" 
+					image="/core/images/cancel.png"
+					onClick="@command('cancelarAcceso')"
+					width="110px"/>
+			</hbox>
+		</toolbar>
+	</div>
+
+	<style>
+		.fondo { background-image:url('core/images/background.png'); }
+		.celdaAutenticar { height:30px; font-size:18px; }
+	</style>
+</window>

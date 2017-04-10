@@ -1,0 +1,172 @@
+<zk>
+	<style src="/css/turnos.css" />
+	<window apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('com.tickets.gestion.informacion.InformacionViewModel')"
+		height="97%">
+
+		<tabbox vflex="true">
+			<tabs>
+				<tab label="Operadores" />
+				<tab label="Servicios" />
+			</tabs>
+
+			<tabpanels>
+
+				<tabpanel>
+					<hlayout style="margin-bottom:5px; margin-right:10px">
+						<space hflex="true" />
+						<label value="Último refresh: "
+							sclass="label-footer" />
+						<label
+							value="@load(vm.ultimoRefresh) @converter('formatedDate', format='HH:mm:ss')"
+							sclass="label-footer" />
+						<space/>
+						<button 
+							onClick="@command('resetearTareas')"
+							tooltiptext="Reiniciar Tareas"
+							label="Reiniciar Tareas" 
+							sclass="btn-danger btn-xs"
+							iconSclass="z-icon-exclamation-circle"
+							width="130px"
+							dir="normal"/>
+						<button 
+							sclass="btn-primary btn-xs"
+							dir="normal"
+							iconSclass="z-icon-refresh"
+							tooltiptext="Refrescar.."
+							onClick="@command('refresh')" 
+							width="50px"/>
+					</hlayout>
+					<listbox model="@load(vm.operadores)" height="440px"
+						sclass="rounded">
+						<listhead>
+							<listheader label="Nombre"
+								style="text-align:center" />
+							<listheader label="Tarea"
+								style="text-align:center" />
+							<listheader label="Inicio"
+								style="text-align:center" align="right" />
+							<listheader label="Fin"
+								style="text-align:center" align="right" />
+							<listheader label="Tiempo"
+								style="text-align:center" align="right" />
+							<listheader hflex="min" align="center" />
+						</listhead>
+						<template name="model">
+							<listitem>
+								<listcell
+									label="@load(each.nombreOperador)" />
+								<listcell
+									label="@load(each.descripcion)" />
+								<listcell
+									label="@load(each.inicioTarea) 
+									@converter('formatedDate', format='dd-MM-YY HH:m:s')" />
+								<listcell
+									label="@load(each.finTarea)
+									@converter('formatedDate', format='dd-MM-YY HH:m:s')" />
+								<listcell
+									label="@load(each.tiempoTareaActiva)" />
+								<listcell>
+									<toolbarbutton
+										image="/core/images/preview_16x16.png" label="Ver Día"
+										onClick="@command('reporteOperador', operador=each)" />
+								</listcell>
+							</listitem>
+						</template>
+					</listbox>
+				</tabpanel>
+
+				<tabpanel>
+
+					<hbox width="100%" align="right" pack="right">
+						<label value="Último refresh: "
+							sclass="label-footer" />
+						<label
+							value="@load(vm.ultimoRefresh) @converter('formatedDate', format='HH:mm:ss')"
+							sclass="label-footer" />
+						<space />
+						<button 
+							sclass="btn-danger btn-xs"
+							width="130px"
+							dir="normal"
+							iconSclass="z-icon-exclamation-circle"
+							label="Reiniciar Tickets"
+							tooltiptext="Reiniciar Tickets"
+							onClick="@command('resetearTurnos')" />
+						<button 
+							sclass="btn-primary btn-xs"
+							dir="normal"
+							iconSclass="z-icon-refresh"
+							tooltiptext="Refrescar.."
+							onClick="@command('refresh')" 
+							width="50px"/>
+						<space />
+					</hbox>
+
+					<vlayout children="@load(vm.estados)" vflex="true"
+						style="overflow:auto">
+						<template name="children">
+							<label value="@load(each.pos1)"
+								style="font-weight:bold" />
+							<separator bar="true" />
+							<hlayout valign="top">
+								<listbox model="@load(each.pos2)"
+									hflex="50%"
+									emptyMessage="En este momento no hay Turnos Activos.."
+									sclass="small-list">
+									<listhead>
+										<listheader>
+											<hlayout
+												sclass="z-valign-middle">
+												<space hflex="true" />
+												<image
+													src="/core/images/tick.png" />
+												<label
+													value="Activos - Total:"
+													style="font-weight:normal;text-align:center" />
+												<label
+													value="@load(each.pos2.size())" style="font-weight:bold" />
+												<space hflex="true" />
+											</hlayout>
+										</listheader>
+									</listhead>
+									<template name="model">
+										<listitem label="@load(each)" />
+									</template>
+								</listbox>
+								<listbox model="@load(each.pos3)"
+									hflex="50%"
+									emptyMessage="En este momento no hay Clientes Esperando.."
+									sclass="small-list">
+									<listhead>
+										<listheader>
+											<hlayout
+												sclass="z-valign-middle">
+												<space hflex="true" />
+												<image
+													src="/core/images/hourglass-icon.png" />
+												<label
+													value="Esperando - Total:"
+													style="font-weight:normal;text-align:center" />
+												<label
+													value="@load(each.pos3.size())" style="font-weight:bold" />
+												<space hflex="true" />
+											</hlayout>
+										</listheader>
+									</listhead>
+									<template name="model">
+										<listitem label="@load(each)" />
+									</template>
+								</listbox>
+							</hlayout>
+							<div height="5px" />
+						</template>
+					</vlayout>
+				</tabpanel>
+
+			</tabpanels>
+
+		</tabbox>
+
+	</window>
+</zk>

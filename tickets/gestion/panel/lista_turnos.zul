@@ -1,0 +1,25 @@
+<zk>
+	<vlayout width="100%" height="100%"
+		children="@load(vm.listaCorriente)">		
+		<template name="children">			
+				
+				<hbox width="100%"
+					sclass="@load(vm.isPar(forEachStatus.index)? 'turno-fila1' : 'turno-fila2')">					
+					<div hflex="true" height="100%">
+						<space/>								
+						<label value="@load(each[0].toUpperCase())"
+							sclass="saludo" />
+						<space/>
+						<label value="@load(each[1].toUpperCase())"
+							sclass="saludo"/>
+					</div>					
+					<div>
+						<label value="@load(each[2])" 
+							sclass="saludo" />
+						<space/><space/>
+					</div>					
+				</hbox>		
+					
+		</template>	
+	</vlayout>
+</zk>

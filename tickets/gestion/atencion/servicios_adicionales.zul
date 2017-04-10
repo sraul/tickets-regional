@@ -1,0 +1,60 @@
+<window apply="org.zkoss.bind.BindComposer"
+	viewModel="@id('vm') @init('com.tickets.gestion.atencion.ServiciosAdicionalesControl')">
+
+	<div id="derivarTurno">
+
+		<vbox align="center" width="100%">
+			<space height="10px" />
+			<hbox width="100%" pack="center">
+				<vbox align="center" width="100%">
+					<label value="Seleccionar Servicios Adicionales"
+						sclass="celdaAutenticar" />
+
+					<!-- <grid model="@load(vm.dato.servicios)"
+						width="280px">
+						<columns menupopup="auto">
+						<column width="50px" align="center">
+						</column>
+						<column label="Descripción"
+						style="text-align:center" width="230px" />
+						</columns>
+						<template name="model">
+						<row>
+						<checkbox checked="@bind(each.pos3)"
+						oncheck="@command('seleccionarServicio')" />
+						<label value="@load(each.pos1)"
+						sclass="celdaAutenticar" />
+						</row>
+						</template>
+						</grid> -->
+					<listbox id="box" model="@load(vm.dato.servicios)"
+						width="280px" multiple="true" checkmark="true"
+						selectedItems="@bind(vm.dato.serviciosSeleccionados)">
+						<listhead>
+							<listheader label="Servicios" />
+						</listhead>
+						<template name="model">
+							<listitem>
+								<listcell sclass="celda"
+									label="@load(each.pos1)" />
+							</listitem>
+						</template>
+					</listbox>
+					<space height="5px" />
+					<label value="Observacion:"
+						sclass="celdaAutenticar" />
+					<textbox value="@bind(vm.dato.observacion)"
+						sclass="celdaAutenticar2" />
+				</vbox>
+			</hbox>
+		</vbox>
+
+	</div>
+
+	<style>
+		.fondo { background-image:url('core/images/background.png'); }
+		.celdaAutenticar { height:30px; font-size:18px;
+		text-align:center;} .celdaAutenticar2 { height:20px;
+		font-size:14px; width:300px; text-align:center;}
+	</style>
+</window>

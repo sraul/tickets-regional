@@ -1,0 +1,17 @@
+<window position="center, center" 
+	style="background: #2c3e50;"
+	width="50%" height="30%">
+
+	<vbox width="100%" height="100%" pack="center" align="center"
+		style="background: #2c3e50;border:0" sclass="rounded">
+		<label value="Llamando Ticket..."
+			style="font-size:20pt;color:white;font-weight:bold" />
+		<div height="15px"/>
+		<label value="${arg.ticket}"
+			style="font-size:50pt;color:white;font-weight:bold" />
+	</vbox>
+	
+	<timer delay="10000" repeats="false" onTimer="@command('endCall')">	
+	</timer>
+	
+</window>

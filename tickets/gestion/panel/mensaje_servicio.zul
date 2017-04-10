@@ -1,0 +1,54 @@
+<zk>
+	<window id="msg" width="90%" height="90%"
+		position="center, center" sclass="printable" onCreate='Clients.print()'>		
+		<timer delay="1500" repeats="false">
+					<attribute name="onTimer">
+						msg.detach();
+					</attribute>
+		</timer>
+		
+		<vbox width="100%" height="100%"
+					align="center" sclass="content-area">		
+					
+				<!-- ________________________________ Print area ______________________________ -->	
+				
+				<label value="HOSPITAL GENERAL DE LUQUE" style="color:#2162A6;font-weight:bold;font-size:14pt"/>				
+				<label value="${arg.value_turno}" style="color:#2162A6;font-weight:bold;font-size:20pt"/>
+				<label value="${arg.value_cliente}" style="color:#2162A6"/>
+				<label value="${arg.value_servicio}" style="color:#2162A6;font-weight:bold;font-size:14pt" />
+				<label value="${arg.value_fecha}" style="color:#2162A6" />	
+				<!-- ___________________________________________________________________________ -->
+				
+				<label value="${arg.campo_cliente}" sclass="noprint"
+					style="font-weight:bold; font-size:190%; color:white; text-shadow: 3px 3px 3px #000066;"/>
+				<label value="${arg.value_cliente.toUpperCase()}" sclass="noprint"
+					style="font-weight:bold; font-size:190%; color:white; text-shadow: 3px 3px 3px #000066;"/>
+				<space/>
+				<label value="${arg.campo_servicio}" sclass="noprint"
+					style="font-weight:bold; font-size:190%; color:white; text-shadow: 3px 3px 3px #000066;"/>
+				<label value="${arg.value_servicio.toUpperCase()}" sclass="noprint"
+					style="font-weight:bold; font-size:190%; color:white; text-shadow: 3px 3px 3px #000066;"/>			
+				<space />
+				<label value="${arg.campo_turno}" sclass="noprint" 
+					style="font-weight:bold; font-size:190%; color:white; text-shadow: 3px 3px 3px #000066;"/>
+				<label value="${arg.value_turno}" sclass="noprint"
+					style="font-weight:bold; font-size:610%; color:white; text-shadow: 3px 3px 3px #000066;"/>
+				<space />
+			</vbox>	
+	</window>	
+	
+	<style media="print">
+    	body > *:not(.printable) {
+        	display: none !important;
+    	}
+    	.printable {
+        	top: 0 !important;
+        	left: 0 !important;
+    	}
+		@page 
+		{
+    		size: auto;  
+    		margin: 0mm; 
+		}
+	</style>
+</zk>

@@ -1,0 +1,78 @@
+<window apply="org.zkoss.bind.BindComposer"
+	viewModel="@id('vm') @init('com.tickets.gestion.atencion.OperacionesTurnoControlNuevo')">
+
+	<div id="autenticarOperador">
+
+		<hbox width="100%" pack="center">
+			<vbox align="center" width="100%">
+				<groupbox title="Datos del Turno Seleccionado"
+					width="min">
+					<grid>
+						<rows>
+							<row>
+								Número:
+								<label value="@load(vm.dato.turno.numero)" />
+							</row>
+							<row>
+								Cliente:
+								<label
+									value="@load(vm.dato.turno.cliente.pos1)" />
+							</row>
+							<row>
+								Servicio:s
+								<label
+									value="@load(vm.dato.turno.servicio.pos1)" />
+							</row>
+						</rows>
+					</grid>
+				</groupbox>
+				<space height="5px" />
+				<hbox width="100%" pack="center">
+					<vbox align="center" width="100%">
+						<hbox>
+							<label value="Seleccionar Zona"
+								sclass="celdaAutenticar" />
+						</hbox>
+						<button label="Refrescar Puestos"
+							onClick="@command('cargarPuestos')" />
+						<listbox model="@load(vm.dato.puestos)" width="280px"
+							selectedItem="@bind(vm.dato.selectedPuesto)"
+							onClick="@command('actualizarHayPuestoSeleccionado')"
+							emptyMessage="No existen puestos disponibles...">
+							<template name="model">
+								<listitem label="@load(each.pos1)"
+									sclass="celdaAutenticar" />
+							</template>
+						</listbox>
+					</vbox>
+				</hbox>
+				<space height="5px" />
+				<hlayout>
+					<button label="Llamar" sclass="button"
+						visible="@load(vm.dato.hayPuestoSeleccionado)"
+						onClick="@command('llamarTurno')" />
+					<space />
+					<button label="Atender" sclass="button"
+						visible="@load(vm.dato.hayPuestoSeleccionado)"
+						onClick="@command('atenderTurno')" />
+				</hlayout>
+				<hlayout>
+					<button label="Cancelar Turno" sclass="button"
+						visible="@load(vm.dato.hayPuestoSeleccionado)"
+						onClick="@command('cancelarTurno')" />
+					<space />
+					<button label="Llamar luego" sclass="button"
+						visible="@load(vm.dato.hayPuestoSeleccionado)"
+						onClick="@command('llamarLuego')" />
+				</hlayout>
+			</vbox>
+		</hbox>
+
+
+	</div>
+
+	<style>
+		.fondo { background-image:url('core/images/background.png'); }
+		.celdaAutenticar { height:30px; font-size:18px;}
+	</style>
+</window>

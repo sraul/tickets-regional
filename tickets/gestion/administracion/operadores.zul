@@ -1,0 +1,120 @@
+<zk>
+	<window id="Body"
+		viewModel="@id('vm') @init('com.tickets.gestion.administracion.OperadorControlBody')"
+		apply="org.zkoss.bind.BindComposer" width="100%" height="100%">
+
+		<hbox width="100%" pack="center">
+			<vbox align="center" width="100%">
+				<groupbox title="Datos del operador" width="min">
+					<grid>
+						<rows>
+							<row width="100%">
+								Usuario:
+								<textbox value="@bind(vm.dto.usuario)"
+									constraint="no empty" width="450px"/>
+							</row>
+							<row>
+								Contraseña:
+								<textbox value="@bind(vm.dto.pass)" width="450px"
+									constraint="no empty" type="password" 
+									onChange="@command('encriptar')"/>
+							</row>
+							<row>
+								Nombre:
+								<textbox value="@bind(vm.dto.nombre)"
+									constraint="no empty" width="450px"/>
+							</row>
+							<row>
+								Descripción:
+								<textbox width="450px"
+									value="@bind(vm.dto.descripcion)" constraint="no empty" />
+							</row>
+						</rows>
+					</grid>
+				</groupbox>
+				<hlayout>
+					<groupbox>
+						<!-- DUAL LISTBOX -->
+						<hlayout>
+							<vlayout>
+								<listbox model="@load(vm.dto.servicios)"
+									width="200px" selectedItem="@bind(vm.selectedServicio)"
+									rows="5">
+									<listhead>
+										<listheader
+											label="Servicios Del Usuario">
+										</listheader>
+									</listhead>
+									<template name="model">
+										<listitem
+											label="@load(each.pos1)" />
+									</template>
+								</listbox>
+								<button label="Eliminar Servicio"
+									onClick="@command('eliminarServicioOperador')" />
+							</vlayout>
+							<toolbarbutton label="Agregar"
+								image="/core/images/insertar.png"
+								onClick="@command('agregarServicioAlOperador')"
+								style="font-family:tahoma" />
+							<vlayout>
+								<listbox model="@load(vm.servicios)"
+									width="200px" selectedItem="@bind(vm.selectedServicioOpe)"
+									rows="5">
+									<listhead>
+										<listheader label="Servicios"
+											sort="auto(model)" />
+									</listhead>
+									<template name="model">
+										<listitem
+											label="@load(each.pos1)" />
+									</template>
+								</listbox>
+							</vlayout>
+						</hlayout>
+					</groupbox>
+					<!-- DUAL LISTBOX -->
+					<groupbox>
+						<hlayout>
+							<vlayout>
+								<listbox model="@load(vm.dto.puestos)"
+									width="200px" selectedItem="@bind(vm.selectedPuesto)"
+									rows="5">
+									<listhead>
+										<listheader
+											label="Puestos Del Usuario">
+										</listheader>
+									</listhead>
+									<template name="model">
+										<listitem
+											label="@load(each.pos1)" />
+									</template>
+								</listbox>
+								<button label="Eliminar Puesto"
+									onClick="@command('eliminarPuestoOperador')" />
+							</vlayout>
+							<toolbarbutton label="Agregar"
+								image="/core/images/insertar.png"
+								onClick="@command('agregarPuestoAlOperador')"
+								style="font-family:tahoma" />
+							<vlayout>
+								<listbox model="@load(vm.puestos)"
+									width="200px" selectedItem="@bind(vm.selectedPuestoOpe)"
+									rows="5">
+									<listhead>
+										<listheader label="Puestos"
+											sort="auto(model)" />
+									</listhead>
+									<template name="model">
+										<listitem
+											label="@load(each.pos1)" />
+									</template>
+								</listbox>
+							</vlayout>
+						</hlayout>
+					</groupbox>
+				</hlayout>
+			</vbox>
+		</hbox>
+	</window>
+</zk>

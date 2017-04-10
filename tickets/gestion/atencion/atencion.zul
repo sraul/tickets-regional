@@ -1,0 +1,310 @@
+<zk xmlns:h="native">
+	<window id="Body"
+		viewModel="@id('vm') @init('com.tickets.gestion.atencion.AtencionViewModel')"
+		apply="org.zkoss.bind.BindComposer" context="salir">
+		
+		<!-- para los iconos bootstrap -->
+		<h:link href="//netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.css" 
+			rel="stylesheet"/>
+		
+		<hlayout>
+			<hlayout hflex="true">
+				<space></space>
+				<label value="OPERADOR:" style="font-weight:bold" />
+				<label value="@load(vm.selectedOperador.nombre)" />
+			</hlayout>
+			<space />
+			<hlayout hflex="true">
+				<label value="ESTADO:" style="font-weight:bold" />
+				<label value="@load(vm.selectedOperador.estado.text)" />
+			</hlayout>
+			<space />
+			<hlayout hflex="true">
+				<label value="TICKET:" style="font-weight:bold" />
+				<label value="@load(vm.tareaActual.turno eq null ? '---' : vm.tareaActual.turno.numero)" />
+			</hlayout>
+			<hlayout hflex="true">
+				<label value="FILA:" style="font-weight:bold" />
+				<label value="@load(vm.selectedBox.pos1)" />
+			</hlayout>
+		</hlayout>
+		
+		<div vflex="true" id="dvlayout">
+			<tabbox>
+				<tabs>
+					<tab label="Principal" width="150px"></tab>
+					<tab label="Llamar Luego" width="150px"></tab>
+				</tabs>
+				<tabpanels>
+					<tabpanel>
+						<vbox vflex="true" hflex="true" id="layout"
+							pack="center" align="center">
+							<listbox height="380px" sclass="rounded"
+								model="@load(vm.turnosPrincipal)" selectedItem="@bind(vm.selectedTurno)"
+								emptyMessage="SIN TICKETS PENDIENTES..."
+								visible="@load(!vm.estadoAtendiendo)" checkmark="true">
+								<custom-attributes
+									org.zkoss.zul.listbox.autoSort="true" />
+								<listhead>
+									<listheader width="50px"
+										align="center">
+									</listheader>
+									<listheader label=" Ticket"
+										style="text-align:center" iconSclass="z-icon-ticket"
+										sort="auto(numero_)" onCreate="self.sort(true);" />
+									<listheader label=" Especialidad"
+										style="text-align:center" iconSclass="z-icon-tag"
+										sort="auto(servicio.pos1)" />
+									<listheader label=" Turno"
+										style="text-align:center" iconSclass="z-icon-clock-o" />
+								</listhead>
+								<template name="model">
+									<listitem>
+										<listcell></listcell>
+										<listcell sclass="celda"
+											label="@load(each.numero)"
+											style="font-weight:bold;font-size:18pt;text-align:center" />
+										<listcell sclass="celda"
+											label="@load(each.servicio.pos1.toString().toUpperCase())"
+											style="font-weight:bold" />
+										<listcell sclass="celda"
+											label="@load(each.descripcion)" style="font-weight:bold" />
+
+									</listitem>
+								</template>
+								<listfoot>
+									<listfooter>
+										<hlayout>
+											<label value="Total:"
+												style="font-weight:bold" />
+											<label
+												value="@load(vm.turnos.size())" />
+										</hlayout>
+									</listfooter>
+								</listfoot>
+							</listbox>
+
+							<vbox height="380px" hflex="true"
+								pack="center" align="center"
+								visible="@load(vm.estadoAtendiendo)">
+								<hlayout>
+									<label sclass="description-area"
+										value="ATENDIENDO A" />
+									<label sclass="description-area"
+										value="@load(vm.tareaActual.turno.numero)" />
+								</hlayout>
+							</vbox>
+
+							<space />
+
+							<hbox width="100%" align="center"
+								pack="center">
+
+								<div width="100%"
+									visible="@load(!vm.estadoAtendiendo)">
+
+									<button label="Llamar"
+										sclass="btn-warning btn-lg" onClick="@command('llamarTurno')"
+										width="200px" iconSclass="z-icon-bullhorn" dir="normal"
+										disabled="@load(vm.selectedTurno.esNuevo())" />
+
+									<space width="100px" />
+
+									<button label="Atender"
+										sclass="btn-success btn-lg" onClick="@command('atenderTurno')"
+										width="200px" iconSclass="z-icon-thumbs-up" dir="normal"
+										disabled="@load(vm.selectedTurno.esNuevo())" />
+
+									<space width="100px" />
+
+									<button label="Llamar Luego"
+										sclass="btn-danger btn-lg" onClick="@command('llamarLuego')"
+										width="200px" iconSclass="z-icon-bullhorn" dir="normal"
+										disabled="@load(vm.selectedTurno.esNuevo())" />
+
+								</div>
+
+
+								<hbox width="100%" align="center"
+									pack="center" visible="@load(vm.estadoAtendiendo)">
+
+									<button label="Finalizar"
+										sclass="btn-warning btn-lg"
+										onClick="@command('terminarTurno')" width="300px" dir="normal"
+										iconSclass="z-icon-check" />
+
+								</hbox>
+
+							</hbox>
+						</vbox>
+					</tabpanel>
+					<tabpanel>
+						<vbox vflex="true" hflex="true" id="layout2"
+							pack="center" align="center">
+							<listbox height="380px" sclass="rounded"
+								model="@load(vm.turnosLlamarLuego)" selectedItem="@bind(vm.selectedTurno)"
+								emptyMessage="SIN TICKETS PENDIENTES..."
+								visible="@load(!vm.estadoAtendiendo)" checkmark="true">
+								<custom-attributes
+									org.zkoss.zul.listbox.autoSort="true" />
+								<listhead>
+									<listheader width="50px"
+										align="center">
+									</listheader>
+									<listheader label=" Ticket"
+										style="text-align:center" iconSclass="z-icon-ticket"
+										sort="auto(numero_)" onCreate="self.sort(true);" />
+									<listheader label=" Especialidad"
+										style="text-align:center" iconSclass="z-icon-tag"
+										sort="auto(servicio.pos1)" />
+									<listheader label=" Turno"
+										style="text-align:center" iconSclass="z-icon-clock-o" />
+								</listhead>
+								<template name="model">
+									<listitem>
+										<listcell></listcell>
+										<listcell sclass="celda"
+											label="@load(each.numero)"
+											style="font-weight:bold;font-size:18pt;text-align:center" />
+										<listcell sclass="celda"
+											label="@load(each.servicio.pos1.toString().toUpperCase())"
+											style="font-weight:bold" />
+										<listcell sclass="celda"
+											label="@load(each.descripcion)" style="font-weight:bold" />
+
+									</listitem>
+								</template>
+								<listfoot>
+									<listfooter>
+										<hlayout>
+											<label value="Total:"
+												style="font-weight:bold" />
+											<label
+												value="@load(vm.turnos.size())" />
+										</hlayout>
+									</listfooter>
+								</listfoot>
+							</listbox>
+
+							<vbox height="380px" hflex="true"
+								pack="center" align="center"
+								visible="@load(vm.estadoAtendiendo)">
+								<hlayout>
+									<label sclass="description-area"
+										value="ATENDIENDO A" />
+									<label sclass="description-area"
+										value="@load(vm.tareaActual.turno.numero)" />
+								</hlayout>
+							</vbox>
+
+							<space />
+
+							<hbox width="100%" align="center"
+								pack="center">
+
+								<div width="100%"
+									visible="@load(!vm.estadoAtendiendo)">
+
+									<button label="Llamar"
+										sclass="btn-warning btn-lg" onClick="@command('llamarTurno')"
+										width="200px" iconSclass="z-icon-bullhorn" dir="normal"
+										disabled="@load(vm.selectedTurno.esNuevo())" />
+
+									<space width="100px" />
+
+									<button label="Atender"
+										sclass="btn-success btn-lg" onClick="@command('atenderTurno')"
+										width="200px" iconSclass="z-icon-thumbs-up" dir="normal"
+										disabled="@load(vm.selectedTurno.esNuevo())" />
+
+									<space width="100px" />
+
+									<button label="Cancelar"
+										sclass="btn-danger btn-lg" onClick="@command('cancelarTurno')"
+										width="200px" iconSclass="z-icon-thumbs-down" dir="normal"
+										disabled="@load(vm.selectedTurno.esNuevo())" />
+
+								</div>
+
+
+								<hbox width="100%" align="center"
+									pack="center" visible="@load(vm.estadoAtendiendo)">
+
+									<button label="Finalizar"
+										sclass="btn-warning btn-lg"
+										onClick="@command('terminarTurno')" width="300px" dir="normal"
+										iconSclass="z-icon-check" />
+
+								</hbox>
+
+							</hbox>
+						</vbox>
+					</tabpanel>
+				</tabpanels>
+			</tabbox>
+		</div>
+
+		<menupopup id="salir">	
+			<menuitem label="Retomar Servicio.."
+				iconSclass="z-icon-thumbs-o-up" visible="@load(vm.estadoFds eq true)"
+				onClick="@command('retomarServicio')"/>
+		</menupopup>
+		
+		<script type="text/javascript">
+			
+			function notifyNuevoCliente() {
+				alert("Nuevo Cliente en Espera..!");
+			}
+						
+		</script>
+		
+	</window>
+
+
+	<style>
+		.button{ width:260px; height:50px; font-size:18px; font-weight:
+		bold; padding: 1px 1px 1px 1px; -webkit-border-radius: 8px;
+		-moz-border-radius: 8px; border-radius: 8px;
+
+		font-family: 'PT Sans', arial, serif; color:#ffffff;
+
+		border: 1px solid rgba(0,0,0,0.5); border-bottom: 3px solid
+		rgba(0,0,0,0.5);
+
+		background: rgba(0,0,0,0.25);
+
+		-o-box-shadow: 0 2px 8px rgba(0,0,0,0.5), inset 0 1px
+		rgba(255,255,255,0.3), inset 0 10px rgba(255,255,255,0.2), inset
+		0 10px 20px rgba(255,255,255,0.25), inset 0 -15px 30px
+		rgba(0,0,0,0.3);
+
+		-webkit-box-shadow: 0 2px 8px rgba(0,0,0,0.5), inset 0 1px
+		rgba(255,255,255,0.3), inset 0 10px rgba(255,255,255,0.2), inset
+		0 10px 20px rgba(255,255,255,0.25), inset 0 -15px 30px
+		rgba(0,0,0,0.3);
+
+		-moz-box-shadow: 0 2px 8px rgba(0,0,0,0.5), inset 0 1px
+		rgba(255,255,255,0.3), inset 0 10px rgba(255,255,255,0.2), inset
+		0 10px 20px rgba(255,255,255,0.25), inset 0 -15px 30px
+		rgba(0,0,0,0.3);
+
+		box-shadow: 0 2px 8px rgba(0,0,0,0.5), /* Exterior Shadow */
+		inset 0 1px rgba(255,255,255,0.3), /* Top light Line */ inset 0
+		10px rgba(255,255,255,0.2), /* Top Light Shadow */ inset 0 10px
+		20px rgba(255,255,255,0.25), /* Sides Light Shadow */ inset 0
+		-15px 30px rgba(0,0,0,0.3); /* Dark Background */
+
+		margin: 3px; display: inline-block; text-decoration: none; }
+
+		.label2 { height:50px; font-size:22px; align:center; }
+
+		.celda { height:50px; font-size:22px; font-weight:bold;
+		font-style:oblique; }
+
+		.description-area{ font-weight: bold; font-size: 180%; color:
+		#2c3e50; }
+		.lbl-center {
+			text-align:center;
+		}	
+	</style>
+</zk>

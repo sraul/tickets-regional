@@ -1,0 +1,50 @@
+<zk>
+<navbar id="nv" class="navbar-inverse" width="100%">
+
+	<nav iconSclass="z-icon-bell" label="Panel de Tickets">
+		<zk	forEach="${vm.menuItem(self,'SolicitudServicio', 'tipo=solicitud')}" />
+		<zk forEach="${vm.menuItem(self,'VisorTurnos', 'tipo=visorTurno')}" />
+	</nav>
+
+	<nav iconSclass="z-icon-bullhorn" label="Atención de Tickets">
+		<zk forEach="${vm.menuItem(self,'AtencionTurnos')}" />
+	</nav>
+
+	<nav label="Informaciones" iconSclass="z-icon-info-circle">
+
+		<zk forEach="${vm.menuItem(self,'Informacion')}" />
+
+	</nav>
+
+	<nav label="Administración" iconSclass="z-icon-cogs">
+		<zk forEach="${vm.menuItem(self,'Operadores')}" />
+		<zk forEach="${vm.menuItem(self,'Servicios')}" />
+		<zk forEach="${vm.menuItem(self,'Puestos')}" />
+		<zk forEach="${vm.menuItem(self,'TareasFDS')}" />
+	</nav>
+
+	<nav iconSclass="z-icon-desktop" label="Tablero">
+		<navitem label="Ir..."
+			onClick='principalBody.src = "/core/inicio/okLogin.zul";
+					nombreFormulario.value="&#160;" ' />
+		<!-- <zk forEach="${vm.menuItem(self,'UsuarioABM')}" /> -->
+		<navitem label="Logearse al sistema"
+			onClick='principalBody.src = "/core/inicio/login_bootstrap.zul";' />
+		<navitem label="Salir"
+			onClick='principalBody.src = "/core/inicio/login_bootstrap.zul";' />		
+	</nav>
+	
+</navbar>
+
+<style>
+	/* Navigation component */
+	.nav-tabs.nav-justified>.active>a, .nav-tabs.nav-justified>.active>a:hover, 
+	.nav>li>a:hover, .nav>li>a:focus, .navbar, .dropdown-text, .dropdown-menu>li>a:hover {
+		background: #2c3e50;
+	}
+	.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:hover, 
+	.navbar-inverse .navbar-nav>.open>a:focus {
+		background: #2c3e50;
+	}
+</style>
+</zk>

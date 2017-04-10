@@ -1,0 +1,8 @@
+<menubar id="menubarSistema" width="100%" sclass="colorBarra">
+	<menu id="menuSistemaItems" label="Sistema" sclass="colorBarra">
+		<menupopup>
+			<zk forEach="${vm.menuItem(self,'ConfigABM', 'tab=all')}" />
+			<zk forEach="${vm.menuItem(self,'ModuloABM')}" />
+		</menupopup>
+	</menu>
+</menubar>

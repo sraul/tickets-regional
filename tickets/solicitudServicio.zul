@@ -1,0 +1,14 @@
+<zk>
+	<window id="templateInicio" viewModel="@id('vm') @init('com.coreweb.login.ControlSinLogin')"
+		apply="org.zkoss.bind.BindComposer">
+		
+		<label id="nombreFormulario" value=" " multiline="false"
+			maxlength="26" style="font-size:12pt;font-weight:bold" />
+			
+		<div fulfill="self.onCreate"> 
+		
+			<include aliasForm="SolicitudServicio"
+				src="/tickets/gestion/panel/solicitud_servicio.zul" />
+		</div>
+	</window>
+</zk>

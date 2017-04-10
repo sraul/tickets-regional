@@ -1,0 +1,57 @@
+<zk>
+	<window id="Body"
+		viewModel="@id('vm') @init('com.tickets.gestion.administracion.AdministracionControlBody')"
+		apply="org.zkoss.bind.BindComposer" width="100%" height="100%">
+		<hbox width="100%">
+			<vbox width="100%">
+				<groupbox title="Puestos" width="100%">
+					<hlayout>
+						<vlayout>
+							<listbox id="puestosList"
+								model="@load(vm.dto.puestos)" width="500px"
+								selectedItem="@bind(vm.selectedPuesto)" rows="6">
+								<template name="model" var="puesto">
+									<listitem
+										label="@load(puesto.pos1)" />
+								</template>
+							</listbox>
+
+							<hlayout>
+								<button label="Agregar"
+									onClick="@command('agregarPuesto')" />
+								<button label="Eliminar"
+									onClick="@command('eliminarPuesto')"
+									disabled="@load(!vm.selectedPuesto.esNuevo())" />
+							</hlayout>
+						</vlayout>
+
+						<grid hflex="min">
+							<rows>
+								<row>
+									Descripción:
+									<textbox width="360px"
+										value="@bind(vm.selectedPuesto.pos1)"
+										constraint="${vm.check.noVacio}" />
+								</row>
+								<row>
+									Estado:
+									<combobox
+										model="@load(vm.dto.estadosDePuestos)" width="360px"
+										value="@load(vm.selectedPuesto.pos2)"
+										selectedItem="@bind(vm.selectedPuesto.pos2)">
+										<template name="model">
+											<comboitem
+												label="@load(each.text)" />
+										</template>
+									</combobox>
+								</row>
+							</rows>
+						</grid>
+
+					</hlayout>
+
+				</groupbox>
+			</vbox>
+		</hbox>
+	</window>
+</zk>
