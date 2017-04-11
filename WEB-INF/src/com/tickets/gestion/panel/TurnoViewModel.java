@@ -37,6 +37,7 @@ import com.tickets.UtilDTO;
 import com.tickets.control.cola.ControlCola;
 import com.tickets.domain.Cliente;
 import com.tickets.domain.RegisterDomain;
+import com.tickets.domain.Tope;
 
 public class TurnoViewModel extends SimpleViewModel {
 	
@@ -107,20 +108,24 @@ public class TurnoViewModel extends SimpleViewModel {
 	/******************** SERVICIOS EN DOS COLUMNAS *********************/	
 	
 	//Distribuye la lista de Servicios en 2 listas
-	private void distribuirServicios(){
+	private void distribuirServicios() throws Exception {
 		List<MyArray> serv = new ArrayList<MyArray>();
 		
-		for (MyArray servicio : this.getDtoUtil().getServicios()) {
-			String desc = (String) servicio.getPos1();
-			if (desc.equals("Clinico") 
-					|| desc.equals("Pediatria")	
-					|| desc.equals("Nutricion Pani")
-					|| desc.equals("Oftalmologia")
-					|| desc.equals("Odontologia")) {
-				serv.add(servicio);
+		Map<String, Tope> topes = new HashMap<String, Tope>();
+		RegisterDomain rr = RegisterDomain.getInstance();
+		List<Tope> topes_ = rr.getTopes(this.getNumberDay());
+		for (Tope tope : topes_) {
+			if (!tope.isDisabled()) {
+				topes.put(tope.getServicio(), tope);
 			}
 		}
 		
+		for (MyArray servicio : this.getDtoUtil().getServicios()) {
+			String desc = (String) servicio.getPos1();
+			if (topes.get(desc) != null) {
+				serv.add(servicio);
+			}
+		}		
 		
 		switch (serv.size()) {
 		case 0:

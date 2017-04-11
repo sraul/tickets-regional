@@ -17,10 +17,7 @@
 	</nav>
 
 	<nav label="Administración" iconSclass="z-icon-cogs">
-		<zk forEach="${vm.menuItem(self,'Operadores')}" />
-		<zk forEach="${vm.menuItem(self,'Servicios')}" />
-		<zk forEach="${vm.menuItem(self,'Puestos')}" />
-		<zk forEach="${vm.menuItem(self,'TareasFDS')}" />
+		<zk forEach="${vm.menuItem(self,'Administracion')}" />
 	</nav>
 
 	<nav iconSclass="z-icon-desktop" label="Tablero">

@@ -344,4 +344,31 @@ public class RegisterDomain extends Register {
 		}
 		return new ArrayList<Operador>();
 	}
+	
+	/**
+	 * @return los topes..
+	 */
+	public List<Tope> getTopes(int nroDia) throws Exception {
+		String query = "select t from Tope t where t.dia = " + nroDia + " order by t.servicio";
+		return this.hql(query);
+	}
+	
+	public static void main(String[] args) {
+		RegisterDomain rr = RegisterDomain.getInstance();
+		try {
+			List<Tope> list = rr.getTopes(1);
+			for (int i = 2; i < 7; i++) {
+				for (Tope tope : list) {
+					Tope tp = new Tope();
+					tp.setDia(i);
+					tp.setServicio(tope.getServicio());
+					tp.setTM(0);
+					tp.setTT(0);
+					rr.saveObject(tp, "sys");
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}		
+	}
 }

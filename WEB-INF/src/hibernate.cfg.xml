@@ -32,6 +32,7 @@
 		
 		<mapping resource="com/tickets/domain/AccesoApp.hbm.xml"/>	
 		<mapping resource="com/tickets/domain/RucSet.hbm.xml"/>	
+		<mapping resource="com/tickets/domain/Tope.hbm.xml"/>
 		
 		<!-- ********************************************* -->
 		<!-- ********************************************* -->
