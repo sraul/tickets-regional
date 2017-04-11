@@ -7,6 +7,7 @@ import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
+import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.util.Clients;
 
 import com.coreweb.control.SimpleViewModel;
@@ -15,6 +16,8 @@ import com.tickets.domain.RegisterDomain;
 import com.tickets.domain.Tope;
 
 public class AdministracionViewModel extends SimpleViewModel {
+	
+	private int selectedDay = 1;
 
 	@Init(superclass = true)
 	public void init() {
@@ -22,6 +25,12 @@ public class AdministracionViewModel extends SimpleViewModel {
 	
 	@AfterCompose(superclass = true)
 	public void afterCompose() {
+	}
+	
+	@Command
+	@NotifyChange("selectedDay")
+	public void selectDay(@BindingParam("day") int day) {
+		this.selectedDay = day;
 	}
 	
 	@Command
@@ -64,5 +73,13 @@ public class AdministracionViewModel extends SimpleViewModel {
 	public List<Tope> getTopes(int nroDia) throws Exception {
 		RegisterDomain rr = RegisterDomain.getInstance();
 		return rr.getTopes(nroDia);
+	}
+
+	public int getSelectedDay() {
+		return selectedDay;
+	}
+
+	public void setSelectedDay(int selectedDay) {
+		this.selectedDay = selectedDay;
 	}
 }

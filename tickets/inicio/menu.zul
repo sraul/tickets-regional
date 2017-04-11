@@ -32,16 +32,4 @@
 	</nav>
 	
 </navbar>
-
-<style>
-	/* Navigation component */
-	.nav-tabs.nav-justified>.active>a, .nav-tabs.nav-justified>.active>a:hover, 
-	.nav>li>a:hover, .nav>li>a:focus, .navbar, .dropdown-text, .dropdown-menu>li>a:hover {
-		background: #2c3e50;
-	}
-	.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:hover, 
-	.navbar-inverse .navbar-nav>.open>a:focus {
-		background: #2c3e50;
-	}
-</style>
 </zk>

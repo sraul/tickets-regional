@@ -12,7 +12,7 @@
 					
 				<!-- ________________________________ Print area ______________________________ -->	
 				
-				<label value="HOSPITAL GENERAL DE LUQUE" style="color:#2162A6;font-weight:bold;font-size:14pt"/>				
+				<label value="HOSPITAL GRAL. DE LUQUE" style="color:#2162A6;font-weight:bold;font-size:14pt"/>				
 				<label value="${arg.value_turno}" style="color:#2162A6;font-weight:bold;font-size:20pt"/>
 				<label value="${arg.value_cliente}" style="color:#2162A6"/>
 				<label value="${arg.value_servicio}" style="color:#2162A6;font-weight:bold;font-size:14pt" />

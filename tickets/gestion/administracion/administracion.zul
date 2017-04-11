@@ -1,384 +1,381 @@
 <window apply="org.zkoss.bind.BindComposer"
 	viewModel="@id('vm') @init('com.tickets.gestion.administracion.admin.AdministracionViewModel')"
 	vflex="true">
+
+	<navbar mold="bs-tabs" class="nav-justified">
+		<navitem label="Lunes" onClick="@command('selectDay', day=1)" selected="true" />
+		<navitem label="Martes" onClick="@command('selectDay', day=2)" />
+		<navitem label="Miércoles"
+			onClick="@command('selectDay', day=3)" />
+		<navitem label="Jueves" onClick="@command('selectDay', day=4)" />
+		<navitem label="Viernes" onClick="@command('selectDay', day=5)" />
+		<navitem label="Sábado" onClick="@command('selectDay', day=6)" />
+	</navbar>
+
+	<listbox sclass="rounded" height="450px"
+		model="@load(vm.getTopes(1))" visible="@load(vm.selectedDay eq 1)">
+		<listhead style="text-align:center">
+			<listheader align="center" width="50px"></listheader>
+			<listheader label="Especialidad"></listheader>
+			<listheader label="Mañana" width="150px" align="right"
+				style="text-align:center">
+			</listheader>
+			<listheader label="Tarde" width="150px" align="right"
+				style="text-align:center">
+			</listheader>
+			<listheader label="" width="90px" align="center"
+				style="text-align:center">
+			</listheader>
+		</listhead>
+		<template name="model">
+			<listitem>
+				<listcell>
+					<image src="/core/images/tick.png"
+						visible="@load(!each.disabled)">
+					</image>
+				</listcell>
+				<listcell label="@load(each.servicio.toUpperCase())"
+					style="@load(each.disabled ? '' : 'font-weight:bold;color:blue')" />
+				<listcell>
+					<div>
+						<label value="@load(each.TM)"
+							style="@load(each.disabled ? '' : 'font-weight:bold;color:blue')"
+							visible="@load(!each.edit)" />
+						<intbox value="@bind(each.TM)"
+							visible="@load(each.edit)">
+						</intbox>
+					</div>
+				</listcell>
+				<listcell>
+					<div>
+						<label value="@load(each.TT)"
+							style="@load(each.disabled ? '' : 'font-weight:bold;color:blue')"
+							visible="@load(!each.edit)" />
+						<intbox value="@bind(each.TT)"
+							visible="@load(each.edit)">
+						</intbox>
+					</div>
+				</listcell>
+				<listcell>
+					<div>
+						<button sclass="btn-primary btn-xs"
+							iconSclass="z-icon-edit" visible="@load(!each.edit)"
+							onClick="@command('edit', tope=each)" />
+						<button sclass="btn-success btn-xs"
+							iconSclass="z-icon-floppy-o" visible="@load(each.edit)"
+							onClick="@command('save', tope=each)" />
+					</div>
+				</listcell>
+			</listitem>
+		</template>
+		<listfoot>
+			<listfooter label="ítems"></listfooter>
+		</listfoot>
+	</listbox>
+
+	<listbox sclass="rounded" height="450px"
+		model="@load(vm.getTopes(2))" visible="@load(vm.selectedDay eq 2)">
+		<listhead style="text-align:center">
+			<listheader align="center" width="50px"></listheader>
+			<listheader label="Especialidad"></listheader>
+			<listheader label="Mañana" width="150px" align="right"
+				style="text-align:center">
+			</listheader>
+			<listheader label="Tarde" width="150px" align="right"
+				style="text-align:center">
+			</listheader>
+			<listheader label="" width="90px" align="center"
+				style="text-align:center">
+			</listheader>
+		</listhead>
+		<template name="model">
+			<listitem>
+				<listcell>
+					<image src="/core/images/tick.png"
+						visible="@load(!each.disabled)">
+					</image>
+				</listcell>
+				<listcell label="@load(each.servicio.toUpperCase())"
+					style="@load(each.disabled ? '' : 'font-weight:bold;color:blue')" />
+				<listcell>
+					<div>
+						<label value="@load(each.TM)"
+							style="@load(each.disabled ? '' : 'font-weight:bold;color:blue')"
+							visible="@load(!each.edit)" />
+						<intbox value="@bind(each.TM)"
+							visible="@load(each.edit)">
+						</intbox>
+					</div>
+				</listcell>
+				<listcell>
+					<div>
+						<label value="@load(each.TT)"
+							style="@load(each.disabled ? '' : 'font-weight:bold;color:blue')"
+							visible="@load(!each.edit)" />
+						<intbox value="@bind(each.TT)"
+							visible="@load(each.edit)">
+						</intbox>
+					</div>
+				</listcell>
+				<listcell>
+					<div>
+						<button sclass="btn-primary btn-xs"
+							iconSclass="z-icon-edit" visible="@load(!each.edit)"
+							onClick="@command('edit', tope=each)" />
+						<button sclass="btn-success btn-xs"
+							iconSclass="z-icon-floppy-o" visible="@load(each.edit)"
+							onClick="@command('save', tope=each)" />
+					</div>
+				</listcell>
+			</listitem>
+		</template>
+		<listfoot>
+			<listfooter label="ítems"></listfooter>
+		</listfoot>
+	</listbox>
+
+	<listbox sclass="rounded" height="450px"
+		model="@load(vm.getTopes(3))" visible="@load(vm.selectedDay eq 3)">
+		<listhead style="text-align:center">
+			<listheader align="center" width="50px"></listheader>
+			<listheader label="Especialidad"></listheader>
+			<listheader label="Mañana" width="150px" align="right"
+				style="text-align:center">
+			</listheader>
+			<listheader label="Tarde" width="150px" align="right"
+				style="text-align:center">
+			</listheader>
+			<listheader label="" width="90px" align="center"
+				style="text-align:center">
+			</listheader>
+		</listhead>
+		<template name="model">
+			<listitem>
+				<listcell>
+					<image src="/core/images/tick.png"
+						visible="@load(!each.disabled)">
+					</image>
+				</listcell>
+				<listcell label="@load(each.servicio.toUpperCase())"
+					style="@load(each.disabled ? '' : 'font-weight:bold;color:blue')" />
+				<listcell>
+					<div>
+						<label value="@load(each.TM)"
+							style="@load(each.disabled ? '' : 'font-weight:bold;color:blue')"
+							visible="@load(!each.edit)" />
+						<intbox value="@bind(each.TM)"
+							visible="@load(each.edit)">
+						</intbox>
+					</div>
+				</listcell>
+				<listcell>
+					<div>
+						<label value="@load(each.TT)"
+							style="@load(each.disabled ? '' : 'font-weight:bold;color:blue')"
+							visible="@load(!each.edit)" />
+						<intbox value="@bind(each.TT)"
+							visible="@load(each.edit)">
+						</intbox>
+					</div>
+				</listcell>
+				<listcell>
+					<div>
+						<button sclass="btn-primary btn-xs"
+							iconSclass="z-icon-edit" visible="@load(!each.edit)"
+							onClick="@command('edit', tope=each)" />
+						<button sclass="btn-success btn-xs"
+							iconSclass="z-icon-floppy-o" visible="@load(each.edit)"
+							onClick="@command('save', tope=each)" />
+					</div>
+				</listcell>
+			</listitem>
+		</template>
+		<listfoot>
+			<listfooter label="ítems"></listfooter>
+		</listfoot>
+	</listbox>
+
+	<listbox sclass="rounded" height="450px"
+		model="@load(vm.getTopes(4))" visible="@load(vm.selectedDay eq 4)">
+		<listhead style="text-align:center">
+			<listheader align="center" width="50px"></listheader>
+			<listheader label="Especialidad"></listheader>
+			<listheader label="Mañana" width="150px" align="right"
+				style="text-align:center">
+			</listheader>
+			<listheader label="Tarde" width="150px" align="right"
+				style="text-align:center">
+			</listheader>
+			<listheader label="" width="90px" align="center"
+				style="text-align:center">
+			</listheader>
+		</listhead>
+		<template name="model">
+			<listitem>
+				<listcell>
+					<image src="/core/images/tick.png"
+						visible="@load(!each.disabled)">
+					</image>
+				</listcell>
+				<listcell label="@load(each.servicio.toUpperCase())"
+					style="@load(each.disabled ? '' : 'font-weight:bold;color:blue')" />
+				<listcell>
+					<div>
+						<label value="@load(each.TM)"
+							style="@load(each.disabled ? '' : 'font-weight:bold;color:blue')"
+							visible="@load(!each.edit)" />
+						<intbox value="@bind(each.TM)"
+							visible="@load(each.edit)">
+						</intbox>
+					</div>
+				</listcell>
+				<listcell>
+					<div>
+						<label value="@load(each.TT)"
+							style="@load(each.disabled ? '' : 'font-weight:bold;color:blue')"
+							visible="@load(!each.edit)" />
+						<intbox value="@bind(each.TT)"
+							visible="@load(each.edit)">
+						</intbox>
+					</div>
+				</listcell>
+				<listcell>
+					<div>
+						<button sclass="btn-primary btn-xs"
+							iconSclass="z-icon-edit" visible="@load(!each.edit)"
+							onClick="@command('edit', tope=each)" />
+						<button sclass="btn-success btn-xs"
+							iconSclass="z-icon-floppy-o" visible="@load(each.edit)"
+							onClick="@command('save', tope=each)" />
+					</div>
+				</listcell>
+			</listitem>
+		</template>
+		<listfoot>
+			<listfooter label="ítems"></listfooter>
+		</listfoot>
+	</listbox>
+
+	<listbox sclass="rounded" height="450px"
+		model="@load(vm.getTopes(5))" visible="@load(vm.selectedDay eq 5)">
+		<listhead style="text-align:center">
+			<listheader align="center" width="50px"></listheader>
+			<listheader label="Especialidad"></listheader>
+			<listheader label="Mañana" width="150px" align="right"
+				style="text-align:center">
+			</listheader>
+			<listheader label="Tarde" width="150px" align="right"
+				style="text-align:center">
+			</listheader>
+			<listheader label="" width="90px" align="center"
+				style="text-align:center">
+			</listheader>
+		</listhead>
+		<template name="model">
+			<listitem>
+				<listcell>
+					<image src="/core/images/tick.png"
+						visible="@load(!each.disabled)">
+					</image>
+				</listcell>
+				<listcell label="@load(each.servicio.toUpperCase())"
+					style="@load(each.disabled ? '' : 'font-weight:bold;color:blue')" />
+				<listcell>
+					<div>
+						<label value="@load(each.TM)"
+							style="@load(each.disabled ? '' : 'font-weight:bold;color:blue')"
+							visible="@load(!each.edit)" />
+						<intbox value="@bind(each.TM)"
+							visible="@load(each.edit)">
+						</intbox>
+					</div>
+				</listcell>
+				<listcell>
+					<div>
+						<label value="@load(each.TT)"
+							style="@load(each.disabled ? '' : 'font-weight:bold;color:blue')"
+							visible="@load(!each.edit)" />
+						<intbox value="@bind(each.TT)"
+							visible="@load(each.edit)">
+						</intbox>
+					</div>
+				</listcell>
+				<listcell>
+					<div>
+						<button sclass="btn-primary btn-xs"
+							iconSclass="z-icon-edit" visible="@load(!each.edit)"
+							onClick="@command('edit', tope=each)" />
+						<button sclass="btn-success btn-xs"
+							iconSclass="z-icon-floppy-o" visible="@load(each.edit)"
+							onClick="@command('save', tope=each)" />
+					</div>
+				</listcell>
+			</listitem>
+		</template>
+		<listfoot>
+			<listfooter label="ítems"></listfooter>
+		</listfoot>
+	</listbox>
+
+	<listbox sclass="rounded" height="450px"
+		model="@load(vm.getTopes(6))" visible="@load(vm.selectedDay eq 6)">
+		<listhead style="text-align:center">
+			<listheader align="center" width="50px"></listheader>
+			<listheader label="Especialidad"></listheader>
+			<listheader label="Mañana" width="150px" align="right"
+				style="text-align:center">
+			</listheader>
+			<listheader label="Tarde" width="150px" align="right"
+				style="text-align:center">
+			</listheader>
+			<listheader label="" width="90px" align="center"
+				style="text-align:center">
+			</listheader>
+		</listhead>
+		<template name="model">
+			<listitem>
+				<listcell>
+					<image src="/core/images/tick.png"
+						visible="@load(!each.disabled)">
+					</image>
+				</listcell>
+				<listcell label="@load(each.servicio.toUpperCase())"
+					style="@load(each.disabled ? '' : 'font-weight:bold;color:blue')" />
+				<listcell>
+					<div>
+						<label value="@load(each.TM)"
+							style="@load(each.disabled ? '' : 'font-weight:bold;color:blue')"
+							visible="@load(!each.edit)" />
+						<intbox value="@bind(each.TM)"
+							visible="@load(each.edit)">
+						</intbox>
+					</div>
+				</listcell>
+				<listcell>
+					<div>
+						<label value="@load(each.TT)"
+							style="@load(each.disabled ? '' : 'font-weight:bold;color:blue')"
+							visible="@load(!each.edit)" />
+						<intbox value="@bind(each.TT)"
+							visible="@load(each.edit)">
+						</intbox>
+					</div>
+				</listcell>
+				<listcell>
+					<div>
+						<button sclass="btn-primary btn-xs"
+							iconSclass="z-icon-edit" visible="@load(!each.edit)"
+							onClick="@command('edit', tope=each)" />
+						<button sclass="btn-success btn-xs"
+							iconSclass="z-icon-floppy-o" visible="@load(each.edit)"
+							onClick="@command('save', tope=each)" />
+					</div>
+				</listcell>
+			</listitem>
+		</template>
+		<listfoot>
+			<listfooter label="ítems"></listfooter>
+		</listfoot>
+	</listbox>
 	
-	<tabbox vflex="true">
-		<tabs>
-			<tab label="LUNES" width="150px"></tab>
-			<tab label="MARTES" width="150px"></tab>
-			<tab label="MIÉRCOLES" width="150px"></tab>
-			<tab label="JUEVES" width="150px"></tab>
-			<tab label="VIERNES" width="150px"></tab>
-			<tab label="SÁBADO" width="150px"></tab>
-			<tab label="FILAS" width="150px" visible="false"></tab>
-		</tabs>
-		<tabpanels vflex="true">
-			<tabpanel>
-				<listbox sclass="rounded" height="450px"
-					model="@load(vm.getTopes(1))">
-					<listhead style="text-align:center">
-						<listheader align="center" width="50px"></listheader>
-						<listheader label="Especialidad"></listheader>
-						<listheader label="Mañana" width="150px"
-							align="right" style="text-align:center">
-						</listheader>
-						<listheader label="Tarde" width="150px"
-							align="right" style="text-align:center">
-						</listheader>
-						<listheader label="" width="90px" align="center"
-							style="text-align:center">
-						</listheader>
-					</listhead>
-					<template name="model">
-						<listitem>
-							<listcell>
-								<image src="/core/images/tick.png" visible="@load(!each.disabled)"></image>
-							</listcell>
-							<listcell
-								label="@load(each.servicio.toUpperCase())" 
-								style="@load(each.disabled ? '' : 'font-weight:bold;color:blue')"/>
-							<listcell>
-								<div>
-									<label value="@load(each.TM)" 
-										style="@load(each.disabled ? '' : 'font-weight:bold;color:blue')" 
-										visible="@load(!each.edit)" />
-									<intbox value="@bind(each.TM)"
-										visible="@load(each.edit)"></intbox>
-								</div>								
-							</listcell>
-							<listcell>
-								<div>
-									<label value="@load(each.TT)" 
-										style="@load(each.disabled ? '' : 'font-weight:bold;color:blue')" 
-										visible="@load(!each.edit)" />
-									<intbox value="@bind(each.TT)"
-										visible="@load(each.edit)"></intbox>
-								</div>								
-							</listcell>
-							<listcell>
-								<div>
-									<button sclass="btn-primary btn-xs"
-										iconSclass="z-icon-edit"
-										visible="@load(!each.edit)"
-										onClick="@command('edit', tope=each)" />
-									<button sclass="btn-success btn-xs"
-										iconSclass="z-icon-floppy-o"
-										visible="@load(each.edit)" 
-										onClick="@command('save', tope=each)"/>
-								</div>
-							</listcell>
-						</listitem>
-					</template>
-					<listfoot>
-						<listfooter label="ítems"></listfooter>
-					</listfoot>
-				</listbox>
-			</tabpanel>
-			<tabpanel>
-				<listbox sclass="rounded" height="450px"
-					model="@load(vm.getTopes(2))">
-					<listhead style="text-align:center">
-						<listheader align="center" width="50px"></listheader>
-						<listheader label="Especialidad"></listheader>
-						<listheader label="Mañana" width="150px"
-							align="right" style="text-align:center">
-						</listheader>
-						<listheader label="Tarde" width="150px"
-							align="right" style="text-align:center">
-						</listheader>
-						<listheader label="" width="90px" align="center"
-							style="text-align:center">
-						</listheader>
-					</listhead>
-					<template name="model">
-						<listitem>
-							<listcell>
-								<image src="/core/images/tick.png" visible="@load(!each.disabled)"></image>
-							</listcell>
-							<listcell
-								label="@load(each.servicio.toUpperCase())" 
-								style="@load(each.disabled ? '' : 'font-weight:bold;color:blue')"/>
-							<listcell>
-								<div>
-									<label value="@load(each.TM)" 
-										style="@load(each.disabled ? '' : 'font-weight:bold;color:blue')" 
-										visible="@load(!each.edit)" />
-									<intbox value="@bind(each.TM)"
-										visible="@load(each.edit)"></intbox>
-								</div>								
-							</listcell>
-							<listcell>
-								<div>
-									<label value="@load(each.TT)" 
-										style="@load(each.disabled ? '' : 'font-weight:bold;color:blue')" 
-										visible="@load(!each.edit)" />
-									<intbox value="@bind(each.TT)"
-										visible="@load(each.edit)"></intbox>
-								</div>								
-							</listcell>
-							<listcell>
-								<div>
-									<button sclass="btn-primary btn-xs"
-										iconSclass="z-icon-edit"
-										visible="@load(!each.edit)"
-										onClick="@command('edit', tope=each)" />
-									<button sclass="btn-success btn-xs"
-										iconSclass="z-icon-floppy-o"
-										visible="@load(each.edit)" 
-										onClick="@command('save', tope=each)"/>
-								</div>
-							</listcell>
-						</listitem>
-					</template>
-					<listfoot>
-						<listfooter label="ítems"></listfooter>
-					</listfoot>
-				</listbox>
-			</tabpanel>
-			<tabpanel>
-				<listbox sclass="rounded" height="450px"
-					model="@load(vm.getTopes(3))">
-					<listhead style="text-align:center">
-						<listheader align="center" width="50px"></listheader>
-						<listheader label="Especialidad"></listheader>
-						<listheader label="Mañana" width="150px"
-							align="right" style="text-align:center">
-						</listheader>
-						<listheader label="Tarde" width="150px"
-							align="right" style="text-align:center">
-						</listheader>
-						<listheader label="" width="90px" align="center"
-							style="text-align:center">
-						</listheader>
-					</listhead>
-					<template name="model">
-						<listitem>
-							<listcell>
-								<image src="/core/images/tick.png" visible="@load(!each.disabled)"></image>
-							</listcell>
-							<listcell
-								label="@load(each.servicio.toUpperCase())" 
-								style="@load(each.disabled ? '' : 'font-weight:bold;color:blue')"/>
-							<listcell>
-								<div>
-									<label value="@load(each.TM)" 
-										style="@load(each.disabled ? '' : 'font-weight:bold;color:blue')" 
-										visible="@load(!each.edit)" />
-									<intbox value="@bind(each.TM)"
-										visible="@load(each.edit)"></intbox>
-								</div>								
-							</listcell>
-							<listcell>
-								<div>
-									<label value="@load(each.TT)" 
-										style="@load(each.disabled ? '' : 'font-weight:bold;color:blue')" 
-										visible="@load(!each.edit)" />
-									<intbox value="@bind(each.TT)"
-										visible="@load(each.edit)"></intbox>
-								</div>								
-							</listcell>
-							<listcell>
-								<div>
-									<button sclass="btn-primary btn-xs"
-										iconSclass="z-icon-edit"
-										visible="@load(!each.edit)"
-										onClick="@command('edit', tope=each)" />
-									<button sclass="btn-success btn-xs"
-										iconSclass="z-icon-floppy-o"
-										visible="@load(each.edit)" 
-										onClick="@command('save', tope=each)"/>
-								</div>
-							</listcell>
-						</listitem>
-					</template>
-					<listfoot>
-						<listfooter label="ítems"></listfooter>
-					</listfoot>
-				</listbox>
-			</tabpanel>
-			<tabpanel>
-				<listbox sclass="rounded" height="450px"
-					model="@load(vm.getTopes(4))">
-					<listhead style="text-align:center">
-						<listheader align="center" width="50px"></listheader>
-						<listheader label="Especialidad"></listheader>
-						<listheader label="Mañana" width="150px"
-							align="right" style="text-align:center">
-						</listheader>
-						<listheader label="Tarde" width="150px"
-							align="right" style="text-align:center">
-						</listheader>
-						<listheader label="" width="90px" align="center"
-							style="text-align:center">
-						</listheader>
-					</listhead>
-					<template name="model">
-						<listitem>
-							<listcell>
-								<image src="/core/images/tick.png" visible="@load(!each.disabled)"></image>
-							</listcell>
-							<listcell
-								label="@load(each.servicio.toUpperCase())" 
-								style="@load(each.disabled ? '' : 'font-weight:bold;color:blue')"/>
-							<listcell>
-								<div>
-									<label value="@load(each.TM)" 
-										style="@load(each.disabled ? '' : 'font-weight:bold;color:blue')" 
-										visible="@load(!each.edit)" />
-									<intbox value="@bind(each.TM)"
-										visible="@load(each.edit)"></intbox>
-								</div>								
-							</listcell>
-							<listcell>
-								<div>
-									<label value="@load(each.TT)" 
-										style="@load(each.disabled ? '' : 'font-weight:bold;color:blue')" 
-										visible="@load(!each.edit)" />
-									<intbox value="@bind(each.TT)"
-										visible="@load(each.edit)"></intbox>
-								</div>								
-							</listcell>
-							<listcell>
-								<div>
-									<button sclass="btn-primary btn-xs"
-										iconSclass="z-icon-edit"
-										visible="@load(!each.edit)"
-										onClick="@command('edit', tope=each)" />
-									<button sclass="btn-success btn-xs"
-										iconSclass="z-icon-floppy-o"
-										visible="@load(each.edit)" 
-										onClick="@command('save', tope=each)"/>
-								</div>
-							</listcell>
-						</listitem>
-					</template>
-					<listfoot>
-						<listfooter label="ítems"></listfooter>
-					</listfoot>
-				</listbox>
-			</tabpanel>
-			<tabpanel>
-				<listbox sclass="rounded" height="450px"
-					model="@load(vm.getTopes(5))">
-					<listhead style="text-align:center">
-						<listheader align="center" width="50px"></listheader>
-						<listheader label="Especialidad"></listheader>
-						<listheader label="Mañana" width="150px"
-							align="right" style="text-align:center">
-						</listheader>
-						<listheader label="Tarde" width="150px"
-							align="right" style="text-align:center">
-						</listheader>
-						<listheader label="" width="90px" align="center"
-							style="text-align:center">
-						</listheader>
-					</listhead>
-					<template name="model">
-						<listitem>
-							<listcell>
-								<image src="/core/images/tick.png" visible="@load(!each.disabled)"></image>
-							</listcell>
-							<listcell
-								label="@load(each.servicio.toUpperCase())" 
-								style="@load(each.disabled ? '' : 'font-weight:bold;color:blue')"/>
-							<listcell>
-								<div>
-									<label value="@load(each.TM)" 
-										style="@load(each.disabled ? '' : 'font-weight:bold;color:blue')" 
-										visible="@load(!each.edit)" />
-									<intbox value="@bind(each.TM)"
-										visible="@load(each.edit)"></intbox>
-								</div>								
-							</listcell>
-							<listcell>
-								<div>
-									<label value="@load(each.TT)" 
-										style="@load(each.disabled ? '' : 'font-weight:bold;color:blue')" 
-										visible="@load(!each.edit)" />
-									<intbox value="@bind(each.TT)"
-										visible="@load(each.edit)"></intbox>
-								</div>								
-							</listcell>
-							<listcell>
-								<div>
-									<button sclass="btn-primary btn-xs"
-										iconSclass="z-icon-edit"
-										visible="@load(!each.edit)"
-										onClick="@command('edit', tope=each)" />
-									<button sclass="btn-success btn-xs"
-										iconSclass="z-icon-floppy-o"
-										visible="@load(each.edit)" 
-										onClick="@command('save', tope=each)"/>
-								</div>
-							</listcell>
-						</listitem>
-					</template>
-					<listfoot>
-						<listfooter label="ítems"></listfooter>
-					</listfoot>
-				</listbox>
-			</tabpanel>
-			<tabpanel>
-				<listbox sclass="rounded" height="450px"
-					model="@load(vm.getTopes(6))">
-					<listhead style="text-align:center">
-						<listheader align="center" width="50px"></listheader>
-						<listheader label="Especialidad"></listheader>
-						<listheader label="Mañana" width="150px"
-							align="right" style="text-align:center">
-						</listheader>
-						<listheader label="Tarde" width="150px"
-							align="right" style="text-align:center">
-						</listheader>
-						<listheader label="" width="90px" align="center"
-							style="text-align:center">
-						</listheader>
-					</listhead>
-					<template name="model">
-						<listitem>
-							<listcell>
-								<image src="/core/images/tick.png" visible="@load(!each.disabled)"></image>
-							</listcell>
-							<listcell
-								label="@load(each.servicio.toUpperCase())" 
-								style="@load(each.disabled ? '' : 'font-weight:bold;color:blue')"/>
-							<listcell>
-								<div>
-									<label value="@load(each.TM)" 
-										style="@load(each.disabled ? '' : 'font-weight:bold;color:blue')" 
-										visible="@load(!each.edit)" />
-									<intbox value="@bind(each.TM)"
-										visible="@load(each.edit)"></intbox>
-								</div>								
-							</listcell>
-							<listcell>
-								<div>
-									<label value="@load(each.TT)" 
-										style="@load(each.disabled ? '' : 'font-weight:bold;color:blue')" 
-										visible="@load(!each.edit)" />
-									<intbox value="@bind(each.TT)"
-										visible="@load(each.edit)"></intbox>
-								</div>								
-							</listcell>
-							<listcell>
-								<div>
-									<button sclass="btn-primary btn-xs"
-										iconSclass="z-icon-edit"
-										visible="@load(!each.edit)"
-										onClick="@command('edit', tope=each)" />
-									<button sclass="btn-success btn-xs"
-										iconSclass="z-icon-floppy-o"
-										visible="@load(each.edit)" 
-										onClick="@command('save', tope=each)"/>
-								</div>
-							</listcell>
-						</listitem>
-					</template>
-					<listfoot>
-						<listfooter label="ítems"></listfooter>
-					</listfoot>
-				</listbox>
-			</tabpanel>
-		</tabpanels>
-	</tabbox>	
 </window>
