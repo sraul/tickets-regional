@@ -1,0 +1,75 @@
+<zk>
+	<style>
+		.hightlight { color: #1469AB; font-weight: bold; }
+		.error {
+		color: red; }
+	</style>
+		<window id="loginWin" mode="modal" width="370px" visible="true"
+			minimizable="false" border="1" apply="org.zkoss.bind.BindComposer"
+			zclass="z-window-popup" viewModel="@id('crt') @init('com.coreweb.login.Login')">
+			<style>
+				div.minimize {
+				border: 1px solid #79858E;
+				background: #D3E1EC;
+				position: absolute;
+				opacity: 0.8;
+				}
+				div.loginGrid {
+				border: none;
+				}
+				td.loginCtl {
+				text-align: center;
+				}
+				td.loginCtl .z-label {
+				color: red;
+				font-style: italic;
+				}
+			</style>
+			<hbox  sclass="z-valign-middle" style="background-color: white;" width="480px" >
+				<image src="/logo.png" width="150px" />
+				<vbox align="center" width="210px">					
+					<grid sclass="loginGrid">
+						<columns>
+							<column width="70px" />
+							<column width="130px" />
+						</columns>
+						<rows>
+							<row>
+								Usuario :
+								<textbox id="name" width="110px" value="@bind(crt.user)"
+									 onOK="@command('loginOk')" />
+							</row>
+							<row>
+								Clave :
+								<textbox id="pwd" width="110px" type="password" value="@bind(crt.pass)"
+									 onOK="@command('loginOk')" />
+							</row>
+						</rows>
+					</grid>
+					<button label="Ingresar" onClick="@command('loginOk')"
+						width="100px" />
+					<label id="mesg" value="@load(crt.msg)"  style="color: red;font-style: italic;"/>
+				</vbox>
+			</hbox>
+			<script><![CDATA[
+	
+function loginFaild() { //Shake the window
+    var l = jq("$loginWin").position().left;
+    jq("$loginWin").animate({
+        left : l - 25
+    }, 50).animate({
+        backgroundColor : "red"
+    }, 50).animate({
+        left : l
+    }, 50).animate({
+        left : l + 25
+    }, 50).animate({
+        left : l
+    }, 50).animate({
+        backgroundColor : "white"
+    }, 50);
+    jq("$loginWin").css('background-color','transparent');
+} 
+]]></script>
+		</window>
+</zk>

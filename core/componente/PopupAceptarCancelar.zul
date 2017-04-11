@@ -1,0 +1,36 @@
+<window border="normal" hflex="min" apply="org.zkoss.bind.BindComposer"
+	width="${arg.widthWindows}" sizable="true"
+	viewModel="@id('vmAC') @init('com.coreweb.componente.BodyPopupAceptarCancelar')"
+	title="${arg.titulo}" contentStyle="overflow:auto">
+
+		<caption id="captionPopup" />
+
+
+	<borderlayout id="boderLayoutId" width="${arg.widthWindows}">
+		<center autoscroll="true">
+			<vlayout id="cuerpo">
+			</vlayout>
+		</center>
+		<south border="0">
+			<hbox width="100%" pack="center" align="center" height="50px">
+				<div sclass="btn-group">
+					<button id="btnAccept" label="Aceptar" tooltiptext="Aceptar" disabled="@load(!vmAC.tenerBotonAceptar)"
+						width="120px" onClick="@command('aceptar')" 
+						visible="@load(!vmAC.soloBotonCerrar)" 
+						sclass="btn-success"
+						dir="normal" iconSclass="z-icon-check"/>
+					<button id="btnCerrar" label="Cerrar" tooltiptext="Cerrar"
+						width="120px" onClick="@command('cerrar')" 
+						visible="@load(vmAC.soloBotonCerrar)" 
+						sclass="btn-primary"/>
+					<button id="btnCancel" label="Cancelar" tooltiptext="Cancelar"
+						width="120px" onClick="@command('cancelar')" 
+						visible="@load(!vmAC.soloBotonCerrar)" 
+						sclass="btn-danger"
+						dir="normal" iconSclass="z-icon-times"/>						
+				</div>
+			</hbox>
+		</south>
+	</borderlayout>
+
+</window>

@@ -1,0 +1,45 @@
+
+
+
+	<window id="windowreport" border="normal" apply="org.zkoss.bind.BindComposer"
+		sizable="true" closable="${!(arg.botonImprimir || arg.botonCancelar)}"
+		maximizable="true" viewModel="@id('vmAC') @init('com.coreweb.componente.ViewPdf')"
+		title="${arg.titulo}" onClose="@command('cerrarViewPdf')" width="${arg.anchoWindows}"
+		height="${arg.altoWindows}">
+
+		<borderlayout id="boderLayoutId" width="100%" height="100%">
+
+			<north visible="true" height="30px">
+				<label
+					value="[ToDo] Descargar el reporte en diferentes formato (csv, rtf, etc)" />
+			</north>
+
+
+			<center autoscroll="true">
+				<iframe id="printIFrame" src="${arg.pdf}"
+					style="width:99%; height:99%; border: 1px solid gray" />
+			</center>
+
+
+
+			<south height="35px" visible="${arg.botonImprimir || arg.botonCancelar}">
+				<toolbar align="center">
+					<hlayout>
+						<button id="btnImprimir" label="Imprimir" tooltiptext="Aceptar"
+							visible="${arg.botonImprimir}" image="/core/images/printer.png"
+							width="120px" onClick="@command('imprimir')" />
+						<button id="btnCancel" label="Cancelar" tooltiptext="Cancelar"
+							visible="${arg.botonCancelar}" image="/core/images/cancel.png"
+							width="120px" onClick="@command('cancelar')" />
+
+					</hlayout>
+				</toolbar>
+			</south>
+
+
+		</borderlayout>
+
+	</window>
+
+
+

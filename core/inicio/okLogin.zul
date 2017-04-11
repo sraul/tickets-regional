@@ -1,0 +1,11 @@
+<zk>
+	<label value="Bienvenido" sclass="title"
+		style="font-size:14pt" />
+	<div height="100%" sclass="button-container">
+		<vbox height="480px" width="100%" pack="center"
+			align="center">
+			<image src="/logo.png" />
+		</vbox>
+
+	</div>
+</zk>

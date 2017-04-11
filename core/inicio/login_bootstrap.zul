@@ -1,0 +1,71 @@
+<zk>
+	<style>
+		.hightlight { color: #1469AB; font-weight: bold; } .error {
+		color: red; }
+	</style>
+	<window id="loginWin" mode="modal"
+		apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('crt') @init('com.coreweb.login.Login')"
+		zclass="z-window-popup" onCreate='name.focus()'>
+		<style>
+			div.minimize { border: 1px solid #79858E; background:
+			#D3E1EC; position: absolute; opacity: 0.8; } div.loginGrid {
+			border: none; } td.loginCtl { text-align: center; }
+			td.loginCtl .z-label { color: red; font-style: italic; }
+		</style>
+		<vbox pack="center" align="center" width="600px">
+			<space height="50px"/>
+			<hlayout valign="middle">
+				<image src="/logo.png" />
+				<space width="50px" />
+				<vlayout width="250px">
+					<space height="50px" />
+					<hlayout valign="middle" style="border-bottom: 1px solid #ccc;">
+						<label style="font-size:14pt">Ingresar ó</label>
+						<a style="font-size:14pt">Registrarse</a>
+						<space hflex="true" />
+					</hlayout>
+					<div height="10px" />
+
+					<textbox class="form-control" placeholder="Usuario"
+						id="name" value="@bind(crt.user)" onOK="@command('loginOk')" />
+
+					<div height="10px" />
+
+					<textbox class="form-control"
+						placeholder="Contraseña" id="pwd" type="password"
+						value="@bind(crt.pass)" onOK="@command('loginOk')" />
+
+
+
+					<div height="10px" />
+					<hlayout>
+						<button sclass="btn-primary" label="Ingresar"
+							onClick="@command('loginOk')" />
+						<space hflex="true" />
+					</hlayout>
+					<div height="10px" />
+					<label id="mesg" value="@load(crt.msg)"
+						style="color: red;font-style: italic; font-size:12pt" />
+				</vlayout>
+			</hlayout>
+		</vbox>
+		<script>
+
+
+			
+			<![CDATA[
+
+			function loginFaild() { var l =
+			jq("$loginWin").position().left; jq("$loginWin").animate({
+			left : l - 25 }, 50).animate({ backgroundColor : "red" },
+			50).animate({ left : l }, 50).animate({ left : l + 25 },
+			50).animate({ left : l }, 50).animate({ backgroundColor :
+			"white" }, 50);
+			jq("$loginWin").css('background-color','transparent'); } ]]>
+			
+			
+			
+		</script>
+	</window>
+</zk>

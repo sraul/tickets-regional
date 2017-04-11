@@ -1,0 +1,94 @@
+<zk>
+	<window id="ToolbarABM"
+		viewModel="@id('Toolbar') @init('com.coreweb.templateABM.Toolbar')"
+		apply="org.zkoss.bind.BindComposer" zclass="z-window-popup" border="0">
+
+		<hlayout>
+			<hbox width="300px" align="start">
+
+				<toolbarbutton image="/core/images/add.png"
+					tooltiptext="Crear"
+					onClick="@command('agregarItem')
+				@global-command('habilitarComponentes')"
+					disabled="@load(Toolbar.agregarDeshabilitado)" />
+
+				<toolbarbutton image="/core/images/edit.png"
+					tooltiptext="Editar"
+					onClick="@command('editarItem')
+				@global-command('habilitarComponentes')"
+					disabled="@load(Toolbar.editarDeshabilitado)" />
+
+				<!-- <toolbarbutton image="/core/images/delete.png" tooltiptext="Eliminar" 
+					onClick="@command('eliminarItem') @global-command('refreshComponentes')" 
+					disabled="@load(Toolbar.eliminarDeshabilitado)" /> -->
+
+				<toolbarbutton image="/core/images/anular.png"
+					tooltiptext="Anular"
+					onClick="@command('anularItem')
+				@global-command('refreshComponentes')"
+					disabled="@load(Toolbar.anularDeshabilitado)" />
+
+
+				<toolbarbutton image="/core/images/find.png"
+					tooltiptext="Buscar"
+					onClick="@command('buscarItem')
+				@global-command('refreshComponentes')"
+					disabled="@load(Toolbar.buscarDeshabilitado)" />
+
+				<!-- <toolbarbutton image="/core/images/find.png" tooltiptext="Buscar" 
+					onClick="@command('buscarItemBr') @global-command('refreshComponentes')" 
+					disabled="@load(Toolbar.buscarDeshabilitado)" /> -->
+
+				<label id="idObjeto" value="@load(Toolbar.idObjeto)" />
+
+				<label id="abmModo" value="@load(Toolbar.estadoABM)"
+					multiline="false" style="font-size:12pt;font-weight:bold" />
+			</hbox>
+
+
+			<hbox hflex="true" pack="end">
+
+				<label value="@load(Toolbar.usuarioTemporal)" style="font-size:12pt;font-weight:bold"  />
+
+				<toolbarbutton image="/core/images/kuser-3.png"
+					tooltiptext="Cambio de Usuario" onClick="@command('cambioUsuario')
+					@global-command('refreshComponentes')" 
+					disabled="@load(Toolbar.cambioUsuarioDeshabilitado)"/>
+
+				<toolbarbutton image="/core/images/agenda_24x24.png"
+					tooltiptext="Agenda" onClick="@command('showAgenda')" 
+					disabled="@load(Toolbar.agendaDeshabilitado)" />
+
+				<toolbarbutton image="/core/images/printer.png"
+					tooltiptext="Imprimir" onClick="@command('showImprimir')" 
+					disabled="@load(Toolbar.imprimirDeshabilitado)"/>
+					
+				<toolbarbutton image="/core/images/info_24x24.png"
+					tooltiptext="Información" onClick="@command('showInformacion')" 
+					disabled="@load(Toolbar.informacionDeshabilitado)" />					
+
+				<hbox align="center" pack="center">
+
+					<toolbarbutton image="/core/images/arrow-left-2.png"
+						tooltiptext="Anterior"
+						onClick="@command('beforePosicion')
+				@global-command('refreshComponentes')"
+						disabled="@load(Toolbar.buscarDeshabilitado)" />
+
+					<label value="@load(Toolbar.strBrowser)" style="font-size:10pt" />
+
+					<toolbarbutton image="/core/images/arrow-right-2.png"
+						tooltiptext="Siguiente"
+						onClick="@command('afterPosicion')
+				@global-command('refreshComponentes')"
+						disabled="@load(Toolbar.buscarDeshabilitado)" />
+
+
+				</hbox>
+
+			</hbox>
+
+
+		</hlayout>
+	</window>
+</zk>
