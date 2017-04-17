@@ -12,7 +12,7 @@
  					pack="center" align="center" visible="false">
 
 					<label value="@load(vm.selectedServicio.pos1.toString().toUpperCase())"
-								style="font-weight:bold;font-size:25pt;color:#357ebd;text-decoration:underline" />
+								style="font-weight:bold;font-size:25pt;color:white;text-decoration:underline" />
 
 					<space />
 					<button label="TURNO MAÑANA"
@@ -23,11 +23,11 @@
 							disabled="@load(vm.disabledTM)" />
 						<hlayout>
 							<label value="@load(vm.labelUsadosTM)"
-								style="font-weight:bold;font-size:15pt;color:#357ebd">
+								style="font-weight:bold;font-size:15pt;color:white">
 							</label>
 							<space></space>
 							<label value="@load(vm.labelLimiteTM)"
-								style="font-weight:bold;font-size:15pt;color:#357ebd">
+								style="font-weight:bold;font-size:15pt;color:white">
 							</label>
 						</hlayout>
 
@@ -41,17 +41,17 @@
 							disabled="@load(vm.disabledTT)" />
 						<hlayout>
 							<label value="@load(vm.labelUsadosTT)"
-								style="font-weight:bold;font-size:15pt;color:#357ebd">
+								style="font-weight:bold;font-size:15pt;color:white">
 							</label>
 							<space></space>
 							<label value="@load(vm.labelLimiteTT)"
-								style="font-weight:bold;font-size:15pt;color:#357ebd">
+								style="font-weight:bold;font-size:15pt;color:white">
 							</label>
 						</hlayout>
 						
 						<space height="50px"></space>
 						<button label=" CANCELAR"
-							dir="normal" mold="bs" sclass="btn-danger btn-lg"
+							dir="normal" mold="bs" sclass="btn-warning btn-lg"
 							style="font-weight:bold;font-size:15pt"
 							iconSclass="z-icon-arrow-left"
 							onClick="vb_2.setVisible(true);vb_1.setVisible(false)" />
