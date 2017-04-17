@@ -12,12 +12,9 @@
 }
 
 .content-area {
+	height:100%;
 	width: 100%;
-	-webkit-border-radius: 8px;
-	-moz-border-radius: 8px;
-	border-radius: 8px;
-	/* background-image: url('_background.png'); */
-	background: #EEFC66;
+	background-image: url('_background_new.png');
 }
 
 .content-area-2 {
@@ -116,7 +113,7 @@
 
 .saludo {
 	font-weight: bold;
-	font-size: 260%;
+	font-size: 400%;
 	color: white;
 	text-shadow: 3px 3px 3px #000066;
 }
@@ -169,19 +166,27 @@
 }
 
 .turno-fila1 {
-	-webkit-border-radius: 8px;
-	-moz-border-radius: 8px;
-	border-radius: 8px;
-	background: url('fila1.png');
-	padding: 4% 1px 4% 1px;
+	-webkit-border-radius: 20px;
+	-moz-border-radius: 20px;
+	border-radius: 20px;
+	border-color: white;
+	background: #000099;
+	padding: 2% 10px 2% 10px;
+	margin:20px 50px;
+	border-style: outset;
+	border-width: 4px;
 }
 
 .turno-fila2 {
-	-webkit-border-radius: 8px;
-	-moz-border-radius: 8px;
-	border-radius: 8px;
-	background: url('fila2.png');
-	padding: 4% 1px 4% 1px;
+	-webkit-border-radius: 20px;
+	-moz-border-radius: 20px;
+	border-radius: 20px;
+	border-color: white;
+	background: #000099;
+	padding: 2% 10px 2% 10px;
+	margin:0px 50px;
+	border-style: outset;
+	border-width: 4px;
 }
 
 .first-layout {

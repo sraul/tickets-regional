@@ -324,11 +324,11 @@ public class TurnoViewModel extends SimpleViewModel {
 	
 	/************************** LISTA DE TURNOS **************************/
 	
-	static int[] rango1 = new int[]{0, 6};
-	static int[] rango2 = new int[]{6, 12};
-	static int[] rango3 = new int[]{12, 18};
-	static int[] rango4 = new int[]{18, 24};
-	static int[] rango5 = new int[]{24, 30};
+	static int[] rango1 = new int[]{0, 4};
+	static int[] rango2 = new int[]{4, 8};
+	static int[] rango3 = new int[]{8, 12};
+	static int[] rango4 = new int[]{12, 16};
+	static int[] rango5 = new int[]{16, 20};
 	
 	private int count = 0;	
 	private Hashtable<Integer, List<String[]>> listas = new Hashtable<Integer, List<String[]>>();
@@ -364,7 +364,9 @@ public class TurnoViewModel extends SimpleViewModel {
 			win.doModal();
 		} else if (this.listaCorriente.size() > 0) {
 			this.mostrandoVideo = false;
-			win.detach();
+			if (win != null) {
+				win.detach();
+			}
 		}
 	}
 	
@@ -379,7 +381,7 @@ public class TurnoViewModel extends SimpleViewModel {
 		
 		for (TurnoDTO turno : turnos) {	
 			String[] turno_ = new String[]{(String) turno.getServicio().getPos1(), 
-					turno.getPuesto(),turno.getNumero()};
+					(String) turno.getServicio().getPos4(), turno.getNumero()};
 			aux.add(turno_);
 		}		
 		this.dividirListas(aux);
@@ -499,7 +501,7 @@ public class TurnoViewModel extends SimpleViewModel {
 			llamando = true;
 			
 			Timer timer = new Timer();				
-			timer.setDelay(9800);
+			timer.setDelay(6500);
 			timer.setRepeats(false);			
 			
 			Map<String, String> args = (Map<String, String>) event.getData();
@@ -661,7 +663,7 @@ public class TurnoViewModel extends SimpleViewModel {
 
 	public void setListaCorriente(List<String[]> listaCorriente) {
 		this.listaCorriente = listaCorriente;
-		//this.mostrarVideo();
+		this.mostrarVideo();
 	}
 
 	@SuppressWarnings("rawtypes")

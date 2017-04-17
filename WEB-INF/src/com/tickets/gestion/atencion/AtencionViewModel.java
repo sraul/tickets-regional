@@ -951,10 +951,10 @@ public class AtencionViewModel extends SimpleViewModel {
 				
 				if (notified == false) {
 					notified = true;
-					Clients.evalJavaScript("notifyNuevoCliente()");					
+					//Clients.evalJavaScript("notifyNuevoCliente()");					
 					
 				} else {
-					Clients.showNotification("Nuevo Cliente en Espera..!");
+					//Clients.showNotification("Nuevo Cliente en Espera..!");
 				}
 				
 			}				

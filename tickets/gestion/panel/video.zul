@@ -3,15 +3,35 @@
 	onCreate='Clients.evalJavaScript("myfunc()")'>
 	<html>
 		
-		<![CDATA[ <body> <video width="100%" height="100%"
-		src="video.mp4" autoplay loop id="vid"></video>
+		<![CDATA[ <body> 
+		<video width="100%" height="100%" autoplay id="vid">
+			<source src="video.mp4" type="video/mp4">
+		</video>
 		</body> ]]>
 		
 	</html>
 		
 		<script type="text/javascript">
-        function myfunc() {
+		var myvids = [
+  				"video.mp4", 
+  				"video2.mp4", "video3.mp4"];
+		
+        function myfunc() {        
             document.getElementById("vid").play();
+            repeat();
         }
+        
+        function repeat() {
+        	var activeVideo = 0;
+			document.getElementById("vid").addEventListener('ended', function(e) {
+  			// update the new active video index
+  			activeVideo = (++activeVideo) % myvids.length;
+
+  			// update the video source and play
+  			document.getElementById("vid").src = myvids[activeVideo];
+  			document.getElementById("vid").play();
+		});
+    	}
+        
  </script>
 </window>

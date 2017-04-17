@@ -17,7 +17,7 @@ public class TurnoAssembler extends Assembler {
 
 	private static String[] attCliente = { "descripcion", "cedula", "ruc", "nuevo"};
 
-	private static String[] attServicio = { "descripcion", "letra", "estado" };
+	private static String[] attServicio = { "descripcion", "letra", "estado", "imageSrc" };
 
 	private static String[] attDerivado = { "turnoPrevio", "horaDerivado" };
 

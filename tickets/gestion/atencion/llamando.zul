@@ -11,7 +11,7 @@
 			style="font-size:50pt;color:white;font-weight:bold" />
 	</vbox>
 	
-	<timer delay="10000" repeats="false" onTimer="@command('endCall')">	
+	<timer delay="6000" repeats="false" onTimer="@command('endCall')">	
 	</timer>
 	
 </window>

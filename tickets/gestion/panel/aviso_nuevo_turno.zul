@@ -1,40 +1,68 @@
 <zk>
-	<window id="win" width="100%" height="100%" position="center, center"
-		onCreate='audio.play()'>
-
-		<audio id="audio" src="/recursos/timbre.wav" 
-			height="0px" width="0px"
-			controls="true" autoplay="true" />	
-			
-		<timer delay="2000" repeats="false">
-				<attribute name="onTimer">
-					audio1.play();
-				</attribute>
-		</timer>	
+	<window id="win"
+		onCreate='audio.play()'
+		position="center, center" 
+		style="background: white"
+		width="100%" height="100%">
 		
-		<timer delay="3000" repeats="false">
+		<div id="dv" sclass="content-area" hflex="true" vflex="true">
+
+			<vbox width="100%" vflex="true" pack="center" align="center">
+				
+				<label value="${arg.servicio.toUpperCase()}"
+				 style="font-weight: bold; font-size: 600%; color: white; text-shadow: 3px 3px 3px #000066;"/>
+				<hlayout>
+					<label id="tnoLet" value="${arg.turnoLetra}" sclass="aviso" />
+					<label id="tnoNro" value="${arg.turnoNumero}" sclass="aviso" />
+				</hlayout>
+				<label id="pto" value="${arg.puesto.toUpperCase()}"
+				 style="font-weight: bold; font-size: 600%; color: white; text-shadow: 3px 3px 3px #000066;"/>
+
+			</vbox>
+			<!--  
+			<timer delay="4000" repeats="false">
+				<attribute name="onTimer">
+					Clients.evalJavaScript("actualizarVoz('" +
+					tnoLet.getValue() + "','" +
+					tnoNro.getValue() + "','" + pto.getValue() + "')");
+				</attribute>
+			</timer>
+			-->
+		</div>
+
+		<audio id="audio" src="/recursos/timbre_.mp3" 
+			height="0px" width="0px"
+			controls="false" autoplay="true" />	
+			
+		<timer delay="1000" repeats="false">
 				<attribute name="onTimer">
 					audio2.play();
 				</attribute>
-		</timer>
+		</timer>	
 		
-		<timer delay="4000" repeats="false">
+		<timer delay="2000" repeats="false">
 				<attribute name="onTimer">
 					audio3.play();
 				</attribute>
 		</timer>
 		
-		<timer delay="5000" repeats="false">
+		<timer delay="3000" repeats="false">
 				<attribute name="onTimer">
 					audio4.play();
 				</attribute>
 		</timer>
 		
-		<timer delay="6500" repeats="false">
+		<timer delay="4500" repeats="false">
 				<attribute name="onTimer">
 					audio5.play();
 				</attribute>
 		</timer>
+		
+		<!-- <timer delay="5500" repeats="false">
+				<attribute name="onTimer">
+					audio5.play();
+				</attribute>
+		</timer> -->
 		
 		<audio id="audio1" src="/recursos/ticket.mp3" 
 			height="0px" width="0px"
@@ -56,30 +84,11 @@
 			height="0px" width="0px"
 			controls="false" autoplay="true" />
 
-		<div id="dv" sclass="content-area" width="100%" height="100%">
-
-			<vbox width="100%" vflex="true" pack="center" align="center">
-
-				<hlayout>
-					<label id="tnoLet" value="${arg.turnoLetra}" sclass="aviso" />
-					<label id="tnoNro" value="${arg.turnoNumero}" sclass="aviso" />
-				</hlayout>
-				<label id="pto" value="${arg.puesto.toUpperCase()}"
-				 style="font-weight: bold; font-size: 600%; color: white; text-shadow: 3px 3px 3px #000066;"/>
-
-			</vbox>
-			<!--  
-			<timer delay="4000" repeats="false">
-				<attribute name="onTimer">
-					Clients.evalJavaScript("actualizarVoz('" +
-					tnoLet.getValue() + "','" +
-					tnoNro.getValue() + "','" + pto.getValue() + "')");
-				</attribute>
-			</timer>
-			-->
-		</div>
+		
 	</window>
-	
+	<style>
+		.z-window-content { border:0px; background:transparent }
+	</style>
 	<script>
 		<![CDATA[ 
 		    var nombreTurno = "";
