@@ -4,15 +4,16 @@
 <?link rel="icon" type="image/x-icon" href="/icono-tab.ico"?>
 
 	<window id="templateInicio" viewModel="@id('vm') @init('com.coreweb.login.ControlSinLogin')"
-		apply="org.zkoss.bind.BindComposer">
+		apply="org.zkoss.bind.BindComposer"
+		border="none">
 
 		<label id="nombreFormulario" value=" " multiline="false"
-			maxlength="26" style="font-size:12pt;font-weight:bold" />
+			maxlength="26" visible="false" />
 			
 		<div fulfill="self.onCreate"> 
 		
 			<include aliasForm="VisorTurnos" tipo="visorTurno" usuario="admin" clave="admin"
-				src="/tickets/gestion/panel/visor_turnos.zul" />
+				src="/tickets/gestion/panel/visor_turnos.zul"/>
 
 			<menubar id="menubarFoot2">
 				<menuitem id="carita" />

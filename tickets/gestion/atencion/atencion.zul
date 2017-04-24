@@ -39,7 +39,7 @@
 					<tabpanel>
 						<vbox vflex="true" hflex="true" id="layout"
 							pack="center" align="center">
-							<listbox height="380px" sclass="rounded"
+							<listbox height="360px" sclass="rounded"
 								model="@load(vm.turnosPrincipal)" selectedItem="@bind(vm.selectedTurno)"
 								emptyMessage="SIN TICKETS PENDIENTES..."
 								visible="@load(!vm.estadoAtendiendo)" checkmark="true">
@@ -83,8 +83,8 @@
 									</listfooter>
 								</listfoot>
 							</listbox>
-
-							<vbox height="380px" hflex="true"
+							<div height="5px"></div>
+							<vbox height="360px" hflex="true"
 								pack="center" align="center"
 								visible="@load(vm.estadoAtendiendo)">
 								<hlayout>
@@ -94,9 +94,6 @@
 										value="@load(vm.tareaActual.turno.numero)" />
 								</hlayout>
 							</vbox>
-
-							<space />
-
 							<hbox width="100%" align="center"
 								pack="center">
 
@@ -141,7 +138,7 @@
 					<tabpanel>
 						<vbox vflex="true" hflex="true" id="layout2"
 							pack="center" align="center">
-							<listbox height="380px" sclass="rounded"
+							<listbox height="360px" sclass="rounded"
 								model="@load(vm.turnosLlamarLuego)" selectedItem="@bind(vm.selectedTurno)"
 								emptyMessage="SIN TICKETS PENDIENTES..."
 								visible="@load(!vm.estadoAtendiendo)" checkmark="true">
@@ -185,8 +182,9 @@
 									</listfooter>
 								</listfoot>
 							</listbox>
-
-							<vbox height="380px" hflex="true"
+							
+							<div height="5px"></div>
+							<vbox height="360px" hflex="true"
 								pack="center" align="center"
 								visible="@load(vm.estadoAtendiendo)">
 								<hlayout>
@@ -196,9 +194,6 @@
 										value="@load(vm.tareaActual.turno.numero)" />
 								</hlayout>
 							</vbox>
-
-							<space />
-
 							<hbox width="100%" align="center"
 								pack="center">
 
@@ -236,7 +231,6 @@
 										iconSclass="z-icon-check" />
 
 								</hbox>
-
 							</hbox>
 						</vbox>
 					</tabpanel>

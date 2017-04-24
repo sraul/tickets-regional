@@ -53,17 +53,19 @@ public class TurnoViewModel extends SimpleViewModel {
 			UsuarioPropiedadApp uss = new UsuarioPropiedadApp(this.getUs());
 			this.sucursal = uss.getSucursal();
 			
-			this.cliente = this.getDtoUtil().getClienteNuevoPorDefecto();
+			this.cliente = this.getClienteNuevoPorDefecto();
 			this.distribuirServicios();
 			
 			if (tipo.compareTo(VISOR_TURNO) == 0) {
 				this.avisarNuevoTurno();
 				this.refreshTurnos();
-				this.mostrarVideo();
 			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
+			if (tipo.compareTo(VISOR_TURNO) == 0) {
+				this.avisarNuevoTurno();
+			}
 		}				
 	}
 	
@@ -170,7 +172,7 @@ public class TurnoViewModel extends SimpleViewModel {
 	 * Mediante el converter verifica si se ingresó un valor
 	 * con [punto, coma, espacio] y lo extrae para hacer la busqueda.. 
 	 */
-	public void identificarse(int busqueda) throws Exception{
+	public void identificarse(int busqueda) throws Exception {
 		MyArray cliente = null;
 		
 		switch (busqueda) {
@@ -357,64 +359,49 @@ public class TurnoViewModel extends SimpleViewModel {
 		}
 	}
 	
-	@Command
-	public void horarioVideo(@BindingParam("wind") Window wind) {
-		wind.detach();
-	}
-	
 	/**
 	 * muestra el video..
 	 */
 	private void mostrarVideo() {
-		if (this.isHorarioVideo()) {
-			this.mostrandoVideo = true;
-			String src = Configuracion.SRC_VIDEO;
-			win = (Window) Executions.createComponents(src, this.mainComponent, null);
-			win.doModal();
-		}				
+		try {
+			if (this.isHorarioVideo() && this.mostrandoVideo == false) {
+				this.mostrandoVideo = true;
+				String src = Configuracion.SRC_VIDEO;
+				win = (Window) Executions.createComponents(src, this.mainComponent, null);
+				win.doModal();
+			} else if ((this.isHorarioVideo() == false) && (this.mostrandoVideo == true)) {
+				this.mostrandoVideo = false;
+				win.detach();
+			}
+		} catch (Exception e) {
+			System.out.println("AQUI ESTA EL ERROR..." + e.getMessage());
+			this.avisarNuevoTurno();
+		}
+						
 	}
 	
-	private boolean isHorarioVideo() {
+	private boolean isHorarioVideo() throws Exception {
 		return this.isHorarioInicioVideo() && !this.isHorarioFinVideo();
 	}
 	
 	/**
 	 * returna el horario de inicio de videos
 	 */
-	private boolean isHorarioInicioVideo() {
-		try {
-			String actual = Utiles.getFechaString(new Date(), "dd-MM-yyyy");
-			Date horario = Utiles.getFecha(actual + Configuracion.HORA_INICIO_VIDEOS);
-			Calendar cal = Calendar.getInstance();		
-			return cal.getTime().after(horario);
-		} catch (Exception e) {
-			return false;
-		}		
+	private boolean isHorarioInicioVideo() throws Exception {
+		String actual = Utiles.getFechaString(new Date(), "dd-MM-yyyy");
+		Date horario = Utiles.getFecha(actual + Configuracion.HORA_INICIO_VIDEOS);
+		Calendar cal = Calendar.getInstance();
+		return cal.getTime().after(horario);
 	}
 	
 	/**
 	 * returna el horario de fin de videos
 	 */
-	private boolean isHorarioFinVideo() {
-		try {
-			String actual = Utiles.getFechaString(new Date(), "dd-MM-yyyy");
-			Date horario = Utiles.getFecha(actual + Configuracion.HORA_FIN_VIDEOS);
-			Calendar cal = Calendar.getInstance();		
-			return cal.getTime().after(horario);
-		} catch (Exception e) {
-			return false;
-		}		
-	}
-	
-	public static void main(String[] args) {
-		try {
-			String actual = Utiles.getFechaString(new Date(), "dd-MM-yyyy");
-			Date horario = Utiles.getFecha(actual + " 07:58:00");
-			Calendar cal = Calendar.getInstance();
-			System.out.println(cal.getTime().after(horario));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}		
+	private boolean isHorarioFinVideo() throws Exception {
+		String actual = Utiles.getFechaString(new Date(), "dd-MM-yyyy");
+		Date horario = Utiles.getFecha(actual + Configuracion.HORA_FIN_VIDEOS);
+		Calendar cal = Calendar.getInstance();
+		return cal.getTime().after(horario);
 	}
 	
 	/**
@@ -605,6 +592,22 @@ public class TurnoViewModel extends SimpleViewModel {
 		Calendar calendar = Calendar.getInstance();
 		int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
 		return dayOfWeek - 1;
+	}
+	
+	// Levanta el cliente nuevo por defecto
+	private MyArray getClienteNuevoPorDefecto() throws Exception {
+
+		RegisterDomain rr = RegisterDomain.getInstance();
+		Cliente cliente = rr.getClienteNuevoDefault();
+
+		MyArray out = new MyArray();
+		out.setId(cliente.getId());
+		out.setPos1(cliente.getDescripcion());
+		out.setPos2(cliente.getCedula());
+		out.setPos3(cliente.getRuc());
+		out.setPos4(cliente.isNuevo());
+
+		return out;
 	}
 	
 	public boolean isDisabledTM() {

@@ -1,9 +1,9 @@
 <zk>
-	<window id="win"
+	<window id="win_"
 		onCreate='audio.play()'
 		position="center, center" 
 		style="background: white"
-		width="100%" height="100%">
+		width="99%" height="100%">
 		
 		<div id="dv" sclass="content-area" hflex="true" vflex="true">
 
