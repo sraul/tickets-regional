@@ -38,6 +38,7 @@ import com.tickets.control.cola.ControlCola;
 import com.tickets.domain.Cliente;
 import com.tickets.domain.RegisterDomain;
 import com.tickets.domain.Tope;
+import com.tickets.util.Utiles;
 
 public class TurnoViewModel extends SimpleViewModel {
 	
@@ -58,6 +59,7 @@ public class TurnoViewModel extends SimpleViewModel {
 			if (tipo.compareTo(VISOR_TURNO) == 0) {
 				this.avisarNuevoTurno();
 				this.refreshTurnos();
+				this.mostrarVideo();
 			}
 			
 		} catch (Exception e) {
@@ -356,18 +358,63 @@ public class TurnoViewModel extends SimpleViewModel {
 	}
 	
 	@Command
-	public void mostrarVideo() {
-		if (this.listaCorriente.size() == 0 && this.mostrandoVideo == false) {
+	public void horarioVideo(@BindingParam("wind") Window wind) {
+		wind.detach();
+	}
+	
+	/**
+	 * muestra el video..
+	 */
+	private void mostrarVideo() {
+		if (this.isHorarioVideo()) {
 			this.mostrandoVideo = true;
 			String src = Configuracion.SRC_VIDEO;
-			win = (Window) Executions.createComponents(src, null, null);
+			win = (Window) Executions.createComponents(src, this.mainComponent, null);
 			win.doModal();
-		} else if (this.listaCorriente.size() > 0) {
-			this.mostrandoVideo = false;
-			if (win != null) {
-				win.detach();
-			}
-		}
+		}				
+	}
+	
+	private boolean isHorarioVideo() {
+		return this.isHorarioInicioVideo() && !this.isHorarioFinVideo();
+	}
+	
+	/**
+	 * returna el horario de inicio de videos
+	 */
+	private boolean isHorarioInicioVideo() {
+		try {
+			String actual = Utiles.getFechaString(new Date(), "dd-MM-yyyy");
+			Date horario = Utiles.getFecha(actual + Configuracion.HORA_INICIO_VIDEOS);
+			Calendar cal = Calendar.getInstance();		
+			return cal.getTime().after(horario);
+		} catch (Exception e) {
+			return false;
+		}		
+	}
+	
+	/**
+	 * returna el horario de fin de videos
+	 */
+	private boolean isHorarioFinVideo() {
+		try {
+			String actual = Utiles.getFechaString(new Date(), "dd-MM-yyyy");
+			Date horario = Utiles.getFecha(actual + Configuracion.HORA_FIN_VIDEOS);
+			Calendar cal = Calendar.getInstance();		
+			return cal.getTime().after(horario);
+		} catch (Exception e) {
+			return false;
+		}		
+	}
+	
+	public static void main(String[] args) {
+		try {
+			String actual = Utiles.getFechaString(new Date(), "dd-MM-yyyy");
+			Date horario = Utiles.getFecha(actual + " 07:58:00");
+			Calendar cal = Calendar.getInstance();
+			System.out.println(cal.getTime().after(horario));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}		
 	}
 	
 	/**

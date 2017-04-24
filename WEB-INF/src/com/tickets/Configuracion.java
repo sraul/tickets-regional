@@ -103,5 +103,6 @@ public class Configuracion extends Config {
 	//Tope de numeracion en los tickets
 	public static long LIMITE_NUMERACION = 400 + 1;
 	
-
+	public static String HORA_INICIO_VIDEOS = " 08:57:00";
+	public static String HORA_FIN_VIDEOS = " 08:58:00";
 }
