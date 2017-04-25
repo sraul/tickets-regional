@@ -28,7 +28,7 @@
 		<vlayout spacing="0">
 			<hlayout sclass="button-container"
 				style="text-align:center">
-				<label value="FILTROS" style="font-weight:bold;font-size:13px;color:#357ebd" />
+				<label value="PARÁMETROS" style="font-weight:bold;font-size:13px;color:#357ebd" />
 			</hlayout>
 			<grid hflex="true" sclass="rounded" style="border: 1px solid #cfcfcf" height="300px">
 				<columns>
