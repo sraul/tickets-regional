@@ -49,7 +49,8 @@
 	<hbox width="100%" height="100%" pack="center" align="center">
 		<button label="Ver Reporte" sclass="btn-primary btn-lg"
 		hflex="true"
-		iconSclass="z-icon-check" dir="normal" />
+		iconSclass="z-icon-check" dir="normal" 
+		onClick='Clients.showNotification("REPORTE PENDIENTE DE HABILITAR..")'/>
 	</hbox>	
 	</div>
 </window>
