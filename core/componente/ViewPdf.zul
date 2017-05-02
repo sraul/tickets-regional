@@ -9,9 +9,7 @@
 
 		<borderlayout id="boderLayoutId" width="100%" height="100%">
 
-			<north visible="true" height="30px">
-				<label
-					value="[ToDo] Descargar el reporte en diferentes formato (csv, rtf, etc)" />
+			<north visible="false" height="30px">
 			</north>
 
 

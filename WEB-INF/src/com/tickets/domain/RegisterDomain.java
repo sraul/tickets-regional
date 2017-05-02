@@ -353,6 +353,45 @@ public class RegisterDomain extends Register {
 		return this.hql(query);
 	}
 	
+	/**
+	 * @return los tickets segun fecha..
+	 */
+	public List<Turno> getTurnos(Date desde, Date hasta) throws Exception {
+
+		String query = "select t from Turno t where"
+				+ " t.creacion between ? and ?" + " order by t.creacion";
+
+		List<Object> listParams = new ArrayList<Object>();
+		listParams.add(desde);
+		listParams.add(hasta);
+
+		Object[] params = new Object[listParams.size()];
+		for (int i = 0; i < listParams.size(); i++) {
+			params[i] = listParams.get(i);
+		}
+		return this.hql(query, params);
+	}
+	
+	/**
+	 * @return los tickets cancelados segun fecha..
+	 */
+	public List<Turno> getTurnosCancelados(Date desde, Date hasta) throws Exception {
+
+		String query = "select t from Turno t where"
+				+ " t.estado.sigla = '" + Configuracion.SIGLA_ESTADO_TURNO_CANCELADO + "' and"
+				+ " t.creacion between ? and ?" + " order by t.creacion";
+
+		List<Object> listParams = new ArrayList<Object>();
+		listParams.add(desde);
+		listParams.add(hasta);
+
+		Object[] params = new Object[listParams.size()];
+		for (int i = 0; i < listParams.size(); i++) {
+			params[i] = listParams.get(i);
+		}
+		return this.hql(query, params);
+	}
+	
 	public static void main(String[] args) {
 		RegisterDomain rr = RegisterDomain.getInstance();
 		try {

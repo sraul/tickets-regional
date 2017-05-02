@@ -11,6 +11,7 @@
 			</hlayout>
 			<listbox hflex="true" sclass="rounded" height="300px"
 				model="@load(vm.reportes)"
+				selectedItem="@bind(vm.selectedReporte)"
 				checkmark="true">
 				<listhead>
 					<listheader width="40px" align="center"/>
@@ -36,10 +37,12 @@
 				</columns>
 				<rows>
 					<row>
-						<datebox placeholder="Fecha Desde.." format="dd-MM-yyyy" hflex="true"></datebox>
+						<datebox placeholder="Fecha Desde.." format="dd-MM-yyyy" hflex="true"
+							value="@bind(vm.filtroDesde)"></datebox>
 					</row>
 					<row>
-						<datebox placeholder="Fecha Hasta.." format="dd-MM-yyyy" hflex="true"></datebox>
+						<datebox placeholder="Fecha Hasta.." format="dd-MM-yyyy" hflex="true"
+							value="@load(vm.filtroHasta)"></datebox>
 					</row>
 				</rows>
 			</grid>
@@ -50,7 +53,7 @@
 		<button label="Ver Reporte" sclass="btn-primary btn-lg"
 		hflex="true"
 		iconSclass="z-icon-check" dir="normal" 
-		onClick='Clients.showNotification("REPORTE PENDIENTE DE HABILITAR..")'/>
+		onClick="@command('verReporte')"/>
 	</hbox>	
 	</div>
 </window>
