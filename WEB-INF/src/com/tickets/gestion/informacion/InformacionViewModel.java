@@ -5,16 +5,19 @@ import static net.sf.dynamicreports.report.builder.DynamicReports.cmp;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-
-import net.sf.dynamicreports.report.builder.component.ComponentBuilder;
-import net.sf.dynamicreports.report.builder.component.VerticalListBuilder;
+import java.util.Map;
 
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zul.Window;
 
 import com.coreweb.componente.ViewPdf;
 import com.coreweb.control.SimpleViewModel;
@@ -23,12 +26,22 @@ import com.coreweb.util.Misc;
 import com.tickets.domain.RegisterDomain;
 import com.tickets.domain.Servicio;
 import com.tickets.domain.Turno;
+import com.tickets.util.Utiles;
+
+import net.sf.dynamicreports.report.builder.component.ComponentBuilder;
+import net.sf.dynamicreports.report.builder.component.VerticalListBuilder;
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRField;
 
 public class InformacionViewModel extends SimpleViewModel {
 
 	static final String REP_1 = "CANTIDAD DE TICKETS EMITIDOS";
 	static final String REP_2 = "CANTIDAD DE TICKETS CANCELADOS";
 	static final String REP_3 = "AUDITORÍA DE OPERADORES";
+	static final String REP_4 = "TICKETS EMITIDOS AGRUPADO POR ESPECIALIDAD";
+	
+	private Window win;
 	
 	private String selectedReporte = REP_1;
 	
@@ -57,6 +70,7 @@ public class InformacionViewModel extends SimpleViewModel {
 		out.add(REP_1);
 		out.add(REP_2);
 		out.add(REP_3);
+		out.add(REP_4);
 		return out;
 	}
 	
@@ -73,6 +87,9 @@ public class InformacionViewModel extends SimpleViewModel {
 			break;
 		case REP_3:			
 			this.auditoriaOperadores();
+			break;
+		case REP_4:			
+			this.ticketsEmitidosAgrupado();
 			break;
 		}
 	}
@@ -170,10 +187,83 @@ public class InformacionViewModel extends SimpleViewModel {
 	}
 	
 	/**
+	 * reporte cantidad tickets emitidos agrupados por especialidad..
+	 */
+	private void ticketsEmitidosAgrupado() {
+		try {
+			Date desde = this.filtroDesde;
+			Date hasta = this.filtroHasta;
+
+			if (desde == null)
+				desde = new Date();
+
+			if (hasta == null)
+				hasta = new Date();
+			
+			RegisterDomain rr = RegisterDomain.getInstance();
+			List<Object[]> data = new ArrayList<Object[]>();
+			List<Turno> turnos = rr.getTurnos(desde, hasta);
+			Map<String, Integer> cantidades = new HashMap<String, Integer>();
+			Map<String, String> filas = new HashMap<String, String>();
+
+			for (Turno turno : turnos) {				
+				Integer count = cantidades.get(turno.getServicio().getDescripcion().toUpperCase());
+				if (count == null) {
+					cantidades.put(turno.getServicio().getDescripcion().toUpperCase(), 1);
+				} else {
+					cantidades.put(turno.getServicio().getDescripcion().toUpperCase(), count + 1);
+				}
+				filas.put(turno.getServicio().getDescripcion().toUpperCase(), turno.getServicio().getImageSrc());
+			}
+			
+			for (String turno : cantidades.keySet()) {
+				data.add(new Object[] { turno, cantidades.get(turno), filas.get(turno) });
+			}
+			
+			Collections.sort(data, new Comparator<Object[]>() {
+				@Override
+				public int compare(Object[] o1, Object[] o2) {
+					String val1 = (String) o1[0];
+					String val2 = (String) o2[0];
+					int compare = val1.compareTo(val2);				
+					return compare;
+				}
+			});
+			
+			String source = JasperViewModel.SOURCE_TICKETS_EMITIDOS;
+			Map<String, Object> params = new HashMap<String, Object>();
+			JRDataSource dataSource = new TicketsEmitidosDataSource(data, cantidades);
+			params.put("Titulo", "Tickets emitidos por Especialidad");
+			params.put("Usuario", getUs().getNombre());
+			params.put("Desde", Utiles.getFechaString(desde, "dd-MM-yyyy"));
+			params.put("Hasta", Utiles.getFechaString(hasta, "dd-MM-yyyy"));
+			this.imprimirJasper(source, params, dataSource, null);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
 	 * reporte auditoria operadores..
 	 */
 	private void auditoriaOperadores() {
 		Clients.showNotification("Reporte pendiente..");
+	}
+	
+	/**
+	 * Despliega el reporte en un pdf para su impresion..
+	 */
+	private void imprimirJasper(String source, Map<String, Object> parametros,
+			JRDataSource dataSource, Object[] format) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("source", source);
+		params.put("parametros", parametros);
+		params.put("dataSource", dataSource);
+		params.put("format", format);
+
+		this.win = (Window) Executions.createComponents(JasperViewModel.ZUL_REPORTES, this.mainComponent, params);
+		this.win.doModal();
 	}
 	
 	/**
@@ -267,5 +357,55 @@ class ReporteTicketsEmitidos extends ReporteTurnos {
 		out.add(cmp.horizontalFlowList().add(this.texto("")));
 
 		return out;
+	}
+}
+
+/**
+ * DataSource de Tickets emitidos agrupados..
+ */
+class TicketsEmitidosDataSource implements JRDataSource {
+
+	static final NumberFormat FORMATTER = new DecimalFormat("###,###,##0");
+
+	List<Object[]> values;
+	Map<String, Integer> cantidades = new HashMap<String, Integer>();
+
+	Misc misc = new Misc();
+
+	public TicketsEmitidosDataSource(List<Object[]> values, Map<String, Integer> cantidades) {
+		this.values = values;
+		this.cantidades = cantidades;
+	}
+
+	private int index = -1;
+
+	/**
+	 * Object[] det = [0]:especialidad
+	 */
+	@Override
+	public Object getFieldValue(JRField field) throws JRException {
+		Object value = null;
+		String fieldName = field.getName();
+		Object[] det = this.values.get(index);
+
+		if ("TituloDetalle".equals(fieldName)) {
+			value = det[0];
+		} else if ("Cantidad".equals(fieldName)) {
+			value = cantidades.get(det[0]) + "";
+		} else if ("Numero".equals(fieldName)) {
+			value = det[2];
+		} else if ("Total".equals(fieldName)) {
+			value = cantidades.get(det[0]) + "";
+		}
+		return value;
+	}
+
+	@Override
+	public boolean next() throws JRException {
+		if (index < this.values.size() - 1) {
+			index++;
+			return true;
+		}
+		return false;
 	}
 }
