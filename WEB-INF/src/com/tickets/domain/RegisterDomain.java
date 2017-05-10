@@ -356,10 +356,10 @@ public class RegisterDomain extends Register {
 	/**
 	 * @return los tickets segun fecha..
 	 */
-	public List<Turno> getTurnos(Date desde, Date hasta) throws Exception {
+	public List<Turno> getTurnos(Date desde, Date hasta, long idServicio) throws Exception {
 
-		String query = "select t from Turno t where"
-				+ " t.creacion between ? and ?" + " order by t.creacion";
+		String query = "select t from Turno t where t.servicio.id = " + idServicio
+				+ " and t.creacion between ? and ?" + " order by t.creacion";
 
 		List<Object> listParams = new ArrayList<Object>();
 		listParams.add(desde);

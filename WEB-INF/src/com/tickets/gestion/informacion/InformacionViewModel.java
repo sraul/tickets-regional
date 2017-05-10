@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import net.sf.dynamicreports.report.builder.component.ComponentBuilder;
+import net.sf.dynamicreports.report.builder.component.VerticalListBuilder;
+
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
@@ -18,10 +21,8 @@ import com.coreweb.control.SimpleViewModel;
 import com.coreweb.extras.reporte.DatosColumnas;
 import com.coreweb.util.Misc;
 import com.tickets.domain.RegisterDomain;
+import com.tickets.domain.Servicio;
 import com.tickets.domain.Turno;
-
-import net.sf.dynamicreports.report.builder.component.ComponentBuilder;
-import net.sf.dynamicreports.report.builder.component.VerticalListBuilder;
 
 public class InformacionViewModel extends SimpleViewModel {
 
@@ -33,6 +34,7 @@ public class InformacionViewModel extends SimpleViewModel {
 	
 	private Date filtroDesde;
 	private Date filtroHasta;
+	private Servicio filtroServicio;
 
 	@Init(superclass = true)
 	public void init() {		
@@ -82,23 +84,27 @@ public class InformacionViewModel extends SimpleViewModel {
 		try {
 			Date desde = this.filtroDesde;
 			Date hasta = this.filtroHasta;
+			Servicio serv = this.filtroServicio;
 
 			if (desde == null)
 				desde = new Date();
 
 			if (hasta == null)
 				hasta = new Date();
+			
+			if(serv == null)
+				serv = new Servicio();
 
 			RegisterDomain rr = RegisterDomain.getInstance();
 			List<Object[]> data = new ArrayList<Object[]>();
-			List<Turno> turnos = rr.getTurnos(desde, hasta);
+			List<Turno> turnos = rr.getTurnos(desde, hasta, serv.getId());
 
 			for (Turno turno : turnos) {
 				data.add(new Object[] { m.dateToString(turno.getCreacion(), "dd-MM-yyyy (HH:mm:ss)"), turno.getNumero(),
 						turno.getServicio().getDescripcion(), turno.getServicio().getImageSrc() });
 			}
 
-			ReporteTicketsEmitidos rep = new ReporteTicketsEmitidos(desde, hasta);
+			ReporteTicketsEmitidos rep = new ReporteTicketsEmitidos(desde, hasta, turnos.size(), serv.getDescripcion());
 			rep.setDatosReporte(data);
 			rep.setApaisada();
 				
@@ -113,6 +119,14 @@ public class InformacionViewModel extends SimpleViewModel {
 		}
 	}
 	
+	public Servicio getFiltroServicio() {
+		return filtroServicio;
+	}
+
+	public void setFiltroServicio(Servicio filtroServicio) {
+		this.filtroServicio = filtroServicio;
+	}
+
 	/**
 	 * reporte cantidad tickets cancelados..
 	 */
@@ -120,12 +134,16 @@ public class InformacionViewModel extends SimpleViewModel {
 		try {
 			Date desde = this.filtroDesde;
 			Date hasta = this.filtroHasta;
+			Servicio serv = this.filtroServicio;
 
 			if (desde == null)
 				desde = new Date();
 
 			if (hasta == null)
 				hasta = new Date();
+			
+			if(serv == null)
+				serv = new Servicio();
 
 			RegisterDomain rr = RegisterDomain.getInstance();
 			List<Object[]> data = new ArrayList<Object[]>();
@@ -136,7 +154,7 @@ public class InformacionViewModel extends SimpleViewModel {
 						turno.getServicio().getDescripcion(), turno.getServicio().getImageSrc() });
 			}
 
-			ReporteTicketsEmitidos rep = new ReporteTicketsEmitidos(desde, hasta);
+			ReporteTicketsEmitidos rep = new ReporteTicketsEmitidos(desde, hasta, turnos.size(), serv.getDescripcion());
 			rep.setDatosReporte(data);
 			rep.setApaisada();
 				
@@ -161,6 +179,11 @@ public class InformacionViewModel extends SimpleViewModel {
 	/**
 	 * GET´S / SET´S
 	 */
+	public List<Servicio> getServicios() throws Exception {
+		RegisterDomain rr = RegisterDomain.getInstance();
+		return rr.getAllServicios();
+	}
+	
 	public String getSelectedReporte() {
 		return selectedReporte;
 	}
@@ -194,6 +217,8 @@ class ReporteTicketsEmitidos extends ReporteTurnos {
 	static final NumberFormat FORMATTER = new DecimalFormat("###,###,##0");
 	private Date desde;
 	private Date hasta;
+	private int total = 0;
+	private String servicio;
 
 	static List<DatosColumnas> cols = new ArrayList<DatosColumnas>();
 	static DatosColumnas col0 = new DatosColumnas("Fecha", TIPO_STRING, 30);
@@ -201,9 +226,11 @@ class ReporteTicketsEmitidos extends ReporteTurnos {
 	static DatosColumnas col2 = new DatosColumnas("Especialidad", TIPO_STRING);
 	static DatosColumnas col3 = new DatosColumnas("Fila", TIPO_STRING, 30);
 
-	public ReporteTicketsEmitidos(Date desde, Date hasta) {
+	public ReporteTicketsEmitidos(Date desde, Date hasta, int total, String servicio) {
 		this.desde = desde;
 		this.hasta = hasta;
+		this.total = total;
+		this.servicio = servicio;
 	}
 
 	static {
@@ -234,7 +261,9 @@ class ReporteTicketsEmitidos extends ReporteTurnos {
 				.add(this.textoParValor("Desde",
 						m.dateToString(this.desde, Misc.DD_MM_YYYY)))
 				.add(this.textoParValor("Hasta",
-						m.dateToString(this.hasta, Misc.DD_MM_YYYY))));
+						m.dateToString(this.hasta, Misc.DD_MM_YYYY)))
+				.add(this.textoParValor("Especialidad", this.servicio))
+				.add(this.textoParValor("Cantidad Total", this.total)));
 		out.add(cmp.horizontalFlowList().add(this.texto("")));
 
 		return out;

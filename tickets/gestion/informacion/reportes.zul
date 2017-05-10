@@ -44,6 +44,16 @@
 						<datebox placeholder="Fecha Hasta.." format="dd-MM-yyyy" hflex="true"
 							value="@load(vm.filtroHasta)"></datebox>
 					</row>
+					<row>
+						<combobox placeholder="Especialidad" hflex="true"
+							value="@load(vm.filtroServicio.descripcion)"
+							model="@load(vm.servicios)"
+							selectedItem="@bind(vm.filtroServicio)">
+							<template name="model">
+								<comboitem label="@load(each.descripcion)"/>
+							</template>
+						</combobox>
+					</row>
 				</rows>
 			</grid>
 		</vlayout>
