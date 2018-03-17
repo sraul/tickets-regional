@@ -14,6 +14,8 @@
 		<property name="servicio" />
 		<property name="TM" />
 		<property name="TT" />
+		<property name="medico" />
+		<property name="general" />
 		
 	</class>
 

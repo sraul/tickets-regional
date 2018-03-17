@@ -11,8 +11,10 @@ public class Tope extends Domain {
 	private String servicio;
 	private int TM;
 	private int TT;
+	private String medico;
 	
 	private boolean edit = false;
+	private boolean general;
 	
 	@Override
 	public int compareTo(Object o) {
@@ -68,6 +70,22 @@ public class Tope extends Domain {
 
 	public void setEdit(boolean edit) {
 		this.edit = edit;
+	}
+
+	public String getMedico() {
+		return medico;
+	}
+
+	public void setMedico(String medico) {
+		this.medico = medico;
+	}
+
+	public boolean isGeneral() {
+		return general;
+	}
+
+	public void setGeneral(boolean general) {
+		this.general = general;
 	}
 
 }
