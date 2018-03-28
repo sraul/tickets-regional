@@ -21,8 +21,7 @@
 				<vlayout width="250px">
 					<space height="50px" />
 					<hlayout valign="middle" style="border-bottom: 1px solid #ccc;">
-						<label style="font-size:14pt">Ingresar ó</label>
-						<a style="font-size:14pt">Registrarse</a>
+						<label style="font-size:14pt">Ingresar</label>
 						<space hflex="true" />
 					</hlayout>
 					<div height="10px" />

@@ -26,6 +26,9 @@
 			<listheader label="" width="90px" align="center"
 				style="text-align:center">
 			</listheader>
+			<listheader label="" width="90px" align="center"
+				style="text-align:center">
+			</listheader>
 		</listhead>
 		<template name="model">
 			<listitem>
@@ -65,6 +68,10 @@
 							iconSclass="z-icon-floppy-o" visible="@load(each.edit)"
 							onClick="@command('save', tope=each)" />
 					</div>
+				</listcell>
+				<listcell>
+					<button sclass="btn-info btn-xs"
+						iconSclass="z-icon-user-md" onClick='pop_medicos.open(self, "after_end")'/>
 				</listcell>
 			</listitem>
 		</template>
@@ -87,6 +94,9 @@
 			<listheader label="" width="90px" align="center"
 				style="text-align:center">
 			</listheader>
+			<listheader label="" width="90px" align="center"
+				style="text-align:center">
+			</listheader>
 		</listhead>
 		<template name="model">
 			<listitem>
@@ -126,6 +136,10 @@
 							iconSclass="z-icon-floppy-o" visible="@load(each.edit)"
 							onClick="@command('save', tope=each)" />
 					</div>
+				</listcell>
+				<listcell>
+					<button sclass="btn-info btn-xs"
+						iconSclass="z-icon-user-md" />
 				</listcell>
 			</listitem>
 		</template>
@@ -148,6 +162,9 @@
 			<listheader label="" width="90px" align="center"
 				style="text-align:center">
 			</listheader>
+			<listheader label="" width="90px" align="center"
+				style="text-align:center">
+			</listheader>
 		</listhead>
 		<template name="model">
 			<listitem>
@@ -187,6 +204,10 @@
 							iconSclass="z-icon-floppy-o" visible="@load(each.edit)"
 							onClick="@command('save', tope=each)" />
 					</div>
+				</listcell>
+				<listcell>
+					<button sclass="btn-info btn-xs"
+						iconSclass="z-icon-user-md" />
 				</listcell>
 			</listitem>
 		</template>
@@ -209,6 +230,9 @@
 			<listheader label="" width="90px" align="center"
 				style="text-align:center">
 			</listheader>
+			<listheader label="" width="90px" align="center"
+				style="text-align:center">
+			</listheader>
 		</listhead>
 		<template name="model">
 			<listitem>
@@ -248,6 +272,10 @@
 							iconSclass="z-icon-floppy-o" visible="@load(each.edit)"
 							onClick="@command('save', tope=each)" />
 					</div>
+				</listcell>
+				<listcell>
+					<button sclass="btn-info btn-xs"
+						iconSclass="z-icon-user-md" />
 				</listcell>
 			</listitem>
 		</template>
@@ -270,6 +298,9 @@
 			<listheader label="" width="90px" align="center"
 				style="text-align:center">
 			</listheader>
+			<listheader label="" width="90px" align="center"
+				style="text-align:center">
+			</listheader>
 		</listhead>
 		<template name="model">
 			<listitem>
@@ -310,6 +341,10 @@
 							onClick="@command('save', tope=each)" />
 					</div>
 				</listcell>
+				<listcell>
+					<button sclass="btn-info btn-xs"
+						iconSclass="z-icon-user-md" />
+				</listcell>
 			</listitem>
 		</template>
 		<listfoot>
@@ -326,6 +361,9 @@
 				style="text-align:center">
 			</listheader>
 			<listheader label="Tarde" width="150px" align="right"
+				style="text-align:center">
+			</listheader>
+			<listheader label="" width="90px" align="center"
 				style="text-align:center">
 			</listheader>
 			<listheader label="" width="90px" align="center"
@@ -371,11 +409,54 @@
 							onClick="@command('save', tope=each)" />
 					</div>
 				</listcell>
+				<listcell>
+					<button sclass="btn-info btn-xs"
+						iconSclass="z-icon-user-md" />
+				</listcell>
 			</listitem>
 		</template>
 		<listfoot>
 			<listfooter label="ítems"></listfooter>
 		</listfoot>
 	</listbox>
+	
+	<popup id="pop_medicos">
+	
+		<listbox width="400px" sclass="rounded"> 
+			<listhead style="text-align:center">
+				<listheader label="Médico" align="left" style="text-align:center"></listheader>
+				<listheader label="Mañana" align="center"></listheader>
+				<listheader label="Tarde" align="center"></listheader>
+			</listhead>
+			<listitem>
+				<listcell label="Juan Acosta"></listcell>
+				<listcell>
+					<intbox></intbox>
+				</listcell>
+				<listcell>
+					<intbox></intbox>
+				</listcell>
+			</listitem>
+			<listitem>
+				<listcell label="Carlos Gonzalez"></listcell>
+				<listcell>
+					<intbox></intbox>
+				</listcell>
+				<listcell>
+					<intbox></intbox>
+				</listcell>
+			</listitem>
+			<listitem>
+				<listcell label="Pedro Perez"></listcell>
+				<listcell>
+					<intbox></intbox>
+				</listcell>
+				<listcell>
+					<intbox></intbox>
+				</listcell>
+			</listitem>
+		</listbox>
+	
+	</popup>
 	
 </window>

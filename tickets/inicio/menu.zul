@@ -8,6 +8,7 @@
 
 	<nav iconSclass="z-icon-bullhorn" label="Atención de Tickets">
 		<zk forEach="${vm.menuItem(self,'AtencionTurnos')}" />
+		<zk forEach="${vm.menuItem(self,'AtencionConsulta')}" />
 	</nav>
 
 	<nav label="Informaciones" iconSclass="z-icon-info-circle">
@@ -18,6 +19,8 @@
 
 	<nav label="Administración" iconSclass="z-icon-cogs">
 		<zk forEach="${vm.menuItem(self,'Administracion')}" />
+		<zk forEach="${vm.menuItem(self,'Usuarios')}" />
+		<zk forEach="${vm.menuItem(self,'Medicos')}" />
 	</nav>
 
 	<nav iconSclass="z-icon-desktop" label="Tablero">

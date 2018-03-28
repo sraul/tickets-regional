@@ -88,8 +88,6 @@
 					</hbox>
 					
 					<space hflex="true"/>
-					<image src="/core/foot-logo.png"/>
-					<space width="100px"/>
 
 				</hlayout>
 			</div>

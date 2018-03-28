@@ -1,0 +1,253 @@
+<zk xmlns:h="native">
+	<window context="salir">
+		
+		<!-- para los iconos bootstrap -->
+		<h:link href="//netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.css" 
+			rel="stylesheet"/>
+		
+		<hlayout>
+			<hlayout hflex="true">
+				<space></space>
+				<label value="MÉDICO:" style="font-weight:bold" />
+				<label value="Juan Perez" />
+			</hlayout>
+			<space />
+			<hlayout hflex="true">
+				<label value="ESPECIALIDAD:" style="font-weight:bold" />
+				<label value="Clínica Médica" />
+			</hlayout>
+			<space />
+		</hlayout>
+		
+		<div vflex="true" id="dvlayout">
+			<tabbox>
+				<tabs>
+					<tab label="Principal" width="200px"></tab>
+					<tab label="Llamar Luego" width="200px"></tab>
+					<tab label="Historial de Consultas" width="200px"></tab>
+					<tab label="Detalle de Consulta" width="200px"></tab>
+				</tabs>
+				<tabpanels>
+					<tabpanel>
+						<vbox vflex="true" hflex="true" id="layout"
+							pack="center" align="center">
+							<listbox height="360px" sclass="rounded"
+								emptyMessage="SIN TICKETS PENDIENTES...">
+								<custom-attributes
+									org.zkoss.zul.listbox.autoSort="true" />
+								<listhead>
+									<listheader label=" Ticket"
+										style="text-align:center" iconSclass="z-icon-ticket"
+										onCreate="self.sort(true);" align="center"/>
+									<listheader label=" Paciente"
+										style="text-align:center" iconSclass="z-icon-tag" />
+								</listhead>
+								<listitem>
+									<listcell label="A50" style="font-weight:bold"></listcell>
+									<listcell label="Oscar Galeano"></listcell>
+								</listitem>
+								<listitem>
+									<listcell label="A51" style="font-weight:bold"></listcell>
+									<listcell label="Pedro Bareiro"></listcell>
+								</listitem>
+								<listitem>
+									<listcell label="A52" style="font-weight:bold"></listcell>
+									<listcell label="Jose Vazquez"></listcell>
+								</listitem>
+								<listitem>
+									<listcell label="A53" style="font-weight:bold"></listcell>
+									<listcell label="Oscar Baranda"></listcell>
+								</listitem>
+								<listfoot>
+									<listfooter label="ítems" align="left">
+									</listfooter>
+								</listfoot>
+							</listbox>
+							<div height="5px"></div>
+							<hbox width="100%" align="center"
+								pack="center">
+
+								<button label="Llamar"
+									sclass="btn-warning btn-lg" hflex="true"
+									iconSclass="z-icon-bullhorn" dir="normal" />
+
+								<space />
+
+								<button label="Atender"
+									sclass="btn-success btn-lg" hflex="true"
+									iconSclass="z-icon-thumbs-up" dir="normal" />
+
+								<space />
+
+								<button label="Llamar Luego"
+									sclass="btn-danger btn-lg" hflex="true"
+									iconSclass="z-icon-bullhorn" dir="normal" />
+
+								<space></space>
+
+								<button label="Finalizar"
+									sclass="btn-warning btn-lg" hflex="true" dir="normal"
+									iconSclass="z-icon-check" />
+
+							</hbox>
+						</vbox>
+					</tabpanel>
+					<tabpanel></tabpanel>
+					<tabpanel>
+						<vbox vflex="true" hflex="true" 
+							pack="center" align="center">
+							<listbox height="360px" sclass="rounded"
+								emptyMessage="SIN CONSULTAS...">
+								<custom-attributes
+									org.zkoss.zul.listbox.autoSort="true" />
+								<listhead>
+									<listheader label=" Fecha"
+										style="text-align:center" iconSclass="z-icon-ticket"
+										onCreate="self.sort(true);" align="center"/>
+									<listheader label=" Especialidad"
+										style="text-align:center" iconSclass="z-icon-tag" />
+									<listheader label=" Motivo"
+										style="text-align:center" iconSclass="z-icon-tag" />
+								</listhead>
+								<listitem>
+									<listcell label="23-02-2018" style="font-weight:bold"></listcell>
+									<listcell label="Clínica Médica"></listcell>
+									<listcell label="Dolor de Cabeza"></listcell>
+								</listitem>
+								<listitem>
+									<listcell label="23-01-2018" style="font-weight:bold"></listcell>
+									<listcell label="Cardiología"></listcell>
+									<listcell label="HTA"></listcell>
+								</listitem>
+								<listitem>
+									<listcell label="15-01-2018" style="font-weight:bold"></listcell>
+									<listcell label="Neumologia"></listcell>
+									<listcell label="Afeccion pulmonar"></listcell>
+								</listitem>
+								<listitem>
+									<listcell label="11-01-2018" style="font-weight:bold"></listcell>
+									<listcell label="Traumatología"></listcell>
+									<listcell label="Dolor muscular"></listcell>
+								</listitem>
+								<listfoot>
+									<listfooter label="ítems" align="left">
+									</listfooter>
+								</listfoot>
+							</listbox>
+							<div height="5px"></div>
+							<hbox width="100%" align="center"
+								pack="center">
+
+								<button label="Agregar"
+									sclass="btn-success btn-lg" hflex="true"
+									iconSclass="z-icon-plus" dir="normal" />
+
+							</hbox>
+						</vbox>
+					</tabpanel>
+					
+					<tabpanel>
+						<vbox vflex="true" hflex="true" 
+							pack="center" align="center">
+							<grid hflex="true" vflex="true">
+								<columns>
+									<column width="20%"></column>
+									<column></column>
+								</columns>
+								<rows>
+									<row>
+										<label value="Fecha:" style="font-weight:bold"/>
+										<label>28-02-2018</label>
+									</row>
+									<row>
+										<label value="Motivo:" style="font-weight:bold"/>
+										<label>Dolor de cabeza</label>
+									</row>
+									<row>
+										<label value="Especialidad:" style="font-weight:bold"/>
+										<label>Clínica Médica</label>
+									</row>
+									<row>
+										<label value="Doctor Tratante:" style="font-weight:bold"/>
+										<label>Dr. Carlos Meza</label>
+									</row>
+									<row>
+										<label value="Estudios solicitados:" style="font-weight:bold"/>
+										<label>Analisis de Sangre</label>
+									</row>
+									<row>
+										<label value="Medicamentos recetados:" style="font-weight:bold"/>
+										<label>Paracetamol de 500 gr</label>
+									</row>
+								</rows>
+							</grid>
+						</vbox>
+					</tabpanel>
+					
+				</tabpanels>
+			</tabbox>
+		</div>
+
+		<menupopup id="salir">	
+			<menuitem label="Retomar Servicio.."
+				iconSclass="z-icon-thumbs-o-up" />
+		</menupopup>
+		
+		<script type="text/javascript">
+			
+			function notifyNuevoCliente() {
+				alert("Nuevo Cliente en Espera..!");
+			}
+						
+		</script>
+		
+	</window>
+
+
+	<style>
+		.button{ width:260px; height:50px; font-size:18px; font-weight:
+		bold; padding: 1px 1px 1px 1px; -webkit-border-radius: 8px;
+		-moz-border-radius: 8px; border-radius: 8px;
+
+		font-family: 'PT Sans', arial, serif; color:#ffffff;
+
+		border: 1px solid rgba(0,0,0,0.5); border-bottom: 3px solid
+		rgba(0,0,0,0.5);
+
+		background: rgba(0,0,0,0.25);
+
+		-o-box-shadow: 0 2px 8px rgba(0,0,0,0.5), inset 0 1px
+		rgba(255,255,255,0.3), inset 0 10px rgba(255,255,255,0.2), inset
+		0 10px 20px rgba(255,255,255,0.25), inset 0 -15px 30px
+		rgba(0,0,0,0.3);
+
+		-webkit-box-shadow: 0 2px 8px rgba(0,0,0,0.5), inset 0 1px
+		rgba(255,255,255,0.3), inset 0 10px rgba(255,255,255,0.2), inset
+		0 10px 20px rgba(255,255,255,0.25), inset 0 -15px 30px
+		rgba(0,0,0,0.3);
+
+		-moz-box-shadow: 0 2px 8px rgba(0,0,0,0.5), inset 0 1px
+		rgba(255,255,255,0.3), inset 0 10px rgba(255,255,255,0.2), inset
+		0 10px 20px rgba(255,255,255,0.25), inset 0 -15px 30px
+		rgba(0,0,0,0.3);
+
+		box-shadow: 0 2px 8px rgba(0,0,0,0.5), /* Exterior Shadow */
+		inset 0 1px rgba(255,255,255,0.3), /* Top light Line */ inset 0
+		10px rgba(255,255,255,0.2), /* Top Light Shadow */ inset 0 10px
+		20px rgba(255,255,255,0.25), /* Sides Light Shadow */ inset 0
+		-15px 30px rgba(0,0,0,0.3); /* Dark Background */
+
+		margin: 3px; display: inline-block; text-decoration: none; }
+
+		.label2 { height:50px; font-size:22px; align:center; }
+
+		.celda { height:50px; font-size:22px; font-weight:bold;
+		font-style:oblique; }
+
+		.description-area{ font-weight: bold; font-size: 180%; color:
+		#2c3e50; }
+		.lbl-center {
+			text-align:center;
+		}	
+	</style>
+</zk>

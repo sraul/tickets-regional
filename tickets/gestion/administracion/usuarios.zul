@@ -1,0 +1,226 @@
+<window height="100%" width="100%">
+	
+	<navbar mold="bs-tabs" class="nav-justified">
+		<navitem id="nav_1" label="Usuarios" selected="true" onClick="h_user.setVisible(true); h_rol.setVisible(false); h_oper.setVisible(false)"/>
+		<navitem label="Roles" onClick="h_user.setVisible(false); h_rol.setVisible(true); h_oper.setVisible(false)" />
+		<navitem label="Operaciones" onClick="h_user.setVisible(false); h_rol.setVisible(false); h_oper.setVisible(true)" />
+	</navbar>
+	
+	<hbox id="h_user" height="600px" width="100%">
+		<listbox vflex="true" hflex="true" sclass="rounded">
+			<auxhead>
+				<auxheader label="Usuario" colspan="3"
+					style="text-align:center">
+				</auxheader>
+			</auxhead>
+			<listhead style="text-align:center">
+				<listheader label="Nombre y Apellido"></listheader>
+				<listheader label="Usuario"></listheader>
+				<listheader label="Password"></listheader>
+			</listhead>
+			<listitem>
+				<listcell label="Juan Perez"></listcell>
+				<listcell label="jperez"></listcell>
+				<listcell>
+					<textbox type="password" inplace="true" value="123456"></textbox>
+				</listcell>
+			</listitem>
+			<listitem>
+				<listcell label="Hector Lopez"></listcell>
+				<listcell label="hlopez"></listcell>
+				<listcell>
+					<textbox type="password" inplace="true" value="123456"></textbox>
+				</listcell>
+			</listitem>
+			<listitem>
+				<listcell label="Daniel Arce"></listcell>
+				<listcell label="darce"></listcell>
+				<listcell>
+					<textbox type="password" inplace="true" value="123456"></textbox>
+				</listcell>
+			</listitem>
+			<listfoot>
+				<listfooter label="ítems"></listfooter>
+			</listfoot>
+		</listbox>
+		<listbox vflex="true" hflex="true" sclass="rounded">
+			<auxhead>
+				<auxheader label="Roles Asignados" colspan="2"
+					style="text-align:center">
+				</auxheader>
+			</auxhead>
+			<listhead style="text-align:center">
+				<listheader label="Descripción"></listheader>
+				<listheader label="" width="80px" align="center"></listheader>
+			</listhead>
+			<listitem>
+				<listcell label="Administrador"></listcell>
+				<listcell>
+					<checkbox></checkbox>
+				</listcell>
+			</listitem>
+			<listitem>
+				<listcell label="Admisionista"></listcell>
+				<listcell>
+					<checkbox></checkbox>
+				</listcell>
+			</listitem>
+			<listitem>
+				<listcell label="Médico"></listcell>
+				<listcell>
+					<checkbox></checkbox>
+				</listcell>
+			</listitem>
+			<listitem>
+				<listcell label="Consulta"></listcell>
+				<listcell>
+					<checkbox></checkbox>
+				</listcell>
+			</listitem>
+			<listfoot>
+				<listfooter label="ítems"></listfooter>
+			</listfoot>
+		</listbox>
+	</hbox>
+	
+	
+	<hbox id="h_rol" height="600px" width="100%" visible="false">
+		<listbox vflex="true" hflex="true" sclass="rounded">
+			<auxhead>
+				<auxheader label="Rol" colspan="1"
+					style="text-align:center">
+				</auxheader>
+			</auxhead>
+			<listhead style="text-align:center">
+				<listheader label="Descripción"></listheader>
+			</listhead>
+			<listitem>
+				<listcell label="Administrador"></listcell>
+			</listitem>
+			<listitem>
+				<listcell label="Admisionista"></listcell>
+			</listitem>
+			<listitem>
+				<listcell label="Médico"></listcell>
+			</listitem>
+			<listitem>
+				<listcell label="Consulta"></listcell>
+			</listitem>
+			<listfoot>
+				<listfooter label="ítems"></listfooter>
+			</listfoot>
+		</listbox>
+		<listbox vflex="true" hflex="true" sclass="rounded">
+			<auxhead>
+				<auxheader label="Operaciones Asignadas" colspan="2"
+					style="text-align:center">
+				</auxheader>
+			</auxhead>
+			<listhead style="text-align:center">
+				<listheader label="Descripción"></listheader>
+				<listheader label="" width="80px" align="center"></listheader>
+			</listhead>
+			<listitem>
+				<listcell label="Consulta Solicitud Servicio"></listcell>
+				<listcell>
+					<checkbox></checkbox>
+				</listcell>
+			</listitem>
+			<listitem>
+				<listcell label="Consulta Visor de Turnos"></listcell>
+				<listcell>
+					<checkbox></checkbox>
+				</listcell>
+			</listitem>
+			<listitem>
+				<listcell label="Consulta Atencion Turnos"></listcell>
+				<listcell>
+					<checkbox></checkbox>
+				</listcell>
+			</listitem>
+			<listitem>
+				<listcell label="Consulta Reportes"></listcell>
+				<listcell>
+					<checkbox></checkbox>
+				</listcell>
+			</listitem>
+			<listitem>
+				<listcell label="Consulta Topes de Turnos"></listcell>
+				<listcell>
+					<checkbox></checkbox>
+				</listcell>
+			</listitem>
+			<listitem>
+				<listcell label="Consulta Usuarios"></listcell>
+				<listcell>
+					<checkbox></checkbox>
+				</listcell>
+			</listitem>
+			<listitem>
+				<listcell label="Consulta Médicos"></listcell>
+				<listcell>
+					<checkbox></checkbox>
+				</listcell>
+			</listitem>
+			<listitem>
+				<listcell label="Consulta Historial Médico"></listcell>
+				<listcell>
+					<checkbox></checkbox>
+				</listcell>
+			</listitem>
+			<listfoot>
+				<listfooter label="ítems"></listfooter>
+			</listfoot>
+		</listbox>
+	</hbox>
+	
+	<hbox id="h_oper" height="600px" width="100%" visible="false">
+		<listbox vflex="true" hflex="true" sclass="rounded">
+			<listhead style="text-align:center">
+				<listheader label="Descripción"></listheader>
+			</listhead>
+			<listitem>
+				<listcell label="Consulta Solicitud Servicio"></listcell>
+			</listitem>
+			<listitem>
+				<listcell label="Consulta Visor de Turnos"></listcell>
+			</listitem>
+			<listitem>
+				<listcell label="Consulta Atencion Turnos"></listcell>
+			</listitem>
+			<listitem>
+				<listcell label="Consulta Reportes"></listcell>
+			</listitem>
+			<listitem>
+				<listcell label="Consulta Topes de Turnos"></listcell>
+			</listitem>
+			<listitem>
+				<listcell label="Consulta Usuarios"></listcell>
+			</listitem>
+			<listitem>
+				<listcell label="Consulta Médicos"></listcell>
+			</listitem>
+			<listitem>
+				<listcell label="Consulta Historial Médico"></listcell>
+			</listitem>
+			<listfoot>
+				<listfooter label="ítems"></listfooter>
+			</listfoot>
+		</listbox>
+	</hbox>
+	
+	<hbox sclass="button-container" align="center" pack="center" width="100%">
+		<button label="Agregar" sclass="btn-primary btn-lg"
+			iconSclass="z-icon-plus" dir="normal" width="200px">
+		</button>
+		<space></space>
+		<button label="Modificar" sclass="btn-info btn-lg"
+			iconSclass="z-icon-edit" dir="normal" width="200px">
+		</button>
+		<space></space>
+		<button label="Eliminar" sclass="btn-warning btn-lg"
+			iconSclass="z-icon-times" dir="normal" width="200px">
+		</button>
+	</hbox>
+	
+</window>
