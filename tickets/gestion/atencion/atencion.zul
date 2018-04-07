@@ -36,9 +36,8 @@
 					<tab label="Llamar Luego" width="150px"></tab>
 				</tabs>
 				<tabpanels>
-					<tabpanel>
-						<vbox vflex="true" hflex="true" id="layout"
-							pack="center" align="center">
+					<tabpanel height="600px">
+						<vbox vflex="true" hflex="true" id="layout">
 							<listbox height="360px" sclass="rounded"
 								model="@load(vm.turnosPrincipal)" selectedItem="@bind(vm.selectedTurno)"
 								emptyMessage="SIN TICKETS PENDIENTES..."
@@ -84,16 +83,133 @@
 								</listfoot>
 							</listbox>
 							<div height="5px"></div>
+							
 							<vbox height="360px" hflex="true"
 								pack="center" align="center"
-								visible="@load(vm.estadoAtendiendo)">
+								visible="@load(vm.estadoAtendiendo)"
+								style="margin:10px">
 								<hlayout>
 									<label sclass="description-area"
 										value="ATENDIENDO A" />
 									<label sclass="description-area"
 										value="@load(vm.tareaActual.turno.numero)" />
 								</hlayout>
+								<div height="5px"></div>
+								<div style="border-bottom:solid 1px silver;text-align:left">
+									<label style="font-weight:bold; font-style:italic; ">DATOS DEL PACIENTE</label>
+								</div>
+								<grid hflex="true">
+									<columns>
+										<column width="20%"></column>
+										<column></column>
+										<column width="20%"></column>
+										<column></column>
+									</columns>
+									<rows>
+										<row>
+											<label value="Fecha de Consulta:" style="font-weight:bold"/>
+											<label>25-04-2018</label>
+											<label value="Nro.Documento Identidad:" style="font-weight:bold"/>
+											<textbox hflex="true"></textbox>
+										</row>
+										<row>
+											<label value="Nombres y Apellidos:" style="font-weight:bold"/>
+											<textbox hflex="true"></textbox>
+											<label value="Fecha de Nacimiento:" style="font-weight:bold"/>
+											<datebox hflex="true"></datebox>
+										</row>
+										<row>
+											<label value="Edad:" style="font-weight:bold"/>
+											<label></label>
+											<label value="Lugar de Nacimiento:" style="font-weight:bold"/>
+											<bandbox hflex="true"></bandbox>
+										</row>
+										<row>
+											<label value="Nacionalidad:" style="font-weight:bold"/>
+											<combobox hflex="true"></combobox>
+											<label value="Etnia:" style="font-weight:bold"/>
+											<hlayout hflex="true">
+												<combobox>
+													<comboitem label="No aplica">
+													</comboitem>
+													<comboitem label="Aplica">
+													</comboitem>
+												</combobox>
+												<textbox hflex="true" placeholder="Especificar.."></textbox>
+											</hlayout>
+										</row>
+										<row>											
+											<label value="Lugar de Residencia Habitual:" style="font-weight:bold"/>
+											<bandbox hflex="true"></bandbox>
+											<label value="Referencia:" style="font-weight:bold"/>
+											<textbox hflex="true"></textbox>
+										</row>
+										<row>
+											<label value="Nivel Educativo:" style="font-weight:bold"/>
+											<combobox hflex="true">
+												<comboitem label="Educación inicial"></comboitem>
+												<comboitem label="Primaria"></comboitem>
+												<comboitem label="Secundaria"></comboitem>
+												<comboitem label="Escolar básica"></comboitem>
+												<comboitem label="Escolar media"></comboitem>
+												<comboitem label="Universitario"></comboitem>
+												<comboitem label="Superior no universitario"></comboitem>
+												<comboitem label="No aplica"></comboitem>
+											</combobox>
+											<label value="Seguro Médico:" style="font-weight:bold"/>
+											<hlayout hflex="true">
+												<combobox>
+													<comboitem label="I.P.S">
+													</comboitem>
+													<comboitem label="Sanidad Policial">
+													</comboitem>
+													<comboitem label="Sanidad Militar"></comboitem>
+													<comboitem label="Institución Privada"></comboitem>
+													<comboitem label="Se desconoce"></comboitem>
+												</combobox>
+												<textbox hflex="true" placeholder="Especificar.."></textbox>
+											</hlayout>
+										</row>
+										<row>
+											<label value="Situación Laboral:" style="font-weight:bold"/>
+											<hlayout hflex="true">
+											<combobox>
+												<comboitem label="No aplica"></comboitem>
+												<comboitem label="No trabaja"></comboitem>
+												<comboitem label="Trabaja, especificar ocupación"></comboitem>
+												<comboitem label="Profesión"></comboitem>
+											</combobox>
+											<textbox hflex="true" placeholder="Especificar.."></textbox>
+											</hlayout>
+											<label value="Paciente Nuevo:" style="font-weight:bold"/>
+											<combobox hflex="true">
+												<comboitem label="SI"></comboitem>
+												<comboitem label="NO"></comboitem>
+											</combobox>
+										</row>
+										<row>
+											<label value="Médico Solicitado:" style="font-weight:bold"/>
+											<combobox hflex="true"></combobox>
+											<label value="Estado Civil:" style="font-weight:bold"/>
+											<combobox hflex="true">
+												<comboitem label="Soltero/a"></comboitem>
+												<comboitem label="Viudo/a"></comboitem>
+												<comboitem label="Casado/a"></comboitem>
+												<comboitem label="Unido/a"></comboitem>
+												<comboitem label="Separado/a"></comboitem>
+												<comboitem label="Divorciado/a"></comboitem>
+												<comboitem label="No aplica"></comboitem>
+												<comboitem label="Se desconoce"></comboitem>
+											</combobox>
+										</row>
+										<row>
+											<label value="Observaciones:" style="font-weight:bold"/>
+											<textbox hflex="true"></textbox>
+										</row>
+									</rows>
+								</grid>
 							</vbox>
+							
 							<hbox width="100%" align="center"
 								pack="center">
 
@@ -300,5 +416,6 @@
 		.lbl-center {
 			text-align:center;
 		}	
+		.z-textbox { background:#EEF7FA }
 	</style>
 </zk>

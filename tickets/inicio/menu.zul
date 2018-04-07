@@ -20,7 +20,6 @@
 	<nav label="Administración" iconSclass="z-icon-cogs">
 		<zk forEach="${vm.menuItem(self,'Administracion')}" />
 		<zk forEach="${vm.menuItem(self,'Usuarios')}" />
-		<zk forEach="${vm.menuItem(self,'Medicos')}" />
 	</nav>
 
 	<nav iconSclass="z-icon-desktop" label="Tablero">

@@ -1,5 +1,7 @@
 <zk xmlns:h="native">
-	<window context="salir">
+	<window
+		viewModel="@id('vm') @init('com.tickets.gestion.atencion.AtencionConsultaViewModel')"
+		apply="org.zkoss.bind.BindComposer">
 		
 		<!-- para los iconos bootstrap -->
 		<h:link href="//netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.css" 
@@ -26,11 +28,11 @@
 					<tab label="Llamar Luego" width="200px"></tab>
 					<tab label="Historial de Consultas" width="200px"></tab>
 					<tab label="Detalle de Consulta" width="200px"></tab>
+					<tab id="tab_reg" label="Registro de Consulta" width="200px" visible="false"></tab>
 				</tabs>
 				<tabpanels>
-					<tabpanel>
-						<vbox vflex="true" hflex="true" id="layout"
-							pack="center" align="center">
+					<tabpanel height="800px">
+						<vbox vflex="true" hflex="true" id="layout">
 							<listbox height="360px" sclass="rounded"
 								emptyMessage="SIN TICKETS PENDIENTES...">
 								<custom-attributes
@@ -140,7 +142,8 @@
 
 								<button label="Agregar"
 									sclass="btn-success btn-lg" hflex="true"
-									iconSclass="z-icon-plus" dir="normal" />
+									iconSclass="z-icon-plus" dir="normal" 
+									onClick="tab_reg.setVisible(true); tab_reg.setSelected(true)"/>
 
 							</hbox>
 						</vbox>
@@ -149,6 +152,7 @@
 					<tabpanel>
 						<vbox vflex="true" hflex="true" 
 							pack="center" align="center">
+							
 							<grid hflex="true" vflex="true">
 								<columns>
 									<column width="20%"></column>
@@ -181,6 +185,125 @@
 									</row>
 								</rows>
 							</grid>
+						</vbox>
+					</tabpanel>
+					
+					<tabpanel height="800px">
+						<vbox height="100%" hflex="true" style="margin:10px">
+							
+							<div style="border-bottom:solid 1px silver">
+								<label style="font-weight:bold;font-style:italic">PRE-CONSULTA</label>
+							</div>
+							<grid hflex="true">
+								<columns>
+									<column width="20%"></column>
+									<column></column>
+									<column width="20%"></column>
+									<column></column>
+								</columns>
+								<rows>
+									<row>
+										<label value="To Axilar-Rectal:" style="font-weight:bold"/>
+										<textbox hflex="true"></textbox>
+										<label value="PA (Presión Arterial):" style="font-weight:bold"/>
+										<textbox hflex="true"></textbox>
+									</row>
+									<row>
+										<label value="Pulso:" style="font-weight:bold"/>
+										<textbox hflex="true"></textbox>
+										<label value="FC (Frecuencia Cardiaca):" style="font-weight:bold"/>
+										<textbox hflex="true"></textbox>
+									</row>
+									<row>
+										<label value="FR (Frecuencia Respiratoria):" style="font-weight:bold"/>
+										<textbox hflex="true"></textbox>
+										<label value="Peso en Gramos:" style="font-weight:bold"/>
+										<textbox hflex="true"></textbox>
+									</row>
+									<row>
+										<label value="Talla:" style="font-weight:bold"/>
+										<textbox hflex="true"></textbox>
+										<label value="Perímetro Cefálico:" style="font-weight:bold"/>
+										<textbox hflex="true"></textbox>
+									</row>
+									<row>
+										<label value="IMC:" style="font-weight:bold"/>
+										<textbox hflex="true"></textbox>
+										<label value="Circunferencia Abdominal:" style="font-weight:bold"/>
+										<textbox hflex="true"></textbox>
+									</row>
+									<row>
+										<label value="Estado Nutricional:" style="font-weight:bold"/>
+										<combobox hflex="true">
+											<comboitem label="NT: No tiene desnutrición"></comboitem>
+											<comboitem label="RD: Riesgo de desnutrición"></comboitem>
+											<comboitem label="DM: Desnutrición moderada"></comboitem>
+											<comboitem label="DG: Desnutrición Grave"></comboitem>
+											<comboitem label="Obesidad"></comboitem>
+										</combobox>
+										<label value="Alimentación:" style="font-weight:bold"/>
+										<combobox hflex="true">
+											<comboitem label="LME: Lactancia Materna Exclusiva"></comboitem>
+											<comboitem label="LM: Lactancia Mixta"></comboitem>
+											<comboitem label="LA: Lactancia Artificial"></comboitem>
+										</combobox>
+									</row>
+								</rows>
+							</grid>
+							
+							<div height="5px"></div>
+							<div style="border-bottom:solid 1px silver">
+								<label style="font-weight:bold;font-style:italic">CONSULTA</label>
+							</div>
+							<grid hflex="true">
+								<columns>
+									<column width="20%"></column>
+									<column></column>
+								</columns>
+								<rows>
+									<row>
+										<label value="Fecha:" style="font-weight:bold"/>
+										<label>28-02-2018</label>
+									</row>
+									<row>
+										<label value="Motivo:" style="font-weight:bold"/>
+										<textbox hflex="true"></textbox>
+									</row>
+									<row>
+										<label value="Código CIE-10:" style="font-weight:bold"/>
+										<textbox hflex="true"></textbox>
+									</row>
+									<row>
+										<label value="Especialidad:" style="font-weight:bold"/>
+										<label>Clínica Médica</label>
+									</row>
+									<row>
+										<label value="Doctor Tratante:" style="font-weight:bold"/>
+										<label>Dr. Carlos Meza</label>
+									</row>
+									<row>
+										<label value="Estudios solicitados:" style="font-weight:bold"/>
+										<chosenbox hflex="true" model="@load(vm.tiposEstudios)">
+											<template name="model">
+												<label value="@load(each)"></label>
+											</template>
+										</chosenbox>
+									</row>
+									<row>
+										<label value="Medicamentos recetados:" style="font-weight:bold"/>
+										<textbox hflex="true"></textbox>
+									</row>
+									<row>
+										<label value="Observaciones:" style="font-weight:bold"/>
+										<textbox hflex="true"></textbox>
+									</row>
+								</rows>
+							</grid>
+							<div height="5px"></div>
+							<button label="Guardar"
+									sclass="btn-success btn-lg" hflex="true"
+									iconSclass="z-icon-check" dir="normal" 
+									onClick="@command('guardarConsulta')"/>
 						</vbox>
 					</tabpanel>
 					
@@ -249,5 +372,6 @@
 		.lbl-center {
 			text-align:center;
 		}	
+		.z-textbox { background:#EEF7FA }
 	</style>
 </zk>

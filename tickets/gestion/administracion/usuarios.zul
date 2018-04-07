@@ -9,7 +9,7 @@
 	<hbox id="h_user" height="600px" width="100%">
 		<listbox vflex="true" hflex="true" sclass="rounded">
 			<auxhead>
-				<auxheader label="Usuario" colspan="3"
+				<auxheader label="Usuario" colspan="5"
 					style="text-align:center">
 				</auxheader>
 			</auxhead>
@@ -17,6 +17,8 @@
 				<listheader label="Nombre y Apellido"></listheader>
 				<listheader label="Usuario"></listheader>
 				<listheader label="Password"></listheader>
+				<listheader label="Nro. Registro"></listheader>
+				<listheader label="Especialidad"></listheader>
 			</listhead>
 			<listitem>
 				<listcell label="Juan Perez"></listcell>
@@ -24,6 +26,8 @@
 				<listcell>
 					<textbox type="password" inplace="true" value="123456"></textbox>
 				</listcell>
+				<listcell></listcell>
+				<listcell></listcell>
 			</listitem>
 			<listitem>
 				<listcell label="Hector Lopez"></listcell>
@@ -31,6 +35,8 @@
 				<listcell>
 					<textbox type="password" inplace="true" value="123456"></textbox>
 				</listcell>
+				<listcell></listcell>
+				<listcell></listcell>
 			</listitem>
 			<listitem>
 				<listcell label="Daniel Arce"></listcell>
@@ -38,6 +44,8 @@
 				<listcell>
 					<textbox type="password" inplace="true" value="123456"></textbox>
 				</listcell>
+				<listcell></listcell>
+				<listcell></listcell>
 			</listitem>
 			<listfoot>
 				<listfooter label="ítems"></listfooter>
