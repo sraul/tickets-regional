@@ -1,0 +1,95 @@
+<window 
+	height="600px" width="100%">
+	
+	<hlayout sclass="button-container">
+		<button sclass="btn-sm btn-success" iconSclass="z-icon-plus"
+			label="Agregar" dir="normal" width="120px"
+			onClick='pop_add.open(self, "after_start")'></button>
+		<space></space>
+		<button sclass="btn-sm btn-primary" iconSclass="z-icon-edit"
+			label="Modificar" dir="normal" width="120px"></button>
+		<space></space>
+		<button sclass="btn-sm btn-danger" iconSclass="z-icon-plus"
+			label="Eliminar" dir="normal" width="120px"></button>
+	</hlayout>
+	
+	<listbox sclass="small-list" vflex="true"
+		emptyMessage="SIN AGENDAMIENTOS..">
+		<listhead style="text-align:center">
+			<listheader label="Fecha"></listheader>
+			<listheader label="Médico"></listheader>
+			<listheader label="Especialidad"></listheader>		
+			<listheader label="Paciente"></listheader>
+		</listhead>
+		<auxhead>
+			<auxheader>
+				<textbox sclass="filter" placeholder="Fecha.."
+					hflex="true"></textbox>
+			</auxheader>
+			<auxheader>
+				<textbox sclass="filter" placeholder="Médico.."
+					hflex="true"></textbox>
+			</auxheader>
+			<auxheader>
+				<textbox sclass="filter" placeholder="Especialidad.."
+					hflex="true"></textbox>
+			</auxheader>
+			<auxheader>
+				<textbox sclass="filter" placeholder="Paciente.."
+					hflex="true"></textbox>
+			</auxheader>
+		</auxhead>
+		<listfoot>
+			<listfooter label="ítems"></listfooter>
+		</listfoot>
+	</listbox>
+	
+	<popup id="pop_add" sclass="rounded" width="450px" height="270px"
+		style="padding:15px">
+		<div style="border-bottom:solid 1px silver;text-align:left">
+			<label style="font-weight:bold; font-style:italic; ">
+				DATOS DEL AGENDAMIENTO
+			</label>
+		</div>
+		<div height="5px"></div>
+		<grid>
+			<columns>
+				<column width="30%"></column>
+				<column></column>
+			</columns>
+			<rows>
+				<row>
+					<label value="Paciente:" style="font-weight:bold"></label>
+					<bandbox hflex="true" placeholder="Buscar Paciente.."></bandbox>
+				</row>
+				<row>
+					<label value="Médico:" style="font-weight:bold"></label>
+					<bandbox hflex="true" placeholder="Buscar Médico.."></bandbox>
+				</row>
+				<row>
+					<label value="Especialidad:" style="font-weight:bold"></label>
+					<textbox hflex="true" readonly="true"></textbox>
+				</row>
+				<row>
+					<label value="Fecha:" style="font-weight:bold"></label>
+					<datebox hflex="true"></datebox>
+				</row>
+				<row>
+					<label value="Turno:" style="font-weight:bold"></label>
+					<combobox hflex="true"></combobox>
+				</row>
+			</rows>
+		</grid>
+		<space></space>
+		<hbox width="100%">
+			<button sclass="btn-sm btn-success" iconSclass="z-icon-check" hflex="true"></button>
+		</hbox>		
+	</popup>
+	
+	<style>
+		.filter { background:#EEF7FA;
+		background-image:url('filter.png'); background-repeat:
+		no-repeat; background-position: 98%; background-size: 10px; }
+	</style>
+
+</window>

@@ -28,6 +28,7 @@
 					<tab label="Llamar Luego" width="200px"></tab>
 					<tab label="Historial de Consultas" width="200px"></tab>
 					<tab label="Detalle de Consulta" width="200px"></tab>
+					<tab label="Agendados" width="200px"></tab>
 					<tab id="tab_reg" label="Registro de Consulta" width="200px" visible="false"></tab>
 				</tabs>
 				<tabpanels>
@@ -188,6 +189,29 @@
 						</vbox>
 					</tabpanel>
 					
+					<tabpanel>
+						<listbox vflex="true"
+							emptyMessage="SIN AGENDAMIENTOS.." height="360px">
+							<listhead style="text-align:center">
+								<listheader label="Orden" width="100px"></listheader>
+								<listheader label="Paciente"></listheader>
+							</listhead>
+							<listfoot>
+								<listfooter label="ítems"></listfooter>
+							</listfoot>
+						</listbox>
+						<div height="5px"></div>
+							<hbox width="100%" align="center"
+								pack="center">
+
+								<button label="Agregar"
+									sclass="btn-success btn-lg" hflex="true"
+									iconSclass="z-icon-plus" dir="normal" 
+									onClick="tab_reg.setVisible(true); tab_reg.setSelected(true)"/>
+
+							</hbox>
+					</tabpanel>
+
 					<tabpanel height="800px">
 						<vbox height="100%" hflex="true" style="margin:10px">
 							

@@ -19,6 +19,7 @@
 
 	<nav label="Administración" iconSclass="z-icon-cogs">
 		<zk forEach="${vm.menuItem(self,'Administracion')}" />
+		<zk forEach="${vm.menuItem(self,'Agendamiento')}" />
 		<zk forEach="${vm.menuItem(self,'Usuarios')}" />
 	</nav>
 
