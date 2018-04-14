@@ -40,7 +40,9 @@ import com.coreweb.util.MyPair;
 import com.tickets.Configuracion;
 import com.tickets.UtilDTO;
 import com.tickets.control.cola.ControlCola;
+import com.tickets.domain.Localidad;
 import com.tickets.domain.Operador;
+import com.tickets.domain.Pais;
 import com.tickets.domain.Puesto;
 import com.tickets.domain.RegisterDomain;
 import com.tickets.gestion.administracion.OperadorAssembler;
@@ -74,6 +76,10 @@ public class AtencionViewModel extends SimpleViewModel {
 	private MyPair selectedTareaFds;
 	private String observacion = "";
 	private MyArray selectedServicioDerivado;
+	
+	private String filterCodigo = "";
+	private String filterDpto = "";
+	private String filterDistrito = "";
 
 	@Init(superclass = true)
 	public void init() {
@@ -969,10 +975,10 @@ public class AtencionViewModel extends SimpleViewModel {
 				EventQueues.APPLICATION, true).subscribe(nuevoCliente);
 	}
 	
-	/*****************************************************************/
-	
 
-	/**************************** GET/SET ****************************/
+	/**
+	 * GETS / SETS
+	 */
 	
 	@DependsOn("turnos")
 	public List<TurnoDTO> getTurnosPrincipal() {
@@ -994,6 +1000,20 @@ public class AtencionViewModel extends SimpleViewModel {
 			}
 		}
 		return out;
+	}
+	
+	@DependsOn({ "filterCodigo", "filterDpto", "filterDistrito" })
+	public List<Localidad> getLocalidades() throws Exception {
+		RegisterDomain rr = RegisterDomain.getInstance();
+		return rr.getLocalidades(this.filterCodigo, this.filterDpto, this.filterDistrito);
+	}
+	
+	/**
+	 * @return los paises
+	 */
+	public List<Pais> getPaises() throws Exception {
+		RegisterDomain rr = RegisterDomain.getInstance();
+		return rr.getPaises("", "");
 	}
 	
 	private UtilDTO getUtil() {
@@ -1205,6 +1225,30 @@ public class AtencionViewModel extends SimpleViewModel {
 
 	public void setSelectedFDS(MyPair selectedFDS) {
 		this.selectedFDS = selectedFDS;
+	}
+
+	public String getFilterCodigo() {
+		return filterCodigo;
+	}
+
+	public void setFilterCodigo(String filterCodigo) {
+		this.filterCodigo = filterCodigo;
+	}
+
+	public String getFilterDpto() {
+		return filterDpto;
+	}
+
+	public void setFilterDpto(String filterDpto) {
+		this.filterDpto = filterDpto;
+	}
+
+	public String getFilterDistrito() {
+		return filterDistrito;
+	}
+
+	public void setFilterDistrito(String filterDistrito) {
+		this.filterDistrito = filterDistrito;
 	}
 
 }

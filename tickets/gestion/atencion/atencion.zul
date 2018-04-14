@@ -126,7 +126,14 @@
 										</row>
 										<row>
 											<label value="Nacionalidad:" style="font-weight:bold"/>
-											<combobox hflex="true"></combobox>
+											<hlayout hflex="true">
+												<combobox model="@load(vm.paises)">
+													<template name="model">
+														<comboitem label="@load(each.nacionalidad)"></comboitem>
+													</template>
+												</combobox>
+												<textbox hflex="true" placeholder="Especificar.."></textbox>
+											</hlayout>
 											<label value="Etnia:" style="font-weight:bold"/>
 											<hlayout hflex="true">
 												<combobox>
@@ -140,8 +147,40 @@
 										</row>
 										<row>											
 											<label value="Lugar de Residencia Habitual:" style="font-weight:bold"/>
-											<bandbox hflex="true"></bandbox>
-											<label value="Referencia:" style="font-weight:bold"/>
+											<bandbox hflex="true">
+												<bandpopup>
+													<listbox sclass="small-list" width="600px" height="300px"
+														model="@load(vm.localidades)">
+														<listhead>
+															<listheader label="Cód.Dpto" width="80px"></listheader>
+															<listheader label="Departamento"></listheader>
+															<listheader label="Distrito"></listheader>
+														</listhead>
+														<auxhead>
+															<auxheader>
+																<textbox hflex="true" placeholder="Cód.Dpto.."
+																	value="@bind(vm.filterCodigo)" instant="true"></textbox>
+															</auxheader>
+															<auxheader>
+																<textbox hflex="true" placeholder="Departamento"
+																	value="@bind(vm.filterDpto)" instant="true"></textbox>
+															</auxheader>
+															<auxheader>
+																<textbox hflex="true" placeholder="Distrito"
+																	value="@bind(vm.filterDistrito)" instant="true"></textbox>
+															</auxheader>
+														</auxhead>
+														<template name="model">
+															<listitem>
+																<listcell label="@load(each.codigoDpto)"></listcell>
+																<listcell label="@load(each.departamento)"></listcell>
+																<listcell label="@load(each.distrito)"></listcell>
+															</listitem>
+														</template>
+													</listbox>
+												</bandpopup>
+											</bandbox>
+											<label value="Dirección:" style="font-weight:bold"/>
 											<textbox hflex="true"></textbox>
 										</row>
 										<row>

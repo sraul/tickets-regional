@@ -29,6 +29,8 @@
 		<mapping resource="com/tickets/domain/Cliente.hbm.xml"/>
 		<mapping resource="com/tickets/domain/Tarea.hbm.xml"/>
 		<mapping resource="com/tickets/domain/Puesto.hbm.xml"/>
+		<mapping resource="com/tickets/domain/Localidad.hbm.xml"/>
+		<mapping resource="com/tickets/domain/Pais.hbm.xml"/>
 		
 		<mapping resource="com/tickets/domain/AccesoApp.hbm.xml"/>	
 		<mapping resource="com/tickets/domain/RucSet.hbm.xml"/>	

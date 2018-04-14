@@ -410,6 +410,25 @@ public class RegisterDomain extends Register {
 		return this.hql(query, params);
 	}
 	
+	/**
+	 * @return las localidades..
+	 */
+	public List<Localidad> getLocalidades(String codDpto, String dpto, String distrito) throws Exception {
+		String query = "select l from Localidad l where upper(l.codigoDpto) like '%" + codDpto.toUpperCase() + "%' "
+				+ " and upper(l.departamento) like '%" + dpto.toUpperCase() + "%'"
+				+ " and upper(l.distrito) like '%" + distrito.toUpperCase() + "%'";
+		return this.hql(query);
+	}
+	
+	/**
+	 * @return los paises..
+	 */
+	public List<Pais> getPaises(String descripcion, String nacionalidad) throws Exception {
+		String query = "select p from Pais p where upper(p.descripcion) like '%" + descripcion.toUpperCase() + "%' "
+				+ " and upper(p.nacionalidad) like '%" + nacionalidad.toUpperCase() + "%' order by p.descripcion";
+		return this.hql(query);
+	}
+	
 	public static void main(String[] args) {
 		RegisterDomain rr = RegisterDomain.getInstance();
 		try {
