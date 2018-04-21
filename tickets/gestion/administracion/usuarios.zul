@@ -1,4 +1,6 @@
-<window height="100%" width="100%">
+<window height="100%" width="100%"
+	viewModel="@id('vm') @init('com.tickets.gestion.administracion.usuarios.UsuariosViewModel')"
+	apply="org.zkoss.bind.BindComposer">
 	
 	<navbar mold="bs-tabs" class="nav-justified">
 		<navitem id="nav_1" label="Usuarios" selected="true" onClick="h_user.setVisible(true); h_rol.setVisible(false); h_oper.setVisible(false)"/>
@@ -6,8 +8,12 @@
 		<navitem label="Operaciones" onClick="h_user.setVisible(false); h_rol.setVisible(false); h_oper.setVisible(true)" />
 	</navbar>
 	
-	<hbox id="h_user" height="600px" width="100%">
-		<listbox vflex="true" hflex="true" sclass="rounded">
+	
+	<!-- USUARIOS -->
+	<vbox id="h_user" height="100%" width="100%">
+	<hbox height="600px" width="100%">
+		<listbox id="list_user" vflex="true" hflex="true" sclass="rounded"
+			model="@load(vm.usuarios)">
 			<auxhead>
 				<auxheader label="Usuario" colspan="5"
 					style="text-align:center">
@@ -20,33 +26,17 @@
 				<listheader label="Nro. Registro"></listheader>
 				<listheader label="Especialidad"></listheader>
 			</listhead>
-			<listitem>
-				<listcell label="Juan Perez"></listcell>
-				<listcell label="jperez"></listcell>
-				<listcell>
-					<textbox type="password" inplace="true" value="123456"></textbox>
-				</listcell>
-				<listcell></listcell>
-				<listcell></listcell>
-			</listitem>
-			<listitem>
-				<listcell label="Hector Lopez"></listcell>
-				<listcell label="hlopez"></listcell>
-				<listcell>
-					<textbox type="password" inplace="true" value="123456"></textbox>
-				</listcell>
-				<listcell></listcell>
-				<listcell></listcell>
-			</listitem>
-			<listitem>
-				<listcell label="Daniel Arce"></listcell>
-				<listcell label="darce"></listcell>
-				<listcell>
-					<textbox type="password" inplace="true" value="123456"></textbox>
-				</listcell>
-				<listcell></listcell>
-				<listcell></listcell>
-			</listitem>
+			<template name="model">
+				<listitem>
+					<listcell label="@load(each.nombre)"></listcell>
+					<listcell label="@load(each.login)"></listcell>
+					<listcell>
+						<textbox value="@load(each.clave)" type="password" inplace="true"></textbox>
+					</listcell>
+					<listcell></listcell>
+					<listcell></listcell>
+				</listitem>
+			</template>
 			<listfoot>
 				<listfooter label="ítems"></listfooter>
 			</listfoot>
@@ -91,135 +81,10 @@
 		</listbox>
 	</hbox>
 	
-	
-	<hbox id="h_rol" height="600px" width="100%" visible="false">
-		<listbox vflex="true" hflex="true" sclass="rounded">
-			<auxhead>
-				<auxheader label="Rol" colspan="1"
-					style="text-align:center">
-				</auxheader>
-			</auxhead>
-			<listhead style="text-align:center">
-				<listheader label="Descripción"></listheader>
-			</listhead>
-			<listitem>
-				<listcell label="Administrador"></listcell>
-			</listitem>
-			<listitem>
-				<listcell label="Admisionista"></listcell>
-			</listitem>
-			<listitem>
-				<listcell label="Médico"></listcell>
-			</listitem>
-			<listitem>
-				<listcell label="Consulta"></listcell>
-			</listitem>
-			<listfoot>
-				<listfooter label="ítems"></listfooter>
-			</listfoot>
-		</listbox>
-		<listbox vflex="true" hflex="true" sclass="rounded">
-			<auxhead>
-				<auxheader label="Operaciones Asignadas" colspan="2"
-					style="text-align:center">
-				</auxheader>
-			</auxhead>
-			<listhead style="text-align:center">
-				<listheader label="Descripción"></listheader>
-				<listheader label="" width="80px" align="center"></listheader>
-			</listhead>
-			<listitem>
-				<listcell label="Consulta Solicitud Servicio"></listcell>
-				<listcell>
-					<checkbox></checkbox>
-				</listcell>
-			</listitem>
-			<listitem>
-				<listcell label="Consulta Visor de Turnos"></listcell>
-				<listcell>
-					<checkbox></checkbox>
-				</listcell>
-			</listitem>
-			<listitem>
-				<listcell label="Consulta Atencion Turnos"></listcell>
-				<listcell>
-					<checkbox></checkbox>
-				</listcell>
-			</listitem>
-			<listitem>
-				<listcell label="Consulta Reportes"></listcell>
-				<listcell>
-					<checkbox></checkbox>
-				</listcell>
-			</listitem>
-			<listitem>
-				<listcell label="Consulta Topes de Turnos"></listcell>
-				<listcell>
-					<checkbox></checkbox>
-				</listcell>
-			</listitem>
-			<listitem>
-				<listcell label="Consulta Usuarios"></listcell>
-				<listcell>
-					<checkbox></checkbox>
-				</listcell>
-			</listitem>
-			<listitem>
-				<listcell label="Consulta Médicos"></listcell>
-				<listcell>
-					<checkbox></checkbox>
-				</listcell>
-			</listitem>
-			<listitem>
-				<listcell label="Consulta Historial Médico"></listcell>
-				<listcell>
-					<checkbox></checkbox>
-				</listcell>
-			</listitem>
-			<listfoot>
-				<listfooter label="ítems"></listfooter>
-			</listfoot>
-		</listbox>
-	</hbox>
-	
-	<hbox id="h_oper" height="600px" width="100%" visible="false">
-		<listbox vflex="true" hflex="true" sclass="rounded">
-			<listhead style="text-align:center">
-				<listheader label="Descripción"></listheader>
-			</listhead>
-			<listitem>
-				<listcell label="Consulta Solicitud Servicio"></listcell>
-			</listitem>
-			<listitem>
-				<listcell label="Consulta Visor de Turnos"></listcell>
-			</listitem>
-			<listitem>
-				<listcell label="Consulta Atencion Turnos"></listcell>
-			</listitem>
-			<listitem>
-				<listcell label="Consulta Reportes"></listcell>
-			</listitem>
-			<listitem>
-				<listcell label="Consulta Topes de Turnos"></listcell>
-			</listitem>
-			<listitem>
-				<listcell label="Consulta Usuarios"></listcell>
-			</listitem>
-			<listitem>
-				<listcell label="Consulta Médicos"></listcell>
-			</listitem>
-			<listitem>
-				<listcell label="Consulta Historial Médico"></listcell>
-			</listitem>
-			<listfoot>
-				<listfooter label="ítems"></listfooter>
-			</listfoot>
-		</listbox>
-	</hbox>
-	
 	<hbox sclass="button-container" align="center" pack="center" width="100%">
 		<button label="Agregar" sclass="btn-primary btn-lg"
-			iconSclass="z-icon-plus" dir="normal" width="200px">
+			iconSclass="z-icon-plus" dir="normal" width="200px"
+			onClick='pop_add.open(list_user, "overlap")'>
 		</button>
 		<space></space>
 		<button label="Modificar" sclass="btn-info btn-lg"
@@ -230,5 +95,241 @@
 			iconSclass="z-icon-times" dir="normal" width="200px">
 		</button>
 	</hbox>
+	</vbox>
+	
+	
+	<!-- ROLES -->
+	
+	<vbox id="h_rol" vflex="true" visible="false">
+	<hbox height="600px" width="100%">
+		<listbox id="list_rol" vflex="true" hflex="true" sclass="rounded"
+			model="@load(vm.roles)" selectedItem="@bind(vm.selected_rol)">
+			<auxhead>
+				<auxheader label="Rol" colspan="1"
+					style="text-align:center">
+				</auxheader>
+			</auxhead>
+			<listhead style="text-align:center">
+				<listheader label="Descripción"></listheader>
+			</listhead>
+			<template name="model">
+				<listitem label="@load(each.nombre.toUpperCase())"></listitem>
+			</template>
+			<listfoot>
+				<listfooter label="ítems"></listfooter>
+			</listfoot>
+		</listbox>
+		<listbox vflex="true" hflex="true" sclass="rounded"
+			model="@load(vm.selected_rol.permisos)"
+			emptyMessage="SELECCIONE UN ROL..">
+			<auxhead>
+				<auxheader label="Operaciones Asignadas"
+					style="text-align:center">
+				</auxheader>
+			</auxhead>
+			<listhead style="text-align:center">
+				<listheader label="Descripción"></listheader>
+			</listhead>
+			<template name="model">
+				<listitem label="@load(each.operacion.descripcion.toUpperCase())"></listitem>
+			</template>
+			<listfoot>
+				<listfooter label="ítems"></listfooter>
+			</listfoot>
+		</listbox>
+	</hbox>
+	
+	<hbox sclass="button-container" align="center" pack="center" width="100%">
+		<button label="Agregar" sclass="btn-primary btn-lg"
+			iconSclass="z-icon-plus" dir="normal" width="200px"
+			onClick='pop_add_rol.open(list_rol, "overlap")'>
+		</button>
+		<space></space>
+		<button label="Modificar" sclass="btn-info btn-lg"
+			iconSclass="z-icon-edit" dir="normal" width="200px"
+			onClick='pop_edit_rol.open(list_rol, "overlap")'
+			disabled="@load(vm.selected_rol eq null? 'true' : 'false')">
+		</button>
+		<space></space>
+		<button label="Eliminar" sclass="btn-warning btn-lg"
+			iconSclass="z-icon-times" dir="normal" width="200px"
+			disabled="@load(vm.selected_rol eq null? 'true' : 'false')"
+			onClick="@command('deleteRol')">
+		</button>
+	</hbox>
+	</vbox>
+	
+	<!-- OPERACIONES -->
+	
+	<hbox id="h_oper" height="600px" width="100%" visible="false">
+		<listbox height="600px" hflex="true" sclass="rounded"
+			model="@load(vm.operaciones)">
+			<listhead style="text-align:center">
+				<listheader label="Descripción"></listheader>
+			</listhead>
+			<template name="model">
+				<listitem label="@load(each.descripcion.toUpperCase())"></listitem>
+			</template>
+			<listfoot>
+				<listfooter label="ítems"></listfooter>
+			</listfoot>
+		</listbox>
+	</hbox>
+	
+		
+	<popup id="pop_add" sclass="rounded" style="padding: 15px">
+		<hlayout width="100%" valign="bottom">
+		<div style="border-bottom:solid 1px silver;text-align:left" hflex="true">
+			<label style="font-weight:bold;">
+				REGISTRO DE USUARIO..
+			</label>
+		</div>
+		<button mold="trendy" iconSclass="z-icon-times"></button>
+		</hlayout>
+		<div height="10px"/>
+		<grid width="600px">
+			<columns>
+				<column width="30%"></column>
+				<column></column>
+			</columns>
+			<rows>
+				<row>
+					<label style="font-weight:bold">Nombre:</label>
+					<textbox hflex="true" placeholder="Nombre del Usuario.." style="background:#EEF7FA"
+						value="@bind(vm.nvo_usuario.nombre)"></textbox>
+				</row>
+				<row>
+					<label style="font-weight:bold">Usuario:</label>
+					<textbox hflex="true" placeholder="Login del Usuario.." style="background:#EEF7FA"
+						value="@bind(vm.nvo_usuario.login)"></textbox>
+				</row>
+				<row>
+					<label style="font-weight:bold">Nro. Registro:</label>
+					<textbox hflex="true" placeholder="Nro. registro del médico.." style="background:#EEF7FA"
+						value="@bind(vm.nvo_usuario.auxi)"></textbox>
+				</row>
+				<row>
+					<label style="font-weight:bold">Especialidad:</label>
+					<combobox hflex="true" placeholder="Especialidad.." style="background:#EEF7FA"
+						selectedItem="@bind(vm.nvo_usuario.orden)" instant="true"
+						model="@load(vm.especialidades)">
+						<template name="model">
+							<comboitem label="@load(each)"></comboitem>
+						</template>
+					</combobox>
+				</row>
+				<row>
+					<label style="font-weight:bold">Password:</label>
+					<hlayout>
+						<textbox hflex="true" placeholder="Password.." style="background:#EEF7FA"
+							value="@bind(vm.nvo_usuario.clave)" type="password"></textbox>
+						<textbox hflex="true" placeholder="Confirmar Password.." style="background:#EEF7FA"
+							value="@bind(vm.confirmarPassword)" type="password"></textbox>
+					</hlayout>
+				</row>
+			</rows>
+		</grid>	
+		<div height="10px"/>
+		<button label="Guardar" iconSclass="z-icon-check" width="600px" sclass="btn-sm btn-primary" dir="normal"
+			onClick="@command('guardar', popup=pop_add)"></button>
+	</popup>
+	
+	<popup id="pop_add_rol" sclass="rounded" style="padding: 15px">
+		<hlayout width="100%" valign="bottom">
+		<div style="border-bottom:solid 1px silver;text-align:left" hflex="true">
+			<label style="font-weight:bold;">
+				REGISTRO DE ROL..
+			</label>
+		</div>
+		<button mold="trendy" iconSclass="z-icon-times"></button>
+		</hlayout>
+		<div height="10px"/>
+		<grid width="600px">
+			<columns>
+				<column width="30%"></column>
+				<column></column>
+			</columns>
+			<rows>
+				<row>
+					<label style="font-weight:bold">Descripcion:</label>
+					<textbox hflex="true" placeholder="Descripcion del Rol.." style="background:#EEF7FA"
+						value="@bind(vm.nvo_rol.nombre)"></textbox>
+				</row>
+			</rows>
+		</grid>	
+		<div height="5px"/>
+		<listbox sclass="small-list" height="300px" width="600px"
+			model="@load(vm.nvo_rol.permisos)">
+			<listhead>
+				<listheader>
+					<hlayout>
+						<combobox hflex="true" placeholder="Operación.."
+							model="@load(vm.operaciones)"
+							selectedItem="@bind(vm.selectedOperacion)">
+							<template name="model">
+								<comboitem label="@load(each.descripcion.toUpperCase())"></comboitem>
+							</template>	
+						</combobox>
+						<button iconSclass="z-icon-plus" mold="trendy" onClick="@command('asignarOperacion')"/>
+					</hlayout>
+				</listheader>
+			</listhead>
+			<template name="model">
+				<listitem label="@load(each.operacion.descripcion.toUpperCase())"></listitem>
+			</template>
+		</listbox>
+		<div height="10px"/>
+		<button label="Guardar" iconSclass="z-icon-check" width="600px" sclass="btn-sm btn-primary" dir="normal" 
+			onClick="@command('guardarRol', popup = pop_add_rol)"></button>
+	</popup>
+	
+	<popup id="pop_edit_rol" sclass="rounded" style="padding: 15px">
+		<hlayout width="100%" valign="bottom">
+		<div style="border-bottom:solid 1px silver;text-align:left" hflex="true">
+			<label style="font-weight:bold;">
+				REGISTRO DE ROL..
+			</label>
+		</div>
+		<button mold="trendy" iconSclass="z-icon-times"></button>
+		</hlayout>
+		<div height="10px"/>
+		<grid width="600px">
+			<columns>
+				<column width="30%"></column>
+				<column></column>
+			</columns>
+			<rows>
+				<row>
+					<label style="font-weight:bold">Descripcion:</label>
+					<textbox hflex="true" placeholder="Descripcion del Rol.." style="background:#EEF7FA"
+						value="@bind(vm.selected_rol.nombre)"></textbox>
+				</row>
+			</rows>
+		</grid>	
+		<div height="5px"/>
+		<listbox sclass="small-list" height="300px" width="600px"
+			model="@load(vm.selected_rol.permisos)">
+			<listhead>
+				<listheader>
+					<hlayout>
+						<combobox hflex="true" placeholder="Operación.."
+							model="@load(vm.operaciones)"
+							selectedItem="@bind(vm.selectedOperacion)">
+							<template name="model">
+								<comboitem label="@load(each.descripcion.toUpperCase())"></comboitem>
+							</template>	
+						</combobox>
+						<button iconSclass="z-icon-plus" mold="trendy" onClick="@command('asignarOperacion_')"/>
+					</hlayout>
+				</listheader>
+			</listhead>
+			<template name="model">
+				<listitem label="@load(each.operacion.descripcion.toUpperCase())"></listitem>
+			</template>
+		</listbox>
+		<div height="10px"/>
+		<button label="Guardar" iconSclass="z-icon-check" width="600px" sclass="btn-sm btn-primary" dir="normal" 
+			onClick="@command('guardarRol_', popup = pop_add_rol)"></button>
+	</popup>
 	
 </window>

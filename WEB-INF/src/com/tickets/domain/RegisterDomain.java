@@ -7,6 +7,7 @@ import java.util.Random;
 
 import com.coreweb.domain.Register;
 import com.coreweb.domain.Tipo;
+import com.coreweb.domain.Usuario;
 import com.coreweb.util.Misc;
 import com.coreweb.util.MyPair;
 import com.tickets.Configuracion;
@@ -426,6 +427,30 @@ public class RegisterDomain extends Register {
 	public List<Pais> getPaises(String descripcion, String nacionalidad) throws Exception {
 		String query = "select p from Pais p where upper(p.descripcion) like '%" + descripcion.toUpperCase() + "%' "
 				+ " and upper(p.nacionalidad) like '%" + nacionalidad.toUpperCase() + "%' order by p.descripcion";
+		return this.hql(query);
+	}
+	
+	/**
+	 * @return usuarios segun login..
+	 */
+	public List<Usuario> getUsuarios(String login) throws Exception {
+		String query = "select u from Usuario u where upper(u.login) = '" + login.toUpperCase() + "' ";
+		return this.hql(query);
+	}
+	
+	/**
+	 * @return los topes..
+	 */
+	public List<Tope> getTopes() throws Exception {
+		String query = "select t from Tope t order by t.servicio";
+		return this.hql(query);
+	}
+	
+	/**
+	 * @return usuarios segun rol..
+	 */
+	public List<Usuario> getUsuarios(long idRol) throws Exception {
+		String query = "select u from Usuario u join u.perfiles p where p.id = " + idRol;
 		return this.hql(query);
 	}
 	
