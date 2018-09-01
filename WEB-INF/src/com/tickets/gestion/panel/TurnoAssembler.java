@@ -69,7 +69,7 @@ public class TurnoAssembler extends Assembler {
 			clMa.setId(cl.getId());
 		}
 		
-		this.myArrayToDomain(dto, domain, "cliente", false);
+		this.myArrayToDomain(dto, domain, "cliente");
 
 		this.myArrayToDomain(dto, domain, "servicio");
 

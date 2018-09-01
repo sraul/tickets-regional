@@ -12,7 +12,7 @@
 		<property name="connection.url">jdbc:postgresql://localhost:5432/turnosdb</property>
 
 		<property name="connection.username">postgres</property>
-		<property name="connection.password">postgres</property>
+		<property name="connection.password">yrsa0985</property>
 
 		<!-- Fin Postgres -->
 
@@ -31,6 +31,7 @@
 		<mapping resource="com/tickets/domain/Puesto.hbm.xml"/>
 		<mapping resource="com/tickets/domain/Localidad.hbm.xml"/>
 		<mapping resource="com/tickets/domain/Pais.hbm.xml"/>
+		<mapping resource="com/tickets/domain/Consulta.hbm.xml"/>
 		
 		<mapping resource="com/tickets/domain/AccesoApp.hbm.xml"/>	
 		<mapping resource="com/tickets/domain/RucSet.hbm.xml"/>	
