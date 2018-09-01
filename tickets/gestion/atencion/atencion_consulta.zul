@@ -11,58 +11,56 @@
 			<hlayout hflex="true">
 				<space></space>
 				<label value="MÉDICO:" style="font-weight:bold" />
-				<label value="Juan Perez" />
+				<label value="@load(vm.selectedOperador.nombre)" />
 			</hlayout>
-			<space />
-			<hlayout hflex="true">
-				<label value="ESPECIALIDAD:" style="font-weight:bold" />
-				<label value="Clínica Médica" />
-			</hlayout>
-			<space />
 		</hlayout>
 		
 		<div vflex="true" id="dvlayout">
 			<tabbox>
 				<tabs>
-					<tab label="Principal" width="200px"></tab>
-					<tab label="Llamar Luego" width="200px"></tab>
-					<tab label="Historial de Consultas" width="200px"></tab>
-					<tab label="Detalle de Consulta" width="200px"></tab>
-					<tab label="Agendados" width="200px"></tab>
+					<tab id="tab_prin" label="Principal" width="200px"></tab>
+					<tab id="tab_his" label="Historial de Consultas" width="200px" visible="false"></tab>
 					<tab id="tab_reg" label="Registro de Consulta" width="200px" visible="false"></tab>
 				</tabs>
 				<tabpanels>
 					<tabpanel height="800px">
 						<vbox vflex="true" hflex="true" id="layout">
 							<listbox height="360px" sclass="rounded"
-								emptyMessage="SIN TICKETS PENDIENTES...">
+								model="@load(vm.turnosPrincipal)" selectedItem="@bind(vm.selectedTurno)"
+								emptyMessage="SIN TICKETS PENDIENTES..."
+								visible="@load(!vm.estadoAtendiendo)" checkmark="true"
+								onSelect="@command('selectTurno')">
 								<custom-attributes
 									org.zkoss.zul.listbox.autoSort="true" />
 								<listhead>
+									<listheader width="50px"
+										align="center">
+									</listheader>
 									<listheader label=" Ticket"
 										style="text-align:center" iconSclass="z-icon-ticket"
-										onCreate="self.sort(true);" align="center"/>
+										sort="auto(numero_)" onCreate="self.sort(true);" width="200px" />
 									<listheader label=" Paciente"
-										style="text-align:center" iconSclass="z-icon-tag" />
+										style="text-align:center" iconSclass="z-icon-user" />
 								</listhead>
-								<listitem>
-									<listcell label="A50" style="font-weight:bold"></listcell>
-									<listcell label="Oscar Galeano"></listcell>
-								</listitem>
-								<listitem>
-									<listcell label="A51" style="font-weight:bold"></listcell>
-									<listcell label="Pedro Bareiro"></listcell>
-								</listitem>
-								<listitem>
-									<listcell label="A52" style="font-weight:bold"></listcell>
-									<listcell label="Jose Vazquez"></listcell>
-								</listitem>
-								<listitem>
-									<listcell label="A53" style="font-weight:bold"></listcell>
-									<listcell label="Oscar Baranda"></listcell>
-								</listitem>
+								<template name="model">
+									<listitem>
+										<listcell></listcell>
+										<listcell sclass="celda"
+											label="@load(each.numero)"
+											style="font-weight:bold;font-size:18pt;text-align:center" />
+										<listcell sclass="celda"
+											label="@load(each.cliente.pos1.toString().toUpperCase())"
+											style="font-weight:bold" />
+									</listitem>
+								</template>
 								<listfoot>
-									<listfooter label="ítems" align="left">
+									<listfooter>
+										<hlayout>
+											<label value="Total:"
+												style="font-weight:bold" />
+											<label
+												value="@load(vm.turnos.size())" />
+										</hlayout>
 									</listfooter>
 								</listfoot>
 							</listbox>
@@ -78,29 +76,18 @@
 
 								<button label="Atender"
 									sclass="btn-success btn-lg" hflex="true"
-									iconSclass="z-icon-thumbs-up" dir="normal" />
-
-								<space />
-
-								<button label="Llamar Luego"
-									sclass="btn-danger btn-lg" hflex="true"
-									iconSclass="z-icon-bullhorn" dir="normal" />
-
-								<space></space>
-
-								<button label="Finalizar"
-									sclass="btn-warning btn-lg" hflex="true" dir="normal"
-									iconSclass="z-icon-check" />
+									iconSclass="z-icon-thumbs-up" dir="normal" 
+									onClick="tab_his.setVisible(true); tab_his.setSelected(true)" />
 
 							</hbox>
 						</vbox>
 					</tabpanel>
-					<tabpanel></tabpanel>
 					<tabpanel>
 						<vbox vflex="true" hflex="true" 
 							pack="center" align="center">
 							<listbox height="360px" sclass="rounded"
-								emptyMessage="SIN CONSULTAS...">
+								emptyMessage="SIN CONSULTAS..."
+								model="@load(vm.consultas)">
 								<custom-attributes
 									org.zkoss.zul.listbox.autoSort="true" />
 								<listhead>
@@ -111,27 +98,19 @@
 										style="text-align:center" iconSclass="z-icon-tag" />
 									<listheader label=" Motivo"
 										style="text-align:center" iconSclass="z-icon-tag" />
+									<listheader width="100px" align="center"></listheader>
 								</listhead>
-								<listitem>
-									<listcell label="23-02-2018" style="font-weight:bold"></listcell>
-									<listcell label="Clínica Médica"></listcell>
-									<listcell label="Dolor de Cabeza"></listcell>
+								<template name="model">
+									<listitem>
+										<listcell label="@load(each.fecha)"></listcell>
+										<listcell label="@load(each.especialidad)"></listcell>
+										<listcell label="@load(each.motivo)"></listcell>
+										<listcell>
+											<button sclass="btn-primary btn-sm" label="DETALLE" hflex="true"
+												onClick="@command('verDetalle', item=each, comp=pop_detalle, parent=self)"></button>
+										</listcell>
 								</listitem>
-								<listitem>
-									<listcell label="23-01-2018" style="font-weight:bold"></listcell>
-									<listcell label="Cardiología"></listcell>
-									<listcell label="HTA"></listcell>
-								</listitem>
-								<listitem>
-									<listcell label="15-01-2018" style="font-weight:bold"></listcell>
-									<listcell label="Neumologia"></listcell>
-									<listcell label="Afeccion pulmonar"></listcell>
-								</listitem>
-								<listitem>
-									<listcell label="11-01-2018" style="font-weight:bold"></listcell>
-									<listcell label="Traumatología"></listcell>
-									<listcell label="Dolor muscular"></listcell>
-								</listitem>
+								</template>
 								<listfoot>
 									<listfooter label="ítems" align="left">
 									</listfooter>
@@ -148,68 +127,6 @@
 
 							</hbox>
 						</vbox>
-					</tabpanel>
-					
-					<tabpanel>
-						<vbox vflex="true" hflex="true" 
-							pack="center" align="center">
-							
-							<grid hflex="true" vflex="true">
-								<columns>
-									<column width="20%"></column>
-									<column></column>
-								</columns>
-								<rows>
-									<row>
-										<label value="Fecha:" style="font-weight:bold"/>
-										<label>28-02-2018</label>
-									</row>
-									<row>
-										<label value="Motivo:" style="font-weight:bold"/>
-										<label>Dolor de cabeza</label>
-									</row>
-									<row>
-										<label value="Especialidad:" style="font-weight:bold"/>
-										<label>Clínica Médica</label>
-									</row>
-									<row>
-										<label value="Doctor Tratante:" style="font-weight:bold"/>
-										<label>Dr. Carlos Meza</label>
-									</row>
-									<row>
-										<label value="Estudios solicitados:" style="font-weight:bold"/>
-										<label>Analisis de Sangre</label>
-									</row>
-									<row>
-										<label value="Medicamentos recetados:" style="font-weight:bold"/>
-										<label>Paracetamol de 500 gr</label>
-									</row>
-								</rows>
-							</grid>
-						</vbox>
-					</tabpanel>
-					
-					<tabpanel>
-						<listbox vflex="true"
-							emptyMessage="SIN AGENDAMIENTOS.." height="360px">
-							<listhead style="text-align:center">
-								<listheader label="Orden" width="100px"></listheader>
-								<listheader label="Paciente"></listheader>
-							</listhead>
-							<listfoot>
-								<listfooter label="ítems"></listfooter>
-							</listfoot>
-						</listbox>
-						<div height="5px"></div>
-							<hbox width="100%" align="center"
-								pack="center">
-
-								<button label="Agregar"
-									sclass="btn-success btn-lg" hflex="true"
-									iconSclass="z-icon-plus" dir="normal" 
-									onClick="tab_reg.setVisible(true); tab_reg.setSelected(true)"/>
-
-							</hbox>
 					</tabpanel>
 
 					<tabpanel height="800px">
@@ -228,48 +145,48 @@
 								<rows>
 									<row>
 										<label value="To Axilar-Rectal:" style="font-weight:bold"/>
-										<textbox hflex="true"></textbox>
+										<textbox value="@bind(vm.consulta.axilarRectal)" hflex="true"></textbox>
 										<label value="PA (Presión Arterial):" style="font-weight:bold"/>
-										<textbox hflex="true"></textbox>
+										<textbox value="@bind(vm.consulta.presionArterial)" hflex="true"></textbox>
 									</row>
 									<row>
 										<label value="Pulso:" style="font-weight:bold"/>
-										<textbox hflex="true"></textbox>
+										<textbox value="@bind(vm.consulta.pulso)" hflex="true"></textbox>
 										<label value="FC (Frecuencia Cardiaca):" style="font-weight:bold"/>
-										<textbox hflex="true"></textbox>
+										<textbox value="@bind(vm.consulta.frecuenciaCardiaca)" hflex="true"></textbox>
 									</row>
 									<row>
 										<label value="FR (Frecuencia Respiratoria):" style="font-weight:bold"/>
-										<textbox hflex="true"></textbox>
+										<textbox value="@bind(vm.consulta.frecuenciaRespiratoria)" hflex="true"></textbox>
 										<label value="Peso en Gramos:" style="font-weight:bold"/>
-										<textbox hflex="true"></textbox>
+										<textbox value="@bind(vm.consulta.pesoGramos)" hflex="true"></textbox>
 									</row>
 									<row>
 										<label value="Talla:" style="font-weight:bold"/>
-										<textbox hflex="true"></textbox>
+										<textbox value="@bind(vm.consulta.talla)" hflex="true"></textbox>
 										<label value="Perímetro Cefálico:" style="font-weight:bold"/>
-										<textbox hflex="true"></textbox>
+										<textbox value="@bind(vm.consulta.perimetroCelafico)" hflex="true"></textbox>
 									</row>
 									<row>
 										<label value="IMC:" style="font-weight:bold"/>
-										<textbox hflex="true"></textbox>
+										<textbox value="@bind(vm.consulta.imc)" hflex="true"></textbox>
 										<label value="Circunferencia Abdominal:" style="font-weight:bold"/>
-										<textbox hflex="true"></textbox>
+										<textbox value="@bind(vm.consulta.circunferenciaAbdominal)" hflex="true"></textbox>
 									</row>
 									<row>
 										<label value="Estado Nutricional:" style="font-weight:bold"/>
-										<combobox hflex="true">
-											<comboitem label="NT: No tiene desnutrición"></comboitem>
-											<comboitem label="RD: Riesgo de desnutrición"></comboitem>
-											<comboitem label="DM: Desnutrición moderada"></comboitem>
-											<comboitem label="DG: Desnutrición Grave"></comboitem>
-											<comboitem label="Obesidad"></comboitem>
+										<combobox hflex="true" model="@load(vm.estadosNutricionales)"
+											instant="true" selectedItem="@bind(vm.consulta.estadoNutricional)">
+											<template name="model">
+												<comboitem label="@load(each)"></comboitem>
+											</template>
 										</combobox>
 										<label value="Alimentación:" style="font-weight:bold"/>
-										<combobox hflex="true">
-											<comboitem label="LME: Lactancia Materna Exclusiva"></comboitem>
-											<comboitem label="LM: Lactancia Mixta"></comboitem>
-											<comboitem label="LA: Lactancia Artificial"></comboitem>
+										<combobox hflex="true" model="@load(vm.alimentaciones)"
+											instant="true" selectedItem="@bind(vm.consulta.alimentacion)">
+											<template name="model">
+												<comboitem label="@load(each)"></comboitem>
+											</template>
 										</combobox>
 									</row>
 								</rows>
@@ -287,27 +204,37 @@
 								<rows>
 									<row>
 										<label value="Fecha:" style="font-weight:bold"/>
-										<label>28-02-2018</label>
+										<label value="@load(vm.consulta.fecha) @converter('formattedDate', format='dd-MM-yyyy')"></label>
 									</row>
 									<row>
-										<label value="Motivo:" style="font-weight:bold"/>
-										<textbox hflex="true"></textbox>
+										<label value="Motivo:" style="font-weight:bold"
+											sclass="requerido" />
+										<textbox id="tx_motivo" value="@bind(vm.consulta.motivo)" hflex="true"
+											constraint="no empty"></textbox>
 									</row>
 									<row>
-										<label value="Código CIE-10:" style="font-weight:bold"/>
-										<textbox hflex="true"></textbox>
+										<label value="Código CIE-10:" style="font-weight:bold"
+											sclass="requerido" />
+										<combobox hflex="true"
+											model="@load(vm.codigosCIE)" instant="true"
+											selectedItem="@bind(vm.consulta.codigoCie)">
+											<template name="model">
+												<comboitem label="@load(each)"></comboitem>
+											</template>	
+										</combobox>
 									</row>
 									<row>
 										<label value="Especialidad:" style="font-weight:bold"/>
-										<label>Clínica Médica</label>
+										<label value="@load(vm.consulta.especialidad)"></label>
 									</row>
 									<row>
 										<label value="Doctor Tratante:" style="font-weight:bold"/>
-										<label>Dr. Carlos Meza</label>
+										<label value="@load(vm.consulta.doctorTratante)"></label>
 									</row>
 									<row>
 										<label value="Estudios solicitados:" style="font-weight:bold"/>
-										<chosenbox hflex="true" model="@load(vm.tiposEstudios)">
+										<chosenbox hflex="true" model="@load(vm.tiposEstudios)"
+											selectedObjects="@bind(vm.selectedObjects)">
 											<template name="model">
 												<label value="@load(each)"></label>
 											</template>
@@ -315,11 +242,11 @@
 									</row>
 									<row>
 										<label value="Medicamentos recetados:" style="font-weight:bold"/>
-										<textbox hflex="true"></textbox>
+										<textbox value="@bind(vm.consulta.medicamentosRecetados)" hflex="true"></textbox>
 									</row>
 									<row>
 										<label value="Observaciones:" style="font-weight:bold"/>
-										<textbox hflex="true"></textbox>
+										<textbox value="@bind(vm.consulta.observaciones)" hflex="true"></textbox>
 									</row>
 								</rows>
 							</grid>
@@ -334,6 +261,41 @@
 				</tabpanels>
 			</tabbox>
 		</div>
+		
+		<popup id="pop_detalle" sclass="rounded">
+			<grid width="600px">
+				<columns>
+					<column width="40%"></column>
+					<column></column>
+				</columns>
+				<rows>
+					<row>
+						<label>Fecha:</label>
+						<label value="@load(vm.selectedConsulta.fecha) @converter('formattedDate', format='dd-MM-yyyy')"></label>
+					</row>
+					<row>
+						<label>Motivo:</label>
+						<label value="@load(vm.selectedConsulta.motivo)"></label>
+					</row>
+					<row>
+						<label>Especialidad:</label>
+						<label value="@load(vm.selectedConsulta.especialidad)"></label>
+					</row>
+					<row>
+						<label>Doctor tratante:</label>
+						<label value="@load(vm.selectedConsulta.doctorTratante)"></label>
+					</row>
+					<row>
+						<label>Estudios solicitados:</label>
+						<label value="@load(vm.selectedConsulta.estudios)"></label>
+					</row>
+					<row>
+						<label>Medicamentos recetados:</label>
+						<label value="@load(vm.selectedConsulta.medicamentosRecetados)"></label>
+					</row>
+				</rows>
+			</grid>
+		</popup>
 
 		<menupopup id="salir">	
 			<menuitem label="Retomar Servicio.."
@@ -396,6 +358,8 @@
 		.lbl-center {
 			text-align:center;
 		}	
-		.z-textbox { background:#EEF7FA }
+		.z-textbox {
+		background:#EEF7FA } .requerido:after { content:" *"; color:
+		#e32; font-size: 12pt }
 	</style>
 </zk>

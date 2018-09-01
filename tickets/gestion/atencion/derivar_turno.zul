@@ -9,11 +9,12 @@
 			<div height="10px" />
 			<hbox width="100%">
 				<vlayout>
-					<listbox model="@load(vm.serviciosFinales)"
-						width="370px" height="300px" selectedItem="@bind(vm.selectedServicioDerivado)"
-						sclass="rounded" checkmark="true">
+					<listbox model="@load(vm.medicos)"
+						width="370px" height="300px" 
+						sclass="rounded" checkmark="true"
+						selectedItem="@bind(vm.selectedMedico)">
 						<auxhead>
-							<auxheader colspan="2" label="Seleccione un Servicio" style="text-align:center"/>
+							<auxheader colspan="2" label="Seleccione un Médico" style="text-align:center"/>
 						</auxhead>
 						<listhead visible="false">
 							<listheader width="50px" align="center" height="0px"/>
@@ -23,7 +24,7 @@
 							<listitem>
 								<listcell/>
 								<listcell>
-									<label value="@load(each.pos1)" style="font-style:oblique" />
+									<label value="@load(each.nombre)" style="font-style:oblique" />
 								</listcell>
 							</listitem>
 						</template>
@@ -35,7 +36,7 @@
 			<div class="btn-group">
 				<button label="Aceptar" width="180px"
 					sclass="btn-success"
-					onClick="@command('aceptarDerivar')"/>
+					onClick="@command('aceptarDerivar_')"/>
 				<button label="Cancelar" width="180px" 
 					onClick="@command('cancelarDerivar')"
 					sclass="btn-danger"/>

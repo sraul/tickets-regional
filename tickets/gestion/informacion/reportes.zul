@@ -54,6 +54,52 @@
 							</template>
 						</combobox>
 					</row>
+					<row>
+						<combobox placeholder="Medico" hflex="true"
+							value="@load(vm.filtroMedico)"
+							model="@load(vm.medicos)"
+							selectedItem="@bind(vm.filtroMedico)">
+							<template name="model">
+								<comboitem label="@load(each)"/>
+							</template>
+						</combobox>
+					</row>
+					<row>
+						<hlayout>
+							<bandbox id="bnd_paciente" value="@load(vm.filtroPaciente.cedula)" readonly="true"
+							onOpen="tx_cedula.focus()" placeholder="Paciente..">
+							<bandpopup>
+								<listbox width="600px" height="300px"
+									sclass="small-list" model="@load(vm.clientes)"
+									selectedItem="@bind(vm.filtroPaciente)"
+									emptyMessage="BUSQUE POR CEDULA.."
+									onSelect="bnd_paciente.close()">
+									<listhead>
+										<listheader>
+											<textbox
+												placeholder="Cedula.." value="@bind(vm.filterCedula)"
+												instant="true" hflex="true"
+												id="tx_cedula">
+											</textbox>
+										</listheader>
+										<listheader></listheader>
+									</listhead>
+									<template name="model">
+										<listitem>
+											<listcell
+												label="@load(each.cedula)">
+											</listcell>
+											<listcell
+												label="@load(each.descripcion)">
+											</listcell>
+										</listitem>
+									</template>
+								</listbox>
+							</bandpopup>
+						</bandbox>
+						<textbox readonly="true" value="@load(vm.filtroPaciente.descripcion.toUpperCase())" hflex="true"></textbox>
+						</hlayout>
+					</row>
 				</rows>
 			</grid>
 		</vlayout>

@@ -14,15 +14,18 @@ import java.util.Map;
 
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.DependsOn;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.zk.ui.Executions;
-import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Window;
 
 import com.coreweb.componente.ViewPdf;
 import com.coreweb.control.SimpleViewModel;
 import com.coreweb.extras.reporte.DatosColumnas;
 import com.coreweb.util.Misc;
+import com.tickets.domain.Cliente;
+import com.tickets.domain.Consulta;
+import com.tickets.domain.Operador;
 import com.tickets.domain.RegisterDomain;
 import com.tickets.domain.Servicio;
 import com.tickets.domain.Turno;
@@ -38,8 +41,9 @@ public class InformacionViewModel extends SimpleViewModel {
 
 	static final String REP_1 = "CANTIDAD DE TICKETS EMITIDOS";
 	static final String REP_2 = "CANTIDAD DE TICKETS CANCELADOS";
-	static final String REP_3 = "AUDITORÍA DE OPERADORES";
+	static final String REP_3 = "PRODUCTIVIDAD DE MEDICOS";
 	static final String REP_4 = "TICKETS EMITIDOS AGRUPADO POR ESPECIALIDAD";
+	static final String REP_5 = "HISTORIAL DE CONSULTAS";
 	
 	private Window win;
 	
@@ -48,6 +52,9 @@ public class InformacionViewModel extends SimpleViewModel {
 	private Date filtroDesde;
 	private Date filtroHasta;
 	private Servicio filtroServicio;
+	private String filtroMedico = "";
+	private Cliente filtroPaciente;
+	private String filterCedula = "";
 
 	@Init(superclass = true)
 	public void init() {		
@@ -71,6 +78,7 @@ public class InformacionViewModel extends SimpleViewModel {
 		out.add(REP_2);
 		out.add(REP_3);
 		out.add(REP_4);
+		out.add(REP_5);
 		return out;
 	}
 	
@@ -86,10 +94,13 @@ public class InformacionViewModel extends SimpleViewModel {
 			this.ticketsCancelados();
 			break;
 		case REP_3:			
-			this.auditoriaOperadores();
+			this.productividadMedicos();
 			break;
 		case REP_4:			
 			this.ticketsEmitidosAgrupado();
+			break;
+		case REP_5:			
+			this.historialConsultas();
 			break;
 		}
 	}
@@ -247,8 +258,79 @@ public class InformacionViewModel extends SimpleViewModel {
 	/**
 	 * reporte auditoria operadores..
 	 */
-	private void auditoriaOperadores() {
-		Clients.showNotification("Reporte pendiente..");
+	private void productividadMedicos() {
+		try {
+			Date desde = this.filtroDesde;
+			Date hasta = this.filtroHasta;
+			String medico = this.filtroMedico;
+
+			if (desde == null)
+				desde = new Date();
+
+			if (hasta == null)
+				hasta = new Date();
+
+			RegisterDomain rr = RegisterDomain.getInstance();
+			List<Object[]> data = new ArrayList<Object[]>();
+			List<Turno> turnos = rr.getTurnosRemitidos(desde, hasta, medico);
+
+			for (Turno turno : turnos) {
+				data.add(new Object[] { m.dateToString(turno.getCreacion(), "dd-MM-yyyy (HH:mm:ss)"), turno.getNumero(),
+						turno.getServicio().getDescripcion(), turno.getCliente().getDescripcion().toUpperCase() });
+			}
+
+			ReporteProductividadMedicos rep = new ReporteProductividadMedicos(desde, hasta, turnos.size(), medico);
+			rep.setDatosReporte(data);
+			rep.setApaisada();
+				
+			ViewPdf vp = new ViewPdf();
+			vp.setBotonImprimir(false);
+			vp.setBotonCancelar(false);
+			vp.showReporte(rep, this);
+			
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * reporte historial consultas..
+	 */
+	private void historialConsultas() {
+		try {
+			Date desde = this.filtroDesde;
+			Date hasta = this.filtroHasta;
+			Cliente paciente = this.filtroPaciente;
+
+			if (desde == null)
+				desde = new Date();
+
+			if (hasta == null)
+				hasta = new Date();
+
+			RegisterDomain rr = RegisterDomain.getInstance();
+			List<Object[]> data = new ArrayList<Object[]>();
+			List<Consulta> consultas = rr.getConsultas(paciente.getId());
+
+			for (Consulta consulta : consultas) {
+				data.add(new Object[] { m.dateToString(consulta.getFecha(), "dd-MM-yy"), consulta.getMotivo(),
+						consulta.getCodigoCie(), consulta.getDoctorTratante(), consulta.getEspecialidad() });
+			}
+
+			ReporteHistorialConsulta rep = new ReporteHistorialConsulta(desde, hasta, consultas.size(), paciente.getDescripcion().toUpperCase());
+			rep.setDatosReporte(data);
+			rep.setApaisada();
+				
+			ViewPdf vp = new ViewPdf();
+			vp.setBotonImprimir(false);
+			vp.setBotonCancelar(false);
+			vp.showReporte(rep, this);
+			
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -274,6 +356,27 @@ public class InformacionViewModel extends SimpleViewModel {
 		return rr.getAllServicios();
 	}
 	
+	/**
+	 * @return los medicos..
+	 */
+	public List<String> getMedicos() throws Exception {
+		List<String> out = new ArrayList<String>();
+		RegisterDomain rr = RegisterDomain.getInstance();
+		for (Operador medico : rr.getMedicos()) {
+			out.add(medico.getUsuario());
+		}		 
+		return out;
+	}
+	
+	@DependsOn("filterCedula")
+	public List<Cliente> getClientes() throws Exception {
+		if (this.filterCedula.trim().isEmpty()) {
+			return new ArrayList<Cliente>();
+		}
+		RegisterDomain rr = RegisterDomain.getInstance();
+		return rr.getClientes(this.filterCedula);
+	}
+	
 	public String getSelectedReporte() {
 		return selectedReporte;
 	}
@@ -296,6 +399,30 @@ public class InformacionViewModel extends SimpleViewModel {
 
 	public void setFiltroHasta(Date filtroHasta) {
 		this.filtroHasta = filtroHasta;
+	}
+
+	public String getFiltroMedico() {
+		return filtroMedico;
+	}
+
+	public void setFiltroMedico(String filtroMedico) {
+		this.filtroMedico = filtroMedico;
+	}
+
+	public Cliente getFiltroPaciente() {
+		return filtroPaciente;
+	}
+
+	public void setFiltroPaciente(Cliente filtroPaciente) {
+		this.filtroPaciente = filtroPaciente;
+	}
+
+	public String getFilterCedula() {
+		return filterCedula;
+	}
+
+	public void setFilterCedula(String filterCedula) {
+		this.filterCedula = filterCedula;
 	}
 }
 
@@ -353,6 +480,130 @@ class ReporteTicketsEmitidos extends ReporteTurnos {
 				.add(this.textoParValor("Hasta",
 						m.dateToString(this.hasta, Misc.DD_MM_YYYY)))
 				.add(this.textoParValor("Especialidad", this.servicio))
+				.add(this.textoParValor("Cantidad Total", this.total)));
+		out.add(cmp.horizontalFlowList().add(this.texto("")));
+
+		return out;
+	}
+}
+
+/**
+ * Reporte de productividad de medicos..
+ */
+class ReporteProductividadMedicos extends ReporteTurnos {
+
+	static final NumberFormat FORMATTER = new DecimalFormat("###,###,##0");
+	private Date desde;
+	private Date hasta;
+	private int total = 0;
+	private String medico;
+
+	static List<DatosColumnas> cols = new ArrayList<DatosColumnas>();
+	static DatosColumnas col0 = new DatosColumnas("Fecha", TIPO_STRING, 30);
+	static DatosColumnas col1 = new DatosColumnas("Número", TIPO_STRING, 30);
+	static DatosColumnas col2 = new DatosColumnas("Especialidad", TIPO_STRING, 30);
+	static DatosColumnas col3 = new DatosColumnas("Paciente", TIPO_STRING);
+
+	public ReporteProductividadMedicos(Date desde, Date hasta, int total, String medico) {
+		this.desde = desde;
+		this.hasta = hasta;
+		this.total = total;
+		this.medico = medico;
+	}
+
+	static {
+		cols.add(col0);
+		cols.add(col1);
+		cols.add(col2);
+		cols.add(col3);
+	}
+
+	@Override
+	public void informacionReporte() {
+		this.setTitulo("Productividad de medicos");
+		this.setDirectorio("");
+		this.setNombreArchivo("Tickets-");
+		this.setTitulosColumnas(cols);
+		this.setBody(this.getCuerpo());
+	}
+
+	/**
+	 * cabecera del reporte..
+	 */
+	@SuppressWarnings("rawtypes")
+	private ComponentBuilder getCuerpo() {
+
+		VerticalListBuilder out = cmp.verticalList();
+		out.add(cmp.horizontalFlowList().add(this.texto("")));
+		out.add(cmp.horizontalFlowList()
+				.add(this.textoParValor("Desde",
+						m.dateToString(this.desde, Misc.DD_MM_YYYY)))
+				.add(this.textoParValor("Hasta",
+						m.dateToString(this.hasta, Misc.DD_MM_YYYY)))
+				.add(this.textoParValor("Medico", this.medico.toUpperCase()))
+				.add(this.textoParValor("Cantidad Total", this.total)));
+		out.add(cmp.horizontalFlowList().add(this.texto("")));
+
+		return out;
+	}
+}
+
+/**
+ * Reporte de historial de consultas..
+ */
+class ReporteHistorialConsulta extends ReporteTurnos {
+
+	static final NumberFormat FORMATTER = new DecimalFormat("###,###,##0");
+	private Date desde;
+	private Date hasta;
+	private int total = 0;
+	private String paciente;
+
+	static List<DatosColumnas> cols = new ArrayList<DatosColumnas>();
+	static DatosColumnas col0 = new DatosColumnas("Fecha", TIPO_STRING, 30);
+	static DatosColumnas col1 = new DatosColumnas("Motivo", TIPO_STRING);
+	static DatosColumnas col2 = new DatosColumnas("Codigo CIE", TIPO_STRING);
+	static DatosColumnas col3 = new DatosColumnas("Medico", TIPO_STRING);
+	static DatosColumnas col4 = new DatosColumnas("Especialidad", TIPO_STRING);
+
+	public ReporteHistorialConsulta(Date desde, Date hasta, int total, String paciente) {
+		this.desde = desde;
+		this.hasta = hasta;
+		this.total = total;
+		this.paciente = paciente;
+	}
+
+	static {
+		cols.add(col0);
+		cols.add(col1);
+		cols.add(col2);
+		cols.add(col3);
+		cols.add(col4);
+	}
+
+	@Override
+	public void informacionReporte() {
+		this.setTitulo("Historial de Consultas");
+		this.setDirectorio("");
+		this.setNombreArchivo("Tickets-");
+		this.setTitulosColumnas(cols);
+		this.setBody(this.getCuerpo());
+	}
+
+	/**
+	 * cabecera del reporte..
+	 */
+	@SuppressWarnings("rawtypes")
+	private ComponentBuilder getCuerpo() {
+
+		VerticalListBuilder out = cmp.verticalList();
+		out.add(cmp.horizontalFlowList().add(this.texto("")));
+		out.add(cmp.horizontalFlowList()
+				.add(this.textoParValor("Desde",
+						m.dateToString(this.desde, Misc.DD_MM_YYYY)))
+				.add(this.textoParValor("Hasta",
+						m.dateToString(this.hasta, Misc.DD_MM_YYYY)))
+				.add(this.textoParValor("Paciente", this.paciente.toUpperCase()))
 				.add(this.textoParValor("Cantidad Total", this.total)));
 		out.add(cmp.horizontalFlowList().add(this.texto("")));
 

@@ -11,9 +11,22 @@
 		&hibernate-domain;
 
 		<property name="descripcion" />
-		<property name="cedula"/>
-		<property name="ruc"/>
-		<property name="nuevo"/>
+		<property name="cedula" />
+		<property name="ruc" />
+		<property name="nuevo" />
+		
+		<property name="fechaNacimiento" />
+		<property name="edad" />
+		<property name="nacionalidad" />
+		<property name="residencia" />
+		<property name="nivelEducativo" />
+		<property name="situacionLaboral" />
+		<property name="lugarNacimiento" />
+		<property name="etnia" />
+		<property name="direccion" />
+		<property name="seguroMedico" />
+		<property name="estadoCivil" />
+		<property name="observacion" />
 
 	</class>
 

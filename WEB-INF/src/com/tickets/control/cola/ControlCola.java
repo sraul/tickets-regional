@@ -169,10 +169,18 @@ public class ControlCola extends Control {
 		// la sucursal no es necesaria, porque el operador tiene la sucursal
 
 		List<TurnoDTO> listaTurnos = new ArrayList<>();
-		
 		for (MyArray serv : oper.getServicios()) {
-			listaTurnos.addAll(this.getTurnosDisponiblesByServicio(oper.getSucursal(), serv.getId()));					
-		}
+			listaTurnos.addAll(this.getTurnosDisponiblesByServicio(oper.getSucursal(), serv.getId()));
+		}		
+		return listaTurnos;
+	}
+	
+	public List<TurnoDTO> getTurnosDisponiblesByRemitido(OperadorDTO oper)
+			throws Exception {
+		// la sucursal no es necesaria, porque el operador tiene la sucursal
+
+		List<TurnoDTO> listaTurnos = new ArrayList<>();
+		listaTurnos.addAll(this.getTurnosDisponiblesByRemitido(oper.getSucursal(), oper.getUsuario()));
 		return listaTurnos;
 	}
 
@@ -701,7 +709,44 @@ public class ControlCola extends Control {
 		query += " from Turno tu";
 		query += " where tu.estado.id = " + esperandoId
 				+ " and tu.sucursal.id = " + sucursalId
-				+ " and tu.servicio.id = " + idServicio;
+				+ " and tu.servicio.id = " + idServicio
+				+ " and tu.remitido = ''";
+		query += " order by tu.prioridad desc, tu.creacion asc ";
+
+		List<TurnoDTO> turnos = new ArrayList<TurnoDTO>();
+		RegisterDomain rr = RegisterDomain.getInstance();
+
+		TurnoAssembler ass = new TurnoAssembler();
+		List<Turno> l = rr.hql(query);
+		if (l.size() > 0) {
+
+			for (Turno turno : l) {
+				TurnoDTO turno_ = (TurnoDTO) ass.domainToDto(turno);
+				turnos.add(turno_);
+			}
+		}
+		return turnos;
+	}
+	
+	/**
+	 * @return la lista de turnos disponibles del servicio remitido..
+	 */
+	public List<TurnoDTO> getTurnosDisponiblesByRemitido(MyPair sucursal, String remitido)
+			throws Exception {
+		Date fecha = new Date();
+		String desde = this.m.dateToString(fecha, Misc.YYYY_MM_DD) + " 00:00:00";
+		String hasta = this.m.dateToString(fecha, Misc.YYYY_MM_DD) + " 23:59:00";
+
+		long esperandoId = this.getUtil().getEstadoEsperando().getId();
+		long sucursalId = sucursal.getId();
+
+		String query = "";
+		query += " select tu";
+		query += " from Turno tu";
+		query += " where tu.estado.id = " + esperandoId
+				+ " and tu.sucursal.id = " + sucursalId
+				+ " and tu.remitido = '" + remitido + "'"
+				+ " and (tu.creacion > '" + desde + "' and tu.creacion < '" + hasta + "')";
 		query += " order by tu.prioridad desc, tu.creacion asc ";
 
 		List<TurnoDTO> turnos = new ArrayList<TurnoDTO>();

@@ -5,8 +5,7 @@
 	<navbar mold="bs-tabs" class="nav-justified">
 		<navitem label="Lunes" onClick="@command('selectDay', day=1)" selected="true" />
 		<navitem label="Martes" onClick="@command('selectDay', day=2)" />
-		<navitem label="Miércoles"
-			onClick="@command('selectDay', day=3)" />
+		<navitem label="Miércoles" onClick="@command('selectDay', day=3)" />
 		<navitem label="Jueves" onClick="@command('selectDay', day=4)" />
 		<navitem label="Viernes" onClick="@command('selectDay', day=5)" />
 		<navitem label="Sábado" onClick="@command('selectDay', day=6)" />
@@ -21,9 +20,6 @@
 				style="text-align:center">
 			</listheader>
 			<listheader label="Tarde" width="150px" align="right"
-				style="text-align:center">
-			</listheader>
-			<listheader label="" width="90px" align="center"
 				style="text-align:center">
 			</listheader>
 			<listheader label="" width="90px" align="center"
@@ -68,10 +64,6 @@
 							iconSclass="z-icon-floppy-o" visible="@load(each.edit)"
 							onClick="@command('save', tope=each)" />
 					</div>
-				</listcell>
-				<listcell>
-					<button sclass="btn-info btn-xs"
-						iconSclass="z-icon-user-md" onClick='pop_medicos.open(self, "after_end")'/>
 				</listcell>
 			</listitem>
 		</template>

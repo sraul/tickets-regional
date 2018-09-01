@@ -27,6 +27,8 @@ public class UsuariosViewModel extends SimpleViewModel {
 	private Perfil selected_rol;
 	
 	private Operacion selectedOperacion;
+	private Usuario selectedUsuario;
+	private Perfil selected_perfil;
 	
 	private String confirmarPassword = "";
 
@@ -106,6 +108,27 @@ public class UsuariosViewModel extends SimpleViewModel {
 		rr.deleteObject(this.selected_rol);
 		this.selected_rol = null;
 		Clients.showNotification("REGISTRO ELIMINADO..!");
+	}
+	
+	@Command
+	@NotifyChange("*")
+	public void selectPerfil(@BindingParam("comp") Popup comp) throws Exception {
+		RegisterDomain rr = RegisterDomain.getInstance();
+		this.selectedUsuario.getPerfiles().add(this.selected_perfil);
+		rr.saveObject(this.selectedUsuario, this.getLoginNombre());
+		
+		this.selected_perfil = null;
+		comp.close();
+		Clients.showNotification("ROL ASIGNADO..");
+	}
+	
+	@Command
+	@NotifyChange("*")
+	public void deletePerfil(@BindingParam("item") Perfil item) throws Exception {
+		RegisterDomain rr = RegisterDomain.getInstance();
+		this.selectedUsuario.getPerfiles().remove(item);
+		rr.saveObject(this.selectedUsuario, this.getLoginNombre());
+		Clients.showNotification("ROL DES-ASIGNADO..");
 	}
 	
 	/**
@@ -231,5 +254,21 @@ public class UsuariosViewModel extends SimpleViewModel {
 
 	public void setSelected_rol(Perfil selected_rol) {
 		this.selected_rol = selected_rol;
+	}
+
+	public Usuario getSelectedUsuario() {
+		return selectedUsuario;
+	}
+
+	public void setSelectedUsuario(Usuario selectedUsuario) {
+		this.selectedUsuario = selectedUsuario;
+	}
+
+	public Perfil getSelected_perfil() {
+		return selected_perfil;
+	}
+
+	public void setSelected_perfil(Perfil selected_perfil) {
+		this.selected_perfil = selected_perfil;
 	}
 }

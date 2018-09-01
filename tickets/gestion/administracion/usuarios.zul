@@ -13,9 +13,10 @@
 	<vbox id="h_user" height="100%" width="100%">
 	<hbox height="600px" width="100%">
 		<listbox id="list_user" vflex="true" hflex="true" sclass="rounded"
-			model="@load(vm.usuarios)">
+			model="@load(vm.usuarios)"
+			selectedItem="@bind(vm.selectedUsuario)">
 			<auxhead>
-				<auxheader label="Usuario" colspan="5"
+				<auxheader label="Usuario" colspan="3"
 					style="text-align:center">
 				</auxheader>
 			</auxhead>
@@ -23,58 +24,45 @@
 				<listheader label="Nombre y Apellido"></listheader>
 				<listheader label="Usuario"></listheader>
 				<listheader label="Password"></listheader>
-				<listheader label="Nro. Registro"></listheader>
-				<listheader label="Especialidad"></listheader>
 			</listhead>
 			<template name="model">
 				<listitem>
 					<listcell label="@load(each.nombre)"></listcell>
 					<listcell label="@load(each.login)"></listcell>
 					<listcell>
-						<textbox value="@load(each.clave)" type="password" inplace="true"></textbox>
+						<textbox value="@load(each.clave)" type="password" inplace="true"
+							hflex="true"></textbox>
 					</listcell>
-					<listcell></listcell>
-					<listcell></listcell>
 				</listitem>
 			</template>
 			<listfoot>
 				<listfooter label="ítems"></listfooter>
 			</listfoot>
 		</listbox>
-		<listbox vflex="true" hflex="true" sclass="rounded">
+		<listbox vflex="true" hflex="true" sclass="rounded"
+			model="@load(vm.selectedUsuario.perfiles)">
 			<auxhead>
-				<auxheader label="Roles Asignados" colspan="2"
+				<auxheader label="Roles Asignados"
 					style="text-align:center">
 				</auxheader>
 			</auxhead>
 			<listhead style="text-align:center">
-				<listheader label="Descripción"></listheader>
-				<listheader label="" width="80px" align="center"></listheader>
+				<listheader>
+					<button sclass="btn-primary btn-xs" label="Asignar" hflex="true"
+						disabled="@load(vm.selectedUsuario eq null? 'true':'false')"
+						onClick='pop_roles.open(self, "after_end")'></button>
+				</listheader>
+				<listheader width="50px" align="center"></listheader>
 			</listhead>
-			<listitem>
-				<listcell label="Administrador"></listcell>
-				<listcell>
-					<checkbox></checkbox>
-				</listcell>
-			</listitem>
-			<listitem>
-				<listcell label="Admisionista"></listcell>
-				<listcell>
-					<checkbox></checkbox>
-				</listcell>
-			</listitem>
-			<listitem>
-				<listcell label="Médico"></listcell>
-				<listcell>
-					<checkbox></checkbox>
-				</listcell>
-			</listitem>
-			<listitem>
-				<listcell label="Consulta"></listcell>
-				<listcell>
-					<checkbox></checkbox>
-				</listcell>
-			</listitem>
+			<template name="model">
+				<listitem>
+					<listcell label="@load(each.descripcion)"></listcell>
+					<listcell>
+						<a iconSclass="z-icon-times"
+							onClick="@command('deletePerfil', item=each)"></a>
+					</listcell>
+				</listitem>
+			</template>
 			<listfoot>
 				<listfooter label="ítems"></listfooter>
 			</listfoot>
@@ -330,6 +318,20 @@
 		<div height="10px"/>
 		<button label="Guardar" iconSclass="z-icon-check" width="600px" sclass="btn-sm btn-primary" dir="normal" 
 			onClick="@command('guardarRol_', popup = pop_add_rol)"></button>
+	</popup>
+	
+	<popup id="pop_roles" sclass="rounded">
+		<listbox sclass="small-list" width="400px"
+			model="@load(vm.roles)"
+			selectedItem="@bind(vm.selected_perfil)"
+			onSelect="@command('selectPerfil', comp=pop_roles)">
+			<listhead>
+				<listheader></listheader>
+			</listhead>
+			<template name="model">
+				<listitem label="@load(each.descripcion)" />
+			</template>
+		</listbox>
 	</popup>
 	
 </window>

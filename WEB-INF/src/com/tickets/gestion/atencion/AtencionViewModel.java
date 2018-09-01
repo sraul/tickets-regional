@@ -40,14 +40,18 @@ import com.coreweb.util.MyPair;
 import com.tickets.Configuracion;
 import com.tickets.UtilDTO;
 import com.tickets.control.cola.ControlCola;
+import com.tickets.domain.Cliente;
 import com.tickets.domain.Localidad;
 import com.tickets.domain.Operador;
 import com.tickets.domain.Pais;
 import com.tickets.domain.Puesto;
 import com.tickets.domain.RegisterDomain;
+import com.tickets.domain.Turno;
 import com.tickets.gestion.administracion.OperadorAssembler;
 import com.tickets.gestion.administracion.OperadorDTO;
+import com.tickets.gestion.panel.TareaAssembler;
 import com.tickets.gestion.panel.TareaDTO;
+import com.tickets.gestion.panel.TurnoAssembler;
 import com.tickets.gestion.panel.TurnoDTO;
 
 public class AtencionViewModel extends SimpleViewModel {
@@ -80,6 +84,14 @@ public class AtencionViewModel extends SimpleViewModel {
 	private String filterCodigo = "";
 	private String filterDpto = "";
 	private String filterDistrito = "";
+	private String filterCedula = "";
+	
+	private Cliente paciente = new Cliente();
+	private String pacienteNuevo = "SI";
+	
+	private Operador selectedMedico;
+	
+	private Date fechaConsulta = new Date();
 
 	@Init(superclass = true)
 	public void init() {
@@ -103,6 +115,23 @@ public class AtencionViewModel extends SimpleViewModel {
 
 	@AfterCompose(superclass = true)
 	public void afterCompose() {
+		this.iterate(this.mainComponent);
+	}
+	
+	/**
+	 * itera los componentes..
+	 */
+	private void iterate(Component comp) {
+		if (comp instanceof Label) {
+			String value = ((Label)comp).getValue();
+			if (value.equals("(*)")) {
+				((Label)comp).setValue("");
+			}
+		}
+		List<Component> list = comp.getChildren();
+		for (Component child : list) {
+			iterate(child);
+		}
 	}
 	
 	/**
@@ -174,6 +203,12 @@ public class AtencionViewModel extends SimpleViewModel {
 		this.pass = "";
 		this.user = "";
 		this.popup.detach();
+	}
+	
+	@Command
+	@NotifyChange("*")
+	public void refreshPaciente() {
+		this.paciente = new Cliente();
 	}
 
 	private String obsvCancelacion = "";
@@ -379,12 +414,32 @@ public class AtencionViewModel extends SimpleViewModel {
 		"tareaActual", "estadoAtendiendo", "estadoLibre", "turnos", "selectedTurno" })
 	public void terminarTurno() throws Exception {
 		
+		if (!this.validarTerminarTurno()) return;
+		
 		this.selectedOperador.setEstado(dtoUtil.getEstadoOperadorLibre());
 		this.servicios = ((UtilDTO) this.getDtoUtil()).getServicios();
 
-		cc.cerrarTarea(this.tareaActual, this.selectedOperador);
 		this.estadoAtendiendo = false;
 		this.estadoLibre = true;	
+		
+		RegisterDomain rr = RegisterDomain.getInstance();
+		rr.saveObject(this.paciente, this.getLoginNombre());
+		
+		TurnoDTO turno = this.tareaActual.getTurno();
+		Turno turno_ = (Turno) rr.getObject(Turno.class.getName(), turno.getId());
+		turno_.setCliente(this.paciente);
+		rr.saveObject(turno_, this.getLoginNombre());
+		
+		this.tareaActual.setTurno((TurnoDTO) this.getDTOById(Turno.class.getName(), turno_.getId(), new TurnoAssembler()));
+		this.tareaActual.setActiva(false);
+		this.tareaActual.setFin(new Date());
+		this.tareaActual.getTurno().setFinAtencion(new Date());
+		this.tareaActual.getTurno().setEstado(this.getUtil().getEstadoTerminado());
+
+		this.tareaActual = (TareaDTO) this.saveDTO(this.tareaActual, new TareaAssembler());
+
+		oper.setEstado(getUtil().getEstadoOperadorLibre());
+		oper = (OperadorDTO) this.saveDTO(oper, new OperadorAssembler());	
 		
 		this.cargarTurnos();		
 		this.selectedTurno = new TurnoDTO();
@@ -393,6 +448,57 @@ public class AtencionViewModel extends SimpleViewModel {
 				+ this.tareaActual.getTurno().getNumero() + ".";
 		this.mensajePopupTemporal(mensaje, 5000);
 		this.tareaActual = new TareaDTO();
+		this.paciente = new Cliente();
+	}
+	
+	/**
+	 * valida el turno..
+	 */
+	private boolean validarTerminarTurno() {
+		boolean out = true;
+		String message = "Error campos obligatorios:";
+		
+		String cedula = this.paciente.getCedula();
+		String nombreApellido = this.paciente.getDescripcion();
+		Date nacimiento = this.paciente.getFechaNacimiento();
+		String residencia = this.paciente.getResidencia();
+		String nacionalidad = this.paciente.getNacionalidad();
+		int edad = this.paciente.getEdad();
+		
+		if (cedula == null || cedula.trim().isEmpty()) {
+			message += "\n - cedula";
+			out = false;
+		}
+		
+		if (nombreApellido == null || nombreApellido.trim().isEmpty()) {
+			message += "\n - nombre y apellido";
+			out = false;
+		}
+		
+		if (nacimiento == null) {
+			message += "\n - fecha nacimiento";
+			out = false;
+		}
+		
+		if (residencia == null || residencia.trim().isEmpty()) {
+			message += "\n - residencia";
+			out = false;
+		}
+		
+		if (nacionalidad == null || nacionalidad.trim().isEmpty()) {
+			message += "\n - nacionalidad";
+			out = false;
+		}
+		
+		if(edad < 0) {
+			message += "\n - edad debe ser mayor a cero";
+			out = false;
+		}
+		
+		if (!out) {
+			this.mensajeError(message);
+		}		
+		return out;
 	}
 
 	/** Reporte para el operador dadas fechas de inicio y fin **/
@@ -484,6 +590,8 @@ public class AtencionViewModel extends SimpleViewModel {
 	@Command @NotifyChange("*")
 	public void derivarTurno() throws Exception {
 		
+		if (!this.validarTerminarTurno()) return;
+		
 		this.notified = false;
 		
 		derivar = (Window) Executions.createComponents(DERIVAR_ZUL,
@@ -495,6 +603,44 @@ public class AtencionViewModel extends SimpleViewModel {
 	public void cancelarDerivar() {
 		this.derivar.detach();
 		this.selectedServicioDerivado = new MyArray();
+	}
+	
+	@Command @NotifyChange("*")
+	public void aceptarDerivar_() throws Exception {		
+		RegisterDomain rr = RegisterDomain.getInstance();
+		rr.saveObject(this.paciente, this.getLoginNombre());
+		
+		TurnoDTO turno = this.tareaActual.getTurno();
+		Turno turno_ = (Turno) rr.getObject(Turno.class.getName(), turno.getId());
+		turno_.setCreacion(this.fechaConsulta);
+		turno_.setCliente(this.paciente);
+		turno_.setRemitido(this.selectedMedico.getUsuario());
+		turno_.setEstado(rr.getTipoPorSigla(Configuracion.SIGLA_ESTADO_TURNO_ESPERANDO));
+		rr.saveObject(turno_, this.getLoginNombre());
+		
+		this.selectedOperador.setEstado(dtoUtil.getEstadoOperadorLibre());
+		this.estadoAtendiendo = false;
+		this.estadoLibre = true;
+
+		String mensaje = "Se ha derivado el turno: "
+				+ this.tareaActual.getTurno().getNumero() + ".";
+		this.mensajePopupTemporal(mensaje, 5000);
+
+		this.tareaActual.setTurno((TurnoDTO) this.getDTOById(Turno.class.getName(), turno_.getId(), new TurnoAssembler()));
+		this.tareaActual.setActiva(false);
+		this.tareaActual.setFin(new Date());
+		this.tareaActual = (TareaDTO) this.saveDTO(this.tareaActual, new TareaAssembler());
+
+		oper.setEstado(getUtil().getEstadoOperadorLibre());
+		oper = (OperadorDTO) this.saveDTO(oper, new OperadorAssembler());	
+		
+		this.cargarTurnos();
+		this.tareaActual = new TareaDTO();
+		this.selectedTurno = new TurnoDTO();
+		
+		derivar.detach();
+		this.selectedServicioDerivado = new MyArray();
+		this.paciente = new Cliente();		
 	}
 	
 	/**
@@ -980,6 +1126,14 @@ public class AtencionViewModel extends SimpleViewModel {
 	 * GETS / SETS
 	 */
 	
+	/**
+	 * @return los medicos..
+	 */
+	public List<Operador> getMedicos() throws Exception {
+		RegisterDomain rr = RegisterDomain.getInstance();
+		return rr.getMedicos();
+	}
+	
 	@DependsOn("turnos")
 	public List<TurnoDTO> getTurnosPrincipal() {
 		List<TurnoDTO> out = new ArrayList<TurnoDTO>();
@@ -1008,12 +1162,73 @@ public class AtencionViewModel extends SimpleViewModel {
 		return rr.getLocalidades(this.filterCodigo, this.filterDpto, this.filterDistrito);
 	}
 	
+	@DependsOn("filterCedula")
+	public List<Cliente> getClientes() throws Exception {
+		if (this.filterCedula.trim().isEmpty()) {
+			return new ArrayList<Cliente>();
+		}
+		RegisterDomain rr = RegisterDomain.getInstance();
+		return rr.getClientes(this.filterCedula);
+	}
+	
 	/**
 	 * @return los paises
 	 */
 	public List<Pais> getPaises() throws Exception {
 		RegisterDomain rr = RegisterDomain.getInstance();
 		return rr.getPaises("", "");
+	}
+	
+	public List<String> getList() {
+		List<String> out = new ArrayList<String>();
+		out.add("SI");
+		out.add("NO");
+		return out;
+	}
+	
+	public List<String> getNivelesEducativos() {
+		List<String> out = new ArrayList<>();
+		out.add("Educación inicial");
+		out.add("Primaria");
+		out.add("Secundaria");
+		out.add("Escolar básica");
+		out.add("Escolar media");
+		out.add("Universitario");
+		out.add("Superior no universitario");
+		out.add("No aplica");
+		return out;
+	}
+	
+	public List<String> getSegurosMedicos() {
+		List<String> out = new ArrayList<>();
+		out.add("I.P.S");
+		out.add("Sanidad Policial");
+		out.add("Sanidad Militar");
+		out.add("Institución Privada");
+		out.add("Se desconoce");
+		return out;
+	}
+	
+	public List<String> getSituacionesLaborales() {
+		List<String> out = new ArrayList<>();
+		out.add("No aplica");
+		out.add("No trabaja");
+		out.add("Trabaja, especificar ocupación");
+		out.add("Profesión");
+		return out;
+	}
+	
+	public List<String> getEstadosCiviles() {
+		List<String> out = new ArrayList<>();
+		out.add("Soltero/a");
+		out.add("Viudo/a");
+		out.add("Casado/a");
+		out.add("Unido/a");
+		out.add("Separado/a");
+		out.add("Divorciado/a");
+		out.add("No aplica");
+		out.add("Se desconoce");
+		return out;
 	}
 	
 	private UtilDTO getUtil() {
@@ -1251,4 +1466,43 @@ public class AtencionViewModel extends SimpleViewModel {
 		this.filterDistrito = filterDistrito;
 	}
 
+	public Cliente getPaciente() {
+		return paciente;
+	}
+
+	public void setPaciente(Cliente paciente) {
+		this.paciente = paciente;
+	}
+
+	public String getPacienteNuevo() {
+		return pacienteNuevo;
+	}
+
+	public void setPacienteNuevo(String pacienteNuevo) {
+		this.pacienteNuevo = pacienteNuevo;
+	}
+
+	public String getFilterCedula() {
+		return filterCedula;
+	}
+
+	public void setFilterCedula(String filterCedula) {
+		this.filterCedula = filterCedula;
+	}
+
+	public Operador getSelectedMedico() {
+		return selectedMedico;
+	}
+
+	public void setSelectedMedico(Operador selectedMedico) {
+		this.selectedMedico = selectedMedico;
+	}
+
+	public Date getFechaConsulta() {
+		return fechaConsulta;
+	}
+
+	public void setFechaConsulta(Date fechaConsulta) {
+		this.fechaConsulta = fechaConsulta;
+	}
 }

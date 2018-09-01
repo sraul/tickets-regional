@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//hibernate/hibernate Mapping DTD 3.0//EN"
+        "classpath://org/hibernate/hibernate-mapping-3.0.dtd"
+        [ <!ENTITY hibernate-domain SYSTEM "classpath://com/coreweb/hibernate-domain.hbm.xml"> ]
+        >
+
+<hibernate-mapping>
+
+	<class name="com.tickets.domain.Consulta" table="consulta">
+
+		&hibernate-domain;
+
+		<property name="axilarRectal" />
+		<property name="pulso" />
+		<property name="frecuenciaRespiratoria" />
+		<property name="talla" />
+		<property name="imc" />
+		<property name="estadoNutricional" />
+		<property name="presionArterial" />
+		<property name="frecuenciaCardiaca" />
+		<property name="pesoGramos" />
+		<property name="perimetroCelafico" />
+		<property name="circunferenciaAbdominal" />
+		<property name="alimentacion" />
+		<property name="fecha" />
+		<property name="motivo" />
+		<property name="codigoCie" />
+		<property name="especialidad" />
+		<property name="doctorTratante" />
+		<property name="estudios" />
+		<property name="medicamentosRecetados" />
+		<property name="observaciones" />
+		<property name="idpaciente" />
+			
+	</class>
+
+</hibernate-mapping>

@@ -374,6 +374,25 @@ public class RegisterDomain extends Register {
 	}
 	
 	/**
+	 * @return los tickets segun remitido..
+	 */
+	public List<Turno> getTurnosRemitidos(Date desde, Date hasta, String remitido) throws Exception {
+
+		String query = "select t from Turno t where t.remitido = '" + remitido + "'"
+				+ " and t.creacion between ? and ?" + " order by t.creacion";
+
+		List<Object> listParams = new ArrayList<Object>();
+		listParams.add(desde);
+		listParams.add(hasta);
+
+		Object[] params = new Object[listParams.size()];
+		for (int i = 0; i < listParams.size(); i++) {
+			params[i] = listParams.get(i);
+		}
+		return this.hql(query, params);
+	}
+	
+	/**
 	 * @return los tickets segun fecha..
 	 */
 	public List<Turno> getTurnos(Date desde, Date hasta) throws Exception {
@@ -451,6 +470,30 @@ public class RegisterDomain extends Register {
 	 */
 	public List<Usuario> getUsuarios(long idRol) throws Exception {
 		String query = "select u from Usuario u join u.perfiles p where p.id = " + idRol;
+		return this.hql(query);
+	}
+	
+	/**
+	 * @return clientes segun cedula..
+	 */
+	public List<Cliente> getClientes(String cedula) throws Exception {
+		String query = "select c from Cliente c where c.cedula like '%" + cedula + "%' order by c.descripcion";
+		return this.hql(query);
+	}
+	
+	/**
+	 * @return los operadores - medicos..
+	 */
+	public List<Operador> getMedicos() throws Exception {
+		String query = "select o from Operador o where o.descripcion = 'medico'";
+		return this.hql(query);
+	}
+	
+	/**
+	 * @return consultas segun paciente..
+	 */
+	public List<Consulta> getConsultas(long idpaciente) throws Exception {
+		String query = "select c from Consulta c where c.idpaciente = " + idpaciente;
 		return this.hql(query);
 	}
 	
